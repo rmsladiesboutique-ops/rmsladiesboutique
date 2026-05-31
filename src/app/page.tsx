@@ -59,8 +59,8 @@ export default function Home() {
           <CardContent>
             <h3 className="text-2xl">Client Testimonials</h3>
             <div className="mt-4 space-y-4 text-sm text-zinc-300">
-              <p>"The fit was immaculate. Their status tracking kept me updated at every step." - Daniel R.</p>
-              <p>"Our wedding outfits were stunning and delivered exactly on schedule." - Neha & Arjun</p>
+              <p>&quot;The fit was immaculate. Their status tracking kept me updated at every step.&quot; - Daniel R.</p>
+              <p>&quot;Our wedding outfits were stunning and delivered exactly on schedule.&quot; - Neha &amp; Arjun</p>
             </div>
           </CardContent>
         </Card>
