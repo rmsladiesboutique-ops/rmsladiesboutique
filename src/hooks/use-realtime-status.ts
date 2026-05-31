@@ -32,7 +32,7 @@ export function useRealtimeStatus(initial: AppointmentRecord) {
 
           setRecord((prev) => ({
             ...prev,
-            status: row.status as AppointmentRecord["status"],
+            status: row.status,
             statusIndex: row.status_index,
             completionPercent: row.completion_percent,
             adminNotes: row.admin_notes ?? "",

@@ -176,25 +176,29 @@ export async function getAppointments() {
   })) as AppointmentRecord[];
 }
 
-export async function updateAppointmentStatus(id: string, statusIndex: number, adminNotes?: string) {
-  const status = STATUS_STAGES[Math.max(0, Math.min(statusIndex - 1, STATUS_STAGES.length - 1))];
-  const completionPercent = getProgressPercent(statusIndex, STATUS_STAGES.length);
-
+export async function updateAppointmentStatus(id: string, status: string, adminNotes?: string, statusIndex?: number) {
   const supabase = createServiceRoleClient();
+
   if (!supabase) {
     const idx = mockAppointments.findIndex((a) => a.id === id);
     if (idx >= 0) {
+      const nextStatusIndex = statusIndex ?? mockAppointments[idx].statusIndex;
+      const nextCompletionPercent = getProgressPercent(nextStatusIndex, STATUS_STAGES.length);
       mockAppointments[idx].status = status;
-      mockAppointments[idx].statusIndex = statusIndex;
-      mockAppointments[idx].completionPercent = completionPercent;
+      mockAppointments[idx].statusIndex = nextStatusIndex;
+      mockAppointments[idx].completionPercent = nextCompletionPercent;
       mockAppointments[idx].adminNotes = adminNotes ?? mockAppointments[idx].adminNotes;
     }
     return;
   }
 
+  const { data: current } = await supabase.from("appointments").select("status_index, completion_percent").eq("id", id).maybeSingle();
+  const nextStatusIndex = statusIndex ?? current?.status_index ?? 1;
+  const nextCompletionPercent = statusIndex === undefined ? current?.completion_percent ?? getProgressPercent(nextStatusIndex, STATUS_STAGES.length) : getProgressPercent(nextStatusIndex, STATUS_STAGES.length);
+
   await supabase
     .from("appointments")
-    .update({ status, status_index: statusIndex, completion_percent: completionPercent, admin_notes: adminNotes })
+    .update({ status, status_index: nextStatusIndex, completion_percent: nextCompletionPercent, admin_notes: adminNotes })
     .eq("id", id);
 }
 

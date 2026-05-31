@@ -1,14 +1,13 @@
 import { redirect } from "next/navigation";
-import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { cookies } from "next/headers";
+import { ADMIN_SESSION_COOKIE, verifyAdminSessionToken } from "@/lib/admin-auth";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  const supabase = await createServerSupabaseClient();
+  const cookieStore = await cookies();
+  const sessionToken = cookieStore.get(ADMIN_SESSION_COOKIE)?.value;
 
-  if (supabase) {
-    const { data } = await supabase.auth.getUser();
-    if (!data.user) {
-      redirect("/admin/login");
-    }
+  if (!(await verifyAdminSessionToken(sessionToken))) {
+    redirect("/admin/login");
   }
 
   return <>{children}</>;

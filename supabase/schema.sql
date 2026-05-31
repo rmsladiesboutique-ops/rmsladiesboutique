@@ -54,6 +54,15 @@ create table if not exists public.custom_requests (
 	created_at timestamptz not null default now()
 );
 
+create table if not exists public.appointment_status_history (
+	id uuid primary key default gen_random_uuid(),
+	appointment_id uuid not null references public.appointments(id) on delete cascade,
+	status text not null,
+	status_index int not null,
+	admin_notes text,
+	created_at timestamptz not null default now()
+);
+
 create table if not exists public.availability_rules (
 	id uuid primary key default gen_random_uuid(),
 	date date not null unique,
@@ -67,6 +76,7 @@ create table if not exists public.availability_rules (
 alter table public.designs enable row level security;
 alter table public.appointments enable row level security;
 alter table public.custom_requests enable row level security;
+alter table public.appointment_status_history enable row level security;
 alter table public.availability_rules enable row level security;
 
 drop policy if exists "Admins can manage designs" on public.designs;
@@ -90,6 +100,12 @@ with check (public.is_admin_user());
 drop policy if exists "Admins can manage custom requests" on public.custom_requests;
 create policy "Admins can manage custom requests"
 on public.custom_requests for all
+using (public.is_admin_user())
+with check (public.is_admin_user());
+
+drop policy if exists "Admins can manage appointment status history" on public.appointment_status_history;
+create policy "Admins can manage appointment status history"
+on public.appointment_status_history for all
 using (public.is_admin_user())
 with check (public.is_admin_user());
 
@@ -131,5 +147,21 @@ begin
 		  and cls.relname = 'appointments'
 	) then
 		alter publication supabase_realtime add table public.appointments;
+	end if;
+end $$;
+
+do $$
+begin
+	if not exists (
+		select 1
+		from pg_publication pub
+		join pg_publication_rel rel on rel.prpubid = pub.oid
+		join pg_class cls on cls.oid = rel.prrelid
+		join pg_namespace nsp on nsp.oid = cls.relnamespace
+		where pub.pubname = 'supabase_realtime'
+		  and nsp.nspname = 'public'
+		  and cls.relname = 'appointment_status_history'
+	) then
+		alter publication supabase_realtime add table public.appointment_status_history;
 	end if;
 end $$;

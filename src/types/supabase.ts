@@ -94,6 +94,25 @@ export type Database = {
         };
         Update: Partial<Database["public"]["Tables"]["custom_requests"]["Insert"]>;
       };
+      appointment_status_history: {
+        Row: {
+          id: string;
+          appointment_id: string;
+          status: string;
+          status_index: number;
+          admin_notes: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          appointment_id: string;
+          status: string;
+          status_index: number;
+          admin_notes?: string | null;
+          created_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["appointment_status_history"]["Insert"]>;
+      };
       availability_rules: {
         Row: {
           id: string;

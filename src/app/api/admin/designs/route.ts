@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createServiceRoleClient } from "@/lib/supabase/admin";
 import { mockDesigns } from "@/lib/mock-data";
+import { ADMIN_SESSION_COOKIE, verifyAdminSessionToken } from "@/lib/admin-auth";
 
 const schema = z.object({
   title: z.string(),
@@ -12,11 +13,21 @@ const schema = z.object({
   available: z.boolean(),
 });
 
-export async function GET() {
+export async function GET(request: Request) {
+  const sessionToken = request.headers.get("cookie")?.match(new RegExp(`${ADMIN_SESSION_COOKIE}=([^;]+)`))?.[1];
+  if (!(await verifyAdminSessionToken(sessionToken))) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   return NextResponse.json(mockDesigns);
 }
 
 export async function POST(request: Request) {
+  const sessionToken = request.headers.get("cookie")?.match(new RegExp(`${ADMIN_SESSION_COOKIE}=([^;]+)`))?.[1];
+  if (!(await verifyAdminSessionToken(sessionToken))) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const body = await request.json();
   const parsed = schema.safeParse(body);
 
@@ -40,6 +51,11 @@ export async function POST(request: Request) {
 }
 
 export async function PATCH(request: Request) {
+  const sessionToken = request.headers.get("cookie")?.match(new RegExp(`${ADMIN_SESSION_COOKIE}=([^;]+)`))?.[1];
+  if (!(await verifyAdminSessionToken(sessionToken))) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const body = await request.json();
   const id = body.id as string | undefined;
 
@@ -66,6 +82,11 @@ export async function PATCH(request: Request) {
 }
 
 export async function DELETE(request: Request) {
+  const sessionToken = request.headers.get("cookie")?.match(new RegExp(`${ADMIN_SESSION_COOKIE}=([^;]+)`))?.[1];
+  if (!(await verifyAdminSessionToken(sessionToken))) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const { searchParams } = new URL(request.url);
   const id = searchParams.get("id");
 

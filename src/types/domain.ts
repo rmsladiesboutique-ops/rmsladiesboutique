@@ -19,6 +19,15 @@ export type DesignItem = {
   available: boolean;
 };
 
+export type StatusHistoryEntry = {
+  id: string;
+  appointmentId: string;
+  status: string;
+  statusIndex: number;
+  adminNotes: string | null;
+  createdAt: string;
+};
+
 export type AppointmentPayload = {
   customerName: string;
   phoneNumber: string;
@@ -41,12 +50,13 @@ export type AppointmentPayload = {
 export type AppointmentRecord = AppointmentPayload & {
   id: string;
   customerCode: string;
-  status: StatusStage;
+  status: string;
   statusIndex: number;
   completionPercent: number;
   estimatedCompletionDate: string;
   adminNotes: string;
   createdAt: string;
+  statusHistory?: StatusHistoryEntry[];
 };
 
 export type AvailabilityRule = {

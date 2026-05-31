@@ -2,27 +2,26 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
 export default function AdminLoginPage() {
-  const [email, setEmail] = useState("");
+  const [id, setId] = useState("admin");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
 
   const submit = async () => {
-    const supabase = createClient();
-    if (!supabase) {
-      router.push("/admin");
-      return;
-    }
+    const response = await fetch("/api/admin/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, password }),
+    });
 
-    const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
-    if (authError) {
-      setError(authError.message);
+    if (!response.ok) {
+      const result = (await response.json().catch(() => null)) as { error?: string } | null;
+      setError(result?.error ?? "Invalid admin credentials");
       return;
     }
 
@@ -34,7 +33,7 @@ export default function AdminLoginPage() {
       <Card className="w-full">
         <CardContent className="space-y-4">
           <h1 className="text-2xl font-semibold">Admin Login</h1>
-          <Input placeholder="Admin email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <Input placeholder="Admin id" value={id} onChange={(e) => setId(e.target.value)} />
           <Input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
           {error && <p className="text-sm text-red-400">{error}</p>}
           <Button onClick={submit} className="w-full">Sign In</Button>

@@ -12,6 +12,7 @@ export function TrackingPanel({ initial }: { initial: AppointmentRecord }) {
     <Card className="mt-8">
       <CardContent className="space-y-5">
         <p className="text-lg">{record.customerName}</p>
+        <p className="text-sm text-zinc-300">Current status: {record.status}</p>
         <p className="text-sm text-zinc-300">Progress: {record.completionPercent}%</p>
         <div className="h-2 overflow-hidden rounded-full bg-zinc-800">
           <div className="h-full bg-amber-400" style={{ width: `${record.completionPercent}%` }} />
