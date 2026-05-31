@@ -1,0 +1,82 @@
+import { NextResponse } from "next/server";
+import { z } from "zod";
+import { createServiceRoleClient } from "@/lib/supabase/admin";
+import { mockDesigns } from "@/lib/mock-data";
+
+const schema = z.object({
+  title: z.string(),
+  category: z.string(),
+  description: z.string(),
+  price: z.number().nonnegative(),
+  imageUrl: z.string().url(),
+  available: z.boolean(),
+});
+
+export async function GET() {
+  return NextResponse.json(mockDesigns);
+}
+
+export async function POST(request: Request) {
+  const body = await request.json();
+  const parsed = schema.safeParse(body);
+
+  if (!parsed.success) {
+    return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
+  }
+
+  const supabase = createServiceRoleClient();
+  if (supabase) {
+    await supabase.from("designs").insert({
+      title: parsed.data.title,
+      category: parsed.data.category,
+      description: parsed.data.description,
+      price: parsed.data.price,
+      image_url: parsed.data.imageUrl,
+      available: parsed.data.available,
+    });
+  }
+
+  return NextResponse.json({ ok: true });
+}
+
+export async function PATCH(request: Request) {
+  const body = await request.json();
+  const id = body.id as string | undefined;
+
+  if (!id) {
+    return NextResponse.json({ error: "Missing id" }, { status: 400 });
+  }
+
+  const supabase = createServiceRoleClient();
+  if (supabase) {
+    await supabase
+      .from("designs")
+      .update({
+        title: body.title,
+        category: body.category,
+        description: body.description,
+        price: body.price,
+        image_url: body.imageUrl,
+        available: body.available,
+      })
+      .eq("id", id);
+  }
+
+  return NextResponse.json({ ok: true });
+}
+
+export async function DELETE(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const id = searchParams.get("id");
+
+  if (!id) {
+    return NextResponse.json({ error: "Missing id" }, { status: 400 });
+  }
+
+  const supabase = createServiceRoleClient();
+  if (supabase) {
+    await supabase.from("designs").delete().eq("id", id);
+  }
+
+  return NextResponse.json({ ok: true });
+}

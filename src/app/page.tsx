@@ -1,65 +1,76 @@
 import Image from "next/image";
+import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <main className="mx-auto max-w-7xl px-4 pb-20 pt-16 md:px-8">
+      <section className="grid items-center gap-8 md:grid-cols-2">
+        <div className="space-y-5">
+          <Image src="/rms-logo.jpeg" alt="RMS Ladies Boutique" width={340} height={170} className="h-auto w-[260px] sm:w-[320px]" priority />
+          <Badge>Luxury Ladies Boutique</Badge>
+          <h1 className="text-5xl leading-tight tracking-tight md:text-6xl">
+            Elegant tailoring, bridalwear, and custom fashion made for you.
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="max-w-xl text-zinc-400">
+            RMS Ladies Boutique blends couture craftsmanship with digital convenience. Browse designs, book fittings, submit custom requests, and track production in real time.
           </p>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/book"><Button size="lg">Book Appointment</Button></Link>
+            <Link href="/catalog"><Button size="lg" variant="outline">Explore Designs</Button></Link>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <div className="relative h-[420px] overflow-hidden rounded-2xl border border-zinc-800">
+          <Image
+            src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=1300&q=80"
+            alt="Tailoring studio"
+            fill
+            className="object-cover"
+            priority
+          />
         </div>
-      </main>
-    </div>
+      </section>
+
+      <section className="mt-16 grid gap-4 md:grid-cols-3">
+        {[
+          ["Bespoke Suits", "Personal pattern drafting and hand-finished construction."],
+          ["Wedding Couture", "Ceremonial garments designed to your body and style."],
+          ["Alteration Studio", "Precision fitting, sleeve balance, and full silhouette correction."],
+        ].map(([title, desc]) => (
+          <Card key={title}><CardContent><h2 className="text-2xl">{title}</h2><p className="mt-2 text-sm text-zinc-400">{desc}</p></CardContent></Card>
+        ))}
+      </section>
+
+      <section className="mt-16 grid gap-8 md:grid-cols-2">
+        <Card>
+          <CardContent>
+            <h3 className="text-2xl">Pricing Highlights</h3>
+            <div className="mt-4 space-y-3 text-sm text-zinc-300">
+              <p>Two-Piece Suit: $650+</p>
+              <p>Three-Piece Suit: $850+</p>
+              <p>Sherwani / Traditional: $1,200+</p>
+              <p>Alteration Packages: $80+</p>
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent>
+            <h3 className="text-2xl">Client Testimonials</h3>
+            <div className="mt-4 space-y-4 text-sm text-zinc-300">
+              <p>"The fit was immaculate. Their status tracking kept me updated at every step." - Daniel R.</p>
+              <p>"Our wedding outfits were stunning and delivered exactly on schedule." - Neha & Arjun</p>
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+
+      <section className="mt-16 rounded-2xl border border-amber-500/30 bg-amber-500/10 p-8 text-center">
+        <h3 className="text-3xl">Ready for your first fitting?</h3>
+        <p className="mt-2 text-zinc-300">Reserve a slot in under two minutes and get your unique 6-digit tracking code instantly.</p>
+        <div className="mt-6"><Link href="/book"><Button size="lg">Start Booking</Button></Link></div>
+      </section>
+    </main>
   );
 }
