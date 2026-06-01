@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import type { DesignItem } from "@/types/domain";
 import { Button } from "@/components/ui/button";
@@ -16,11 +17,25 @@ export default function AdminDesignsPage() {
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
 
+  const router = useRouter();
+
   useEffect(() => {
-    fetch("/api/admin/designs")
-      .then((res) => res.json())
-      .then((data) => setRows(data));
-  }, []);
+    const load = async () => {
+      try {
+        const res = await fetch("/api/admin/designs");
+        if (!res.ok) {
+          if (res.status === 401) router.push("/admin/login");
+          return;
+        }
+        const data = await res.json();
+        setRows(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    load();
+  }, [router]);
 
   const uploadToStorage = async (file: File) => {
     const supabase = createClient();
@@ -48,6 +63,11 @@ export default function AdminDesignsPage() {
       body: JSON.stringify(payload),
     });
 
+    if (!res.ok) {
+      if (res.status === 401) router.push("/admin/login");
+      return;
+    }
+
     if (res.ok) {
       setRows((prev) => [
         {
@@ -73,28 +93,54 @@ export default function AdminDesignsPage() {
     const target = rows.find((r) => r.id === id);
     if (!target) return;
     const next = !target.available;
-    await fetch("/api/admin/designs", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...target, id, available: next }),
-    });
+    try {
+      const res = await fetch("/api/admin/designs", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...target, id, available: next }),
+      });
+      if (!res.ok) {
+        if (res.status === 401) router.push("/admin/login");
+        return;
+      }
+    } catch (err) {
+      console.error(err);
+      return;
+    }
     setRows((prev) => prev.map((r) => (r.id === id ? { ...r, available: next } : r)));
   };
 
   const updatePrice = async (id: string, nextPrice: number) => {
     const target = rows.find((r) => r.id === id);
     if (!target) return;
-    await fetch("/api/admin/designs", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...target, id, price: nextPrice }),
-    });
+    try {
+      const res = await fetch("/api/admin/designs", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...target, id, price: nextPrice }),
+      });
+      if (!res.ok) {
+        if (res.status === 401) router.push("/admin/login");
+        return;
+      }
+    } catch (err) {
+      console.error(err);
+      return;
+    }
     setRows((prev) => prev.map((r) => (r.id === id ? { ...r, price: nextPrice } : r)));
   };
 
   const remove = async (id: string) => {
-    await fetch(`/api/admin/designs?id=${id}`, { method: "DELETE" });
-    setRows((prev) => prev.filter((r) => r.id !== id));
+    try {
+      const res = await fetch(`/api/admin/designs?id=${id}`, { method: "DELETE" });
+      if (!res.ok) {
+        if (res.status === 401) router.push("/admin/login");
+        return;
+      }
+      setRows((prev) => prev.filter((r) => r.id !== id));
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (

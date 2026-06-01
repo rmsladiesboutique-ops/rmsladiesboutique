@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import type { MeasurementField } from "@/types/domain";
@@ -11,13 +12,33 @@ export default function AdminMeasurementsPage() {
   const [type, setType] = useState("text");
   const [required, setRequired] = useState(false);
 
+  const router = useRouter();
+
   useEffect(() => {
-    fetch("/api/admin/measurement-fields").then((r) => r.json()).then((d) => setRows(d));
-  }, []);
+    const load = async () => {
+      try {
+        const res = await fetch("/api/admin/measurement-fields");
+        if (!res.ok) {
+          if (res.status === 401) router.push("/admin/login");
+          return;
+        }
+        const d = await res.json();
+        setRows(d);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    load();
+  }, [router]);
 
   const add = async () => {
     const payload = { label, type, required };
     const res = await fetch("/api/admin/measurement-fields", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+    if (!res.ok) {
+      if (res.status === 401) router.push("/admin/login");
+      return;
+    }
     if (res.ok) {
       const updated = await res.json();
       setRows((prev) => [updated, ...prev]);
@@ -28,8 +49,16 @@ export default function AdminMeasurementsPage() {
   };
 
   const remove = async (id: string) => {
-    await fetch(`/api/admin/measurement-fields?id=${id}`, { method: "DELETE" });
-    setRows((prev) => prev.filter((r) => r.id !== id));
+    try {
+      const res = await fetch(`/api/admin/measurement-fields?id=${id}`, { method: "DELETE" });
+      if (!res.ok) {
+        if (res.status === 401) router.push("/admin/login");
+        return;
+      }
+      setRows((prev) => prev.filter((r) => r.id !== id));
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (

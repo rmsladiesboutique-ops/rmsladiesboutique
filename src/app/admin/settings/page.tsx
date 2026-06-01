@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,12 +12,17 @@ export default function AdminSettingsPage() {
   const [saving, setSaving] = useState(false);
   const [settings, setSettings] = useState<AppSettings | null>(null);
 
+  const router = useRouter();
+
   useEffect(() => {
     (async () => {
       setLoading(true);
       try {
         const res = await fetch("/api/admin/settings");
-        if (!res.ok) return;
+        if (!res.ok) {
+          if (res.status === 401) router.push("/admin/login");
+          return;
+        }
         const data = await res.json();
         setSettings({
           siteTitle: data.siteTitle ?? "",
@@ -29,7 +35,7 @@ export default function AdminSettingsPage() {
         setLoading(false);
       }
     })();
-  }, []);
+  }, [router]);
 
   if (loading) return <div className="p-6">Loading…</div>;
 
@@ -45,11 +51,16 @@ export default function AdminSettingsPage() {
         statusStages: settings.statusStages,
       };
 
-      await fetch("/api/admin/settings", {
+      const res = await fetch("/api/admin/settings", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
+      if (!res.ok) {
+        if (res.status === 401) router.push("/admin/login");
+        alert("Save failed");
+        return;
+      }
       alert("Settings saved");
     } catch {
       alert("Save failed");

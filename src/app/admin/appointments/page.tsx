@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { MessageCircleMore, PhoneCall } from "lucide-react";
 import { STATUS_STAGES, type AppointmentRecord, type StatusHistoryEntry } from "@/types/domain";
 import { Button } from "@/components/ui/button";
@@ -39,10 +40,17 @@ export default function AdminAppointmentsPage() {
   const [historyEntries, setHistoryEntries] = useState<StatusHistoryEntry[]>([]);
   const [historyLoading, setHistoryLoading] = useState(false);
 
+  const router = useRouter();
+
   useEffect(() => {
-    fetch("/api/admin/appointments")
-      .then((res) => res.json())
-      .then((data: AppointmentRecord[]) => {
+    const load = async () => {
+      try {
+        const res = await fetch("/api/admin/appointments");
+        if (!res.ok) {
+          if (res.status === 401) router.push("/admin/login");
+          return;
+        }
+        const data = (await res.json()) as AppointmentRecord[];
         setRows(data);
         setStatusDrafts(
           Object.fromEntries(
@@ -52,8 +60,13 @@ export default function AdminAppointmentsPage() {
             }),
           ),
         );
-      });
-  }, []);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    load();
+  }, [router]);
 
   const filtered = useMemo(() => rows.filter((r) => r.customerName.toLowerCase().includes(query.toLowerCase()) || r.phoneNumber.includes(query)), [rows, query]);
 
@@ -73,11 +86,20 @@ export default function AdminAppointmentsPage() {
       return;
     }
 
-    await fetch("/api/admin/status", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, status, statusIndex: isCustom ? undefined : statusIndex, adminNotes: notes[id] }),
-    });
+    try {
+      const res = await fetch("/api/admin/status", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status, statusIndex: isCustom ? undefined : statusIndex, adminNotes: notes[id] }),
+      });
+      if (!res.ok) {
+        if (res.status === 401) router.push("/admin/login");
+        return;
+      }
+    } catch (err) {
+      console.error(err);
+      return;
+    }
 
     setRows((prev) =>
       prev.map((r) =>
@@ -108,6 +130,7 @@ export default function AdminAppointmentsPage() {
     try {
       const res = await fetch(`/api/admin/appointments/${id}/history`);
       if (!res.ok) {
+        if (res.status === 401) router.push("/admin/login");
         setHistoryEntries([]);
         return;
       }

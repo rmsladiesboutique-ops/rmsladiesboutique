@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,13 +13,33 @@ export default function AdminEmailTemplatesPage() {
   const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");
 
+  const router = useRouter();
+
   useEffect(() => {
-    fetch("/api/admin/email-templates").then((r) => r.json()).then((d) => setRows(d));
-  }, []);
+    const load = async () => {
+      try {
+        const res = await fetch("/api/admin/email-templates");
+        if (!res.ok) {
+          if (res.status === 401) router.push("/admin/login");
+          return;
+        }
+        const d = await res.json();
+        setRows(d);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    load();
+  }, [router]);
 
   const save = async () => {
     const payload = { key, subject, body };
     const res = await fetch("/api/admin/email-templates", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+    if (!res.ok) {
+      if (res.status === 401) router.push("/admin/login");
+      return;
+    }
     if (res.ok) {
       const updated = await res.json();
       setRows((prev) => [updated, ...prev.filter((r) => r.key !== updated.key)]);
@@ -29,8 +50,16 @@ export default function AdminEmailTemplatesPage() {
   };
 
   const remove = async (k: string) => {
-    await fetch(`/api/admin/email-templates?key=${encodeURIComponent(k)}`, { method: "DELETE" });
-    setRows((prev) => prev.filter((r) => r.key !== k));
+    try {
+      const res = await fetch(`/api/admin/email-templates?key=${encodeURIComponent(k)}`, { method: "DELETE" });
+      if (!res.ok) {
+        if (res.status === 401) router.push("/admin/login");
+        return;
+      }
+      setRows((prev) => prev.filter((r) => r.key !== k));
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (

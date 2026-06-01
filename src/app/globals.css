@@ -3,6 +3,7 @@
 :root {
   --background: #f3e7e1;
   --foreground: #17110d;
+  --foreground-rgb: 23,17,13;
   --gold: #d19b47;
   --gold-strong: #a67834;
   --muted: #6d6157;
@@ -27,6 +28,7 @@
 .dark {
   --background: #090706;
   --foreground: #f4eee3;
+  --foreground-rgb: 244,238,227;
   --gold: #e0bc7f;
   --gold-strong: #d2a95d;
   --muted: #b8a998;
@@ -170,6 +172,16 @@ select {
   box-shadow: 0 50px 170px -110px rgba(37, 25, 15, 0.95);
 }
 
+.dark .hero-grid {
+  background:
+    radial-gradient(circle at 16% 20%, rgba(225, 120, 150, 0.06), transparent 24%),
+    radial-gradient(circle at 84% 2%, rgba(20, 90, 86, 0.06), transparent 24%),
+    radial-gradient(circle at 65% 68%, rgba(160, 115, 60, 0.04), transparent 24%),
+    linear-gradient(135deg, rgba(12, 10, 9, 0.58), rgba(6, 6, 6, 0.5));
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  box-shadow: 0 50px 170px -110px rgba(0, 0, 0, 0.75);
+}
+
 .hero-spotlight {
   position: relative;
   overflow: hidden;
@@ -182,6 +194,34 @@ select {
   background: radial-gradient(circle at 5% 30%, rgba(241, 148, 184, 0.2), transparent 26%),
     radial-gradient(circle at 90% 20%, rgba(31, 122, 120, 0.18), transparent 24%);
   pointer-events: none;
+}
+
+/* Ensure readable text contrast inside hero for both themes */
+.hero-grid h1,
+.hero-grid h2,
+.hero-grid h3,
+.hero-grid p,
+.hero-grid .fashion-chip p,
+.hero-grid .text-foreground,
+.hero-grid .text-foreground\/72 {
+  color: rgba(var(--foreground-rgb), 0.92) !important;
+}
+
+.hero-grid p,
+.hero-grid .fashion-chip .text-sm,
+.hero-grid .text-foreground\/60,
+.hero-grid .text-foreground\/70,
+.hero-grid .text-foreground\/72 {
+  color: rgba(var(--foreground-rgb), 0.72) !important;
+}
+
+.hero-grid .fashion-chip {
+  background: linear-gradient(135deg, rgba(209, 95, 117, 0.12), rgba(31, 122, 120, 0.08));
+}
+
+.dark .hero-spotlight::before {
+  background: radial-gradient(circle at 5% 30%, rgba(225, 120, 150, 0.04), transparent 26%),
+    radial-gradient(circle at 90% 20%, rgba(92, 197, 185, 0.04), transparent 24%);
 }
 
 .glow-panel {
@@ -223,4 +263,18 @@ select {
   border: 1px solid rgba(209, 155, 84, 0.24);
   box-shadow: 0 24px 80px -40px rgba(209, 155, 84, 0.25);
   backdrop-filter: blur(16px);
+}
+
+.dark .glass-panel {
+  background: linear-gradient(180deg, rgba(28,20,17,0.84), rgba(24,18,16,0.72));
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.dark .feature-highlight {
+  background: linear-gradient(135deg, rgba(225,120,150,0.04), rgba(160,115,60,0.04), rgba(20,150,140,0.04));
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.dark .fashion-card::before {
+  opacity: 0.7;
 }
