@@ -13,6 +13,11 @@ function getSessionSecret() {
 }
 
 function toBase64Url(bytes: Uint8Array) {
+  if (typeof Buffer !== "undefined") {
+    const base64 = Buffer.from(bytes).toString("base64");
+    return base64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/u, "");
+  }
+
   let binary = "";
   bytes.forEach((byte) => {
     binary += String.fromCharCode(byte);
@@ -24,6 +29,12 @@ function toBase64Url(bytes: Uint8Array) {
 function fromBase64Url(value: string) {
   const base64 = value.replace(/-/g, "+").replace(/_/g, "/");
   const padded = base64.padEnd(Math.ceil(base64.length / 4) * 4, "=");
+
+  if (typeof Buffer !== "undefined") {
+    const buf = Buffer.from(padded, "base64");
+    return new Uint8Array(buf);
+  }
+
   const binary = atob(padded);
   const bytes = new Uint8Array(binary.length);
 
