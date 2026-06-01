@@ -1,11 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fbfaf8;
-  --foreground: #0f1720;
-  --gold: #c89b3a;
-  --muted: #6b6b6b;
-  --glass: rgba(255,255,255,0.04);
+  --background: #f5efe6;
+  --foreground: #171411;
+  --gold: #b8892f;
+  --gold-strong: #8c6422;
+  --muted: #6f655b;
+  --surface: rgba(255, 249, 241, 0.8);
+  --surface-strong: rgba(255, 252, 247, 0.95);
+  --border: rgba(28, 20, 10, 0.1);
 }
 
 @theme inline {
@@ -16,17 +19,38 @@
 }
 
 .dark {
-  --background: #060607;
-  --foreground: #e6e6e9;
-  --glass: rgba(0,0,0,0.4);
+  --background: #080706;
+  --foreground: #f4ede5;
+  --gold: #e0b55b;
+  --gold-strong: #f2cf82;
+  --muted: #b5a99b;
+  --surface: rgba(18, 14, 12, 0.78);
+  --surface-strong: rgba(24, 18, 15, 0.94);
+  --border: rgba(255, 235, 214, 0.08);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: radial-gradient(1200px 400px at 10% 10%, rgba(200,155,60,0.04), transparent), var(--background);
+  background:
+    radial-gradient(circle at top left, rgba(184, 137, 47, 0.12), transparent 28%),
+    radial-gradient(circle at 80% 10%, rgba(20, 17, 16, 0.08), transparent 22%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55), transparent 16%),
+    var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  line-height: 1.45;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.dark body {
+  background:
+    radial-gradient(circle at top left, rgba(184, 137, 47, 0.16), transparent 28%),
+    radial-gradient(circle at 80% 10%, rgba(255, 255, 255, 0.08), transparent 22%),
+    linear-gradient(180deg, #0d0f13 0%, #080706 100%);
 }
 
 h1,
@@ -34,6 +58,7 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display), serif;
+  letter-spacing: -0.02em;
 }
 
 main {
@@ -43,26 +68,81 @@ main {
 main::before {
   content: "";
   position: absolute;
-  inset: -18% -8% auto -8%;
-  height: 420px;
-  background: radial-gradient(circle at 12% 18%, rgba(200,155,60,0.12), transparent 50%),
-    radial-gradient(circle at 82% 8%, rgba(255,255,255,0.06), transparent 35%);
+  inset: -14% -8% auto -8%;
+  height: 480px;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(184, 137, 47, 0.16), transparent 42%),
+    radial-gradient(circle at 82% 8%, rgba(255, 255, 255, 0.24), transparent 30%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16), transparent);
   pointer-events: none;
   z-index: -1;
 }
 
-/* Utility container for consistent horizontal padding */
 .container {
   width: 100%;
-  max-width: 1100px;
+  max-width: 1180px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
 }
 
-/* Link styles */
-a { color: var(--gold); text-decoration: underline; text-underline-offset: 3px; }
+a {
+  color: var(--gold);
+  text-decoration: none;
+  transition: color 180ms ease, opacity 180ms ease;
+}
 
-/* Form elements touch targets */
-input, textarea, select, button { touch-action: manipulation; }
+a:hover {
+  color: var(--gold-strong);
+}
+
+::selection {
+  background: rgba(184, 137, 47, 0.22);
+  color: var(--foreground);
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background: rgba(184, 137, 47, 0.38);
+  background-clip: padding-box;
+}
+
+input,
+textarea,
+select,
+button {
+  touch-action: manipulation;
+}
+
+input,
+textarea,
+select {
+  background: var(--surface-strong);
+  border-color: var(--border);
+}
+
+.glass-panel {
+  background: linear-gradient(180deg, var(--surface-strong), var(--surface));
+  border: 1px solid var(--border);
+  box-shadow: 0 24px 80px -44px rgba(30, 22, 16, 0.6);
+  backdrop-filter: blur(20px);
+}
+
+.hero-grid {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(184, 137, 47, 0.16), transparent 30%),
+    radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.16), transparent 30%),
+    linear-gradient(135deg, rgba(255, 252, 247, 0.9), rgba(247, 239, 229, 0.74));
+  border: 1px solid var(--border);
+  box-shadow: 0 40px 120px -70px rgba(37, 25, 15, 0.85);
+}

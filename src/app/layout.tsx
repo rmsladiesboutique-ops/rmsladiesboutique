@@ -29,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning className={`${display.variable} ${sans.variable} h-full antialiased`}>
-      <body className="min-h-full bg-background text-foreground">
+      <body className="min-h-full bg-background text-foreground selection:bg-amber-300/30 selection:text-foreground">
         <ThemeProvider>
           <Navbar />
           <PageTransition>{children}</PageTransition>

@@ -1,7 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { BookOpen, ChevronRight, Menu, X } from "lucide-react";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { Button } from "@/components/ui/button";
 
@@ -14,24 +17,93 @@ const links = [
 ];
 
 export function Navbar() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  if (pathname.startsWith("/admin")) {
+    return null;
+  }
+
+  const closeMobileMenu = () => setMobileMenuOpen(false);
+
+  const navItems = [
+    { href: "/", label: "Home" },
+    { href: "/catalog", label: "Design Catalog" },
+    { href: "/book", label: "Book Appointment" },
+    { href: "/dashboard", label: "Customer Dashboard" },
+    { href: "/admin", label: "Admin" },
+  ];
+
   return (
-    <header className="sticky top-0 z-40 border-b border-zinc-800/80 bg-black/70 backdrop-blur">
-      <div className="mx-auto container flex items-center justify-between px-2 py-3 md:px-8">
-        <Link href="/" className="flex items-center gap-3 text-sm font-semibold tracking-[0.2em] text-amber-200">
+    <header className="sticky top-0 z-40 border-b border-black/5 bg-[rgba(255,248,240,0.82)] backdrop-blur-xl dark:border-white/10 dark:bg-black/65">
+      <div className="mx-auto container flex items-center justify-between gap-3 py-3">
+        <Link href="/" className="flex items-center gap-3 text-sm font-semibold tracking-[0.18em] text-amber-900 dark:text-amber-100">
           <Image src="/rms-logo.jpeg" alt="RMS Ladies Boutique" width={150} height={52} priority className="h-10 w-auto" />
         </Link>
-        <nav className="hidden items-center gap-6 md:flex">
-          {links.map((l) => (
-            <Link key={l.href} href={l.href} className="text-sm text-zinc-300 hover:text-amber-200">
-              {l.label}
+        <nav className="hidden items-center gap-6 lg:flex">
+          {navItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`text-sm transition ${pathname === item.href ? "text-foreground" : "text-foreground/70 hover:text-foreground"}`}
+            >
+              {item.label}
             </Link>
           ))}
         </nav>
-        <div className="flex items-center gap-2">
-          <ThemeToggle />
-          <Link href="/book">
-            <Button size="sm">Book Now</Button>
+        <div className="flex items-center gap-2 md:gap-3">
+          <div className="hidden md:block">
+            <ThemeToggle />
+          </div>
+          <Link href="/book" className="hidden md:inline-flex">
+            <Button size="sm" className="shadow-sm">
+              <BookOpen className="h-4 w-4" />
+              Book Now
+            </Button>
           </Link>
+          <button
+            type="button"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white/70 text-foreground shadow-sm transition hover:bg-white dark:border-white/10 dark:bg-white/5 md:hidden"
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-nav"
+            onClick={() => setMobileMenuOpen((current) => !current)}
+          >
+            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
+      </div>
+
+      <div
+        id="mobile-nav"
+        className={`border-t border-black/5 bg-[rgba(255,250,244,0.96)] px-4 pb-4 pt-3 shadow-[0_18px_40px_-28px_rgba(26,18,12,0.45)] backdrop-blur-xl transition-all duration-200 dark:border-white/10 dark:bg-black/90 md:hidden ${mobileMenuOpen ? "max-h-[520px] opacity-100" : "pointer-events-none max-h-0 overflow-hidden opacity-0"}`}
+      >
+        <div className="space-y-2">
+          {navItems.map((item) => {
+            const active = pathname === item.href;
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={closeMobileMenu}
+                className={`flex items-center justify-between rounded-2xl border px-4 py-3 text-sm transition ${active ? "border-amber-500/30 bg-amber-500/10 text-foreground" : "border-black/5 bg-white/70 text-foreground/75 hover:bg-white dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"}`}
+              >
+                <span>{item.label}</span>
+                <ChevronRight className="h-4 w-4 text-amber-700 dark:text-amber-200" />
+              </Link>
+            );
+          })}
+        </div>
+
+        <div className="mt-4 grid grid-cols-2 gap-3">
+          <Link href="/book" onClick={closeMobileMenu} className="inline-flex items-center justify-center gap-2 rounded-2xl bg-amber-500 px-4 py-3 text-sm font-medium text-black shadow-[0_14px_30px_-18px_rgba(184,137,47,0.8)] transition hover:bg-amber-400">
+            <BookOpen className="h-4 w-4" />
+            Book Now
+          </Link>
+          <div className="flex justify-end">
+            <ThemeToggle />
+          </div>
         </div>
       </div>
     </header>
