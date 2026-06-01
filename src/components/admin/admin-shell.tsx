@@ -11,6 +11,11 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
   const pathname = usePathname() ?? "";
   const router = useRouter();
 
+  // Skip shell UI on login page
+  if (pathname === "/admin/login") {
+    return <>{children}</>;
+  }
+
   const links = [
     { href: "/admin", label: "Dashboard" },
     { href: "/admin/appointments", label: "Appointments" },

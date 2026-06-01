@@ -71,7 +71,7 @@ export async function verifyAdminCredentials(id: string, password: string) {
     return false;
   }
 
-  return sha256Hex(password.trim()) === ADMIN_PASSWORD_SHA256;
+  return (await sha256Hex(password.trim())) === ADMIN_PASSWORD_SHA256;
 }
 
 export async function createAdminSessionToken(id: string) {
