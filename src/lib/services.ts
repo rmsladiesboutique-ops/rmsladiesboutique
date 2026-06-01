@@ -2,7 +2,16 @@ import { addDays, format } from "date-fns";
 import { createServiceRoleClient } from "@/lib/supabase/admin";
 import { mockAppointments, mockAvailability, mockDesigns } from "@/lib/mock-data";
 import { generateCustomerCode, getProgressPercent } from "@/lib/utils";
-import { STATUS_STAGES, type AppointmentPayload, type AppointmentRecord, type DesignItem } from "@/types/domain";
+import {
+  STATUS_STAGES,
+  type AppointmentPayload,
+  type AppointmentRecord,
+  type DesignItem,
+  type StatusHistoryEntry,
+  type AppSettings,
+  type EmailTemplate,
+  type MeasurementField,
+} from "@/types/domain";
 
 export async function getDesigns(): Promise<DesignItem[]> {
   const supabase = createServiceRoleClient();
@@ -202,6 +211,28 @@ export async function updateAppointmentStatus(id: string, status: string, adminN
     .eq("id", id);
 }
 
+export async function getAppointmentHistory(appointmentId: string): Promise<StatusHistoryEntry[]> {
+  const supabase = createServiceRoleClient();
+  if (!supabase) return [];
+
+  const { data } = await supabase
+    .from("appointment_status_history")
+    .select("*")
+    .eq("appointment_id", appointmentId)
+    .order("created_at", { ascending: false });
+
+  if (!data) return [];
+
+  return data.map((d) => ({
+    id: d.id,
+    appointmentId: d.appointment_id,
+    status: d.new_status ?? d.new_status,
+    statusIndex: d.new_status_index ?? d.new_status_index ?? 0,
+    adminNotes: d.notes ?? null,
+    createdAt: d.created_at,
+  }));
+}
+
 export async function getAvailability() {
   const supabase = createServiceRoleClient();
   if (!supabase) return { holidayMode: false, rules: mockAvailability };
@@ -213,4 +244,113 @@ export async function getAvailability() {
     holidayMode: data.some((d) => d.holiday_mode),
     rules: data.map((d) => ({ id: d.id, date: d.date, slots: d.slots, isBlocked: d.is_blocked })),
   };
+}
+
+export async function getSettings(): Promise<AppSettings | null> {
+  const supabase = createServiceRoleClient();
+  if (!supabase) return null;
+
+  const { data } = await supabase.from("app_settings").select("*").maybeSingle();
+  if (!data) return null;
+
+  return {
+    siteTitle: data.site_title ?? "RMS Ladies Boutique",
+    phoneNumber: data.phone_number ?? "",
+    whatsappTemplate: data.whatsapp_template ?? "",
+    logoUrl: data.logo_url ?? "/rms-logo.jpeg",
+    statusStages: (data.status_stages as string[]) ?? STATUS_STAGES,
+  };
+}
+
+export async function updateSettings(payload: Partial<AppSettings>) {
+  const supabase = createServiceRoleClient();
+  if (!supabase) return null;
+
+  const { data, error } = await supabase
+    .from("app_settings")
+    .upsert(
+      {
+        id: "singleton",
+        site_title: payload.siteTitle,
+        phone_number: payload.phoneNumber,
+        whatsapp_template: payload.whatsappTemplate,
+        logo_url: payload.logoUrl,
+        status_stages: payload.statusStages,
+      },
+      { onConflict: "id" },
+    )
+    .select()
+    .maybeSingle();
+
+  if (error) return null;
+  return data;
+}
+
+export async function getEmailTemplates(): Promise<EmailTemplate[]> {
+  const supabase = createServiceRoleClient();
+  if (!supabase) return [];
+
+  const { data } = await supabase.from("email_templates").select("*").order("updated_at", { ascending: false });
+  if (!data) return [];
+  return data.map((d) => ({ key: d.key, subject: d.subject, body: d.body, updatedAt: d.updated_at }));
+}
+
+export async function upsertEmailTemplate(t: { key: string; subject: string; body: string }) {
+  const supabase = createServiceRoleClient();
+  if (!supabase) return null;
+  const { data, error } = await supabase
+    .from("email_templates")
+    .upsert({ key: t.key, subject: t.subject, body: t.body, updated_at: new Date().toISOString() }, { onConflict: "key" })
+    .select()
+    .maybeSingle();
+  if (error) return null;
+  return data;
+}
+
+export async function deleteEmailTemplate(key: string) {
+  const supabase = createServiceRoleClient();
+  if (!supabase) return null;
+  const { error } = await supabase.from("email_templates").delete().eq("key", key);
+  return error ? null : true;
+}
+
+export async function getMeasurementFields(): Promise<MeasurementField[]> {
+  const supabase = createServiceRoleClient();
+  if (!supabase) return [];
+
+  const { data } = await supabase.from("measurement_fields").select("*").order("ordering", { ascending: true });
+  if (!data) return [];
+
+  return data.map((d) => ({
+    id: d.id,
+    key: d.key,
+    label: d.label,
+    type: (d.type as "text" | "number" | "select" | "textarea"),
+    required: d.required,
+    options: d.options ?? [],
+    order: d.ordering,
+  }));
+}
+
+export async function upsertMeasurementField(f: Partial<MeasurementField> & { key?: string }) {
+  const supabase = createServiceRoleClient();
+  if (!supabase) return null;
+  const payload: Partial<MeasurementField> & { key?: string; ordering?: number } = {
+    key: f.key,
+    label: f.label,
+    type: f.type ?? "text",
+    required: f.required ?? false,
+    options: f.options ?? [],
+    ordering: f.order ?? 100,
+  };
+  const { data, error } = await supabase.from("measurement_fields").upsert(payload, { onConflict: "key" }).select().maybeSingle();
+  if (error) return null;
+  return data;
+}
+
+export async function deleteMeasurementField(id: string) {
+  const supabase = createServiceRoleClient();
+  if (!supabase) return null;
+  const { error } = await supabase.from("measurement_fields").delete().eq("id", id);
+  return error ? null : true;
 }

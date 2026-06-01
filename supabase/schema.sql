@@ -73,6 +73,39 @@ create table if not exists public.availability_rules (
 	updated_at timestamptz not null default now()
 );
 
+-- Application settings singleton
+CREATE TABLE IF NOT EXISTS app_settings (
+	id text PRIMARY KEY,
+	site_title text,
+	phone_number text,
+	whatsapp_template text,
+	logo_url text,
+	status_stages text[] DEFAULT ARRAY['Appointment Submitted','Appointment Confirmed','Measurements Received','Production Started','Final Stitching','Ready for Pickup']::text[],
+	updated_at timestamptz DEFAULT now()
+);
+
+-- ensure singleton row exists
+INSERT INTO app_settings (id, site_title) VALUES ('singleton', 'RMS Ladies Boutique') ON CONFLICT (id) DO NOTHING;
+
+-- Email templates for notifications
+CREATE TABLE IF NOT EXISTS email_templates (
+	key text PRIMARY KEY,
+	subject text NOT NULL,
+	body text NOT NULL,
+	updated_at timestamptz DEFAULT now()
+);
+
+-- Measurement fields for appointment forms
+CREATE TABLE IF NOT EXISTS measurement_fields (
+	id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+	key text NOT NULL UNIQUE,
+	label text NOT NULL,
+	type text NOT NULL DEFAULT 'text',
+	required boolean NOT NULL DEFAULT false,
+	options text[] DEFAULT '{}'::text[],
+	ordering int NOT NULL DEFAULT 100,
+	created_at timestamptz DEFAULT now()
+);
 alter table public.designs enable row level security;
 alter table public.appointments enable row level security;
 alter table public.custom_requests enable row level security;

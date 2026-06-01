@@ -16,7 +16,7 @@ const links = [
 export function Navbar() {
   return (
     <header className="sticky top-0 z-40 border-b border-zinc-800/80 bg-black/70 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-8">
+      <div className="mx-auto container flex items-center justify-between px-2 py-3 md:px-8">
         <Link href="/" className="flex items-center gap-3 text-sm font-semibold tracking-[0.2em] text-amber-200">
           <Image src="/rms-logo.jpeg" alt="RMS Ladies Boutique" width={150} height={52} priority className="h-10 w-auto" />
         </Link>

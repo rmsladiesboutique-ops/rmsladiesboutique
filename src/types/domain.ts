@@ -65,3 +65,28 @@ export type AvailabilityRule = {
   slots: string[];
   isBlocked: boolean;
 };
+
+export type AppSettings = {
+  siteTitle: string;
+  phoneNumber: string;
+  whatsappTemplate: string;
+  logoUrl: string;
+  statusStages: string[];
+};
+
+export type EmailTemplate = {
+  key: string;
+  subject: string;
+  body: string;
+  updatedAt: string;
+};
+
+export type MeasurementField = {
+  id: string;
+  key: string;
+  label: string;
+  type: "text" | "number" | "select" | "textarea";
+  required: boolean;
+  options?: string[];
+  order: number;
+};

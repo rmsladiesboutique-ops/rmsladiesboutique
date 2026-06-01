@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { MessageCircleMore, PhoneCall } from "lucide-react";
-import { STATUS_STAGES, type AppointmentRecord } from "@/types/domain";
+import { STATUS_STAGES, type AppointmentRecord, type StatusHistoryEntry } from "@/types/domain";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -35,6 +35,9 @@ export default function AdminAppointmentsPage() {
   const [query, setQuery] = useState("");
   const [notes, setNotes] = useState<Record<string, string>>({});
   const [statusDrafts, setStatusDrafts] = useState<Record<string, StatusDraft>>({});
+  const [historyOpen, setHistoryOpen] = useState(false);
+  const [historyEntries, setHistoryEntries] = useState<StatusHistoryEntry[]>([]);
+  const [historyLoading, setHistoryLoading] = useState(false);
 
   useEffect(() => {
     fetch("/api/admin/appointments")
@@ -98,6 +101,26 @@ export default function AdminAppointmentsPage() {
 
   const remove = (id: string) => setRows((prev) => prev.filter((r) => r.id !== id));
 
+  const viewHistory = async (id: string) => {
+    setHistoryLoading(true);
+    setHistoryOpen(true);
+
+    try {
+      const res = await fetch(`/api/admin/appointments/${id}/history`);
+      if (!res.ok) {
+        setHistoryEntries([]);
+        return;
+      }
+
+      const data = (await res.json()) as StatusHistoryEntry[];
+      setHistoryEntries(data);
+    } catch {
+      setHistoryEntries([]);
+    } finally {
+      setHistoryLoading(false);
+    }
+  };
+
   return (
     <main className="mx-auto max-w-7xl px-4 py-16 md:px-8">
       <Card>
@@ -107,8 +130,9 @@ export default function AdminAppointmentsPage() {
             <Input placeholder="Search customer or phone" className="max-w-xs" value={query} onChange={(e) => setQuery(e.target.value)} />
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[840px] text-left text-sm">
+                  {/* Desktop table (hidden on small screens) */}
+                  <div className="hidden sm:block overflow-x-auto">
+                    <table className="w-full text-left text-sm">
               <thead className="text-zinc-400">
                 <tr>
                   <th className="p-2">Customer</th><th className="p-2">Phone</th><th className="p-2">Type</th><th className="p-2">Date</th><th className="p-2">Status</th><th className="p-2">Admin Note</th><th className="p-2">Actions</th>
@@ -185,6 +209,7 @@ export default function AdminAppointmentsPage() {
                         <div className="flex gap-2">
                           <Button size="sm" variant="outline" onClick={() => updateStatus(r.id)}>Save Status</Button>
                           <Button size="sm" variant="ghost" onClick={() => remove(r.id)}>Delete</Button>
+                          <Button size="sm" variant="ghost" onClick={() => viewHistory(r.id)}>View History</Button>
                         </div>
                       </div>
                     </td>
@@ -193,6 +218,107 @@ export default function AdminAppointmentsPage() {
               </tbody>
             </table>
           </div>
+
+          {/* Mobile card list */}
+          <div className="block sm:hidden space-y-3">
+            {filtered.map((r) => (
+              <div key={r.id} className="rounded-md border border-zinc-800 bg-zinc-950 p-3">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <div className="font-medium">{r.customerName}</div>
+                    <div className="text-sm text-zinc-400">{r.phoneNumber} • {r.preferredDate}</div>
+                    <div className="mt-2 text-sm">{r.clothingType}</div>
+                  </div>
+                </div>
+
+                <div className="mt-3 space-y-2">
+                  <div>
+                    <select
+                      className="w-full rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 outline-none transition focus:border-amber-500"
+                      value={statusDrafts[r.id]?.value ?? r.status}
+                      onChange={(e) =>
+                        setStatusDrafts((prev) => ({
+                          ...prev,
+                          [r.id]: {
+                            value: e.target.value,
+                            customValue: e.target.value === CUSTOM_STATUS_VALUE ? prev[r.id]?.customValue ?? r.status : "",
+                          },
+                        }))
+                      }
+                    >
+                      {STATUS_STAGES.map((stage) => (
+                        <option key={stage} value={stage}>
+                          {stage}
+                        </option>
+                      ))}
+                      <option value={CUSTOM_STATUS_VALUE}>Custom status…</option>
+                    </select>
+                    {statusDrafts[r.id]?.value === CUSTOM_STATUS_VALUE ? (
+                      <Input
+                        placeholder="Type custom status"
+                        value={statusDrafts[r.id]?.customValue ?? ""}
+                        onChange={(e) =>
+                          setStatusDrafts((prev) => ({
+                            ...prev,
+                            [r.id]: { value: CUSTOM_STATUS_VALUE, customValue: e.target.value },
+                          }))
+                        }
+                      />
+                    ) : null}
+                  </div>
+
+                  <div>
+                    <Input placeholder="Internal note" value={notes[r.id] ?? r.adminNotes ?? ""} onChange={(e) => setNotes((prev) => ({ ...prev, [r.id]: e.target.value }))} />
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <a className={`${actionLinkClass} w-full`} href={getTelUrl(r.phoneNumber)} aria-label={`Call ${r.customerName}`}>
+                      <PhoneCall className="h-4 w-4" />
+                      Call
+                    </a>
+                    <a className={`${actionLinkClass} w-full`} href={getWhatsAppUrl(r.phoneNumber, r.customerName)} target="_blank" rel="noreferrer" aria-label={`Message ${r.customerName} on WhatsApp`}>
+                      <MessageCircleMore className="h-4 w-4" />
+                      WhatsApp
+                    </a>
+                    <div className="flex flex-col sm:flex-row gap-2">
+                      <Button className="w-full sm:w-auto" size="sm" variant="outline" onClick={() => updateStatus(r.id)}>Save Status</Button>
+                      <Button className="w-full sm:w-auto" size="sm" variant="ghost" onClick={() => remove(r.id)}>Delete</Button>
+                      <Button className="w-full sm:w-auto" size="sm" variant="ghost" onClick={() => viewHistory(r.id)}>View History</Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          {historyOpen ? (
+            <div className="fixed inset-0 z-50 flex items-center justify-center">
+              <div className="absolute inset-0 bg-black/60" onClick={() => setHistoryOpen(false)} />
+              <div className="relative w-[min(800px,95%)] max-h-[80vh] overflow-auto rounded-md bg-zinc-950 p-6 shadow-lg">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-medium">Status History</h3>
+                  <Button size="sm" variant="ghost" onClick={() => setHistoryOpen(false)}>Close</Button>
+                </div>
+
+                <div className="mt-4 space-y-3">
+                  {historyLoading ? (
+                    <div>Loading…</div>
+                  ) : historyEntries.length === 0 ? (
+                    <div className="text-zinc-400">No history available.</div>
+                  ) : (
+                    historyEntries.map((h) => (
+                      <div key={h.id} className="rounded-md border border-zinc-800 p-3">
+                        <div className="flex items-center justify-between text-sm text-zinc-300">
+                          <div className="font-medium">{h.status}</div>
+                          <div className="text-zinc-500">{new Date(h.createdAt).toLocaleString()}</div>
+                        </div>
+                        {h.adminNotes ? <div className="mt-2 text-sm text-zinc-400">Note: {h.adminNotes}</div> : null}
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            </div>
+          ) : null}
         </CardContent>
       </Card>
     </main>
