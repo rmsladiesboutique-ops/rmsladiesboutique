@@ -4,7 +4,7 @@ import { ADMIN_SESSION_COOKIE, createAdminSessionToken, getAdminCookieOptions, v
 export async function POST(request: Request) {
   const body = (await request.json().catch(() => null)) as { id?: string; password?: string } | null;
   const id = body?.id?.trim() ?? "";
-  const password = body?.password ?? "";
+  const password = body?.password?.trim() ?? "";
 
   if (!(await verifyAdminCredentials(id, password))) {
     return NextResponse.json({ error: "Invalid admin credentials" }, { status: 401 });

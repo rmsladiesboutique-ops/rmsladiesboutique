@@ -78,6 +78,7 @@ CREATE TABLE IF NOT EXISTS app_settings (
 	id text PRIMARY KEY,
 	site_title text,
 	phone_number text,
+	contact_email text,
 	whatsapp_template text,
 	logo_url text,
 	homepage_content jsonb DEFAULT '{}',

@@ -14,7 +14,7 @@ const schema = z.object({
   customerName: z.string().min(2),
   phoneNumber: z.string().min(8),
   email: z.string().email(),
-  gender: z.string().min(1),
+  gender: z.string().default("Female"),
   preferredDate: z.string().min(1),
   preferredTime: z.string().min(1),
   clothingType: z.string().min(2),
@@ -39,7 +39,7 @@ export function BookingForm({ availableDates, availableSlots }: Props) {
   const [loading, setLoading] = useState(false);
   const { register, handleSubmit, watch, formState: { errors } } = useForm<Values>({
     resolver: zodResolver(schema),
-    defaultValues: { customDesign: false },
+    defaultValues: { customDesign: false, gender: "Female" },
   });
   const customDesign = watch("customDesign");
 
@@ -101,13 +101,9 @@ export function BookingForm({ availableDates, availableSlots }: Props) {
         <Input placeholder="Email" type="email" {...register("email")} />
         {errors.email && <p className="mt-1 text-xs text-red-400">Valid email is required</p>}
       </div>
+      <input type="hidden" value="Female" {...register("gender")} />
       <div className="space-y-1.5">
-        <Select {...register("gender")}>
-          <option value="">Select gender</option>
-          <option>Male</option>
-          <option>Female</option>
-          <option>Other</option>
-        </Select>
+        <p className="text-sm text-foreground/65">Appointments are available exclusively for women.</p>
       </div>
       <div className="space-y-1.5">
         <Select {...register("preferredDate")}>

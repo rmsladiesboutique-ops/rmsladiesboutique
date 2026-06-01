@@ -43,7 +43,7 @@ export const mockAppointments: AppointmentRecord[] = [
     customerName: "Aarav Mehta",
     phoneNumber: "+15550001111",
     email: "aarav@example.com",
-    gender: "Male",
+    gender: "Female",
     preferredDate: "2026-06-02",
     preferredTime: "12:00",
     clothingType: "Wedding Sherwani",

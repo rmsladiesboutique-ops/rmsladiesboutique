@@ -4,7 +4,6 @@ import { ArrowRight, CalendarCheck2, ClipboardList, PackageOpen, TrendingUp } fr
 import { getAppointments } from "@/lib/services";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { AdminAnalytics } from "@/components/shared/admin-analytics";
 
 export const metadata: Metadata = {
   title: "Admin Dashboard | Atelier Noir",
@@ -18,11 +17,6 @@ export default async function AdminPage() {
   const completed = appointments.filter((a) => a.statusIndex === 6).length;
   const today = new Date().toISOString().slice(0, 10);
   const todayBookings = appointments.filter((a) => a.preferredDate === today).length;
-
-  const chartData = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day, i) => ({
-    day,
-    bookings: Math.max(1, Math.round((appointments.length / 7) * (i + 1) * 0.5)),
-  }));
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-12 md:px-8">
@@ -71,16 +65,6 @@ export default async function AdminPage() {
           ))}
         </section>
 
-        <section className="mt-10 rounded-[2rem] border border-white/10 bg-white/10 p-6 shadow-[0_35px_95px_-56px_rgba(209,155,84,0.35)]">
-          <Card className="border-0 bg-transparent shadow-none">
-            <CardContent className="p-0">
-              <h2 className="text-xl font-semibold">Weekly Booking Analytics</h2>
-              <div className="mt-6 rounded-[1.75rem] border border-white/10 bg-black/5 p-4">
-                <AdminAnalytics data={chartData} />
-              </div>
-            </CardContent>
-          </Card>
-        </section>
       </section>
     </main>
   );

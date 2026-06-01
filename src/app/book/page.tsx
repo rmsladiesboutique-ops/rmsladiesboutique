@@ -1,16 +1,20 @@
 import type { Metadata } from "next";
 import { BookingForm } from "@/components/shared/booking-form";
 import { Card, CardContent } from "@/components/ui/card";
-import { getAvailability } from "@/lib/services";
+import { getAvailability, getSettings } from "@/lib/services";
 
 export const metadata: Metadata = {
-  title: "Book Appointment | Atelier Noir",
-  description: "Book premium tailoring appointments and submit custom stitching requirements.",
+  title: "Book Appointment | Atelier Noir for Women",
+  description: "Book women's couture fittings and custom tailoring appointments for a premium female-only experience.",
 };
 
 export default async function BookPage() {
   const availability = await getAvailability();
+  const settings = await getSettings();
+  const homepage = settings?.homepageContent;
   const open = availability.rules.filter((r) => !r.isBlocked);
+  const pageTitle = homepage?.bookPageTitle ?? "Book your women’s couture fitting";
+  const pageDescription = homepage?.bookPageSubtitle ?? "Select an available slot, share your measurements, and describe your custom design preferences. Our atelier crafts every appointment for the modern woman.";
 
   return (
     <main className="mx-auto max-w-5xl px-4 py-14 md:px-8">
@@ -18,9 +22,9 @@ export default async function BookPage() {
         <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">
           <div className="space-y-6">
             <p className="text-sm uppercase tracking-[0.28em] text-foreground/55">Appointments</p>
-            <h1 className="text-4xl font-semibold tracking-tight md:text-5xl">Book your couture fitting</h1>
+            <h1 className="text-4xl font-semibold tracking-tight md:text-5xl">{pageTitle}</h1>
             <p className="max-w-2xl text-base leading-8 text-foreground/72">
-              Select an available slot, share your measurements, and describe your custom design preferences. Our team will craft a tailored experience around your style.
+              {pageDescription}
             </p>
             <div className="grid gap-4 rounded-[2rem] border border-white/10 bg-white/10 p-5 shadow-[0_25px_70px_-48px_rgba(209,155,84,0.6)] backdrop-blur-sm">
               <p className="text-sm uppercase tracking-[0.24em] text-amber-700/90">Booking status</p>

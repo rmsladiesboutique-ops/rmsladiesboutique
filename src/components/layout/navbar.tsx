@@ -16,7 +16,17 @@ const links = [
   { href: "/admin/login", label: "Admin" },
 ];
 
-export function Navbar() {
+type NavLink = {
+  href: string;
+  label: string;
+};
+
+type NavbarProps = {
+  siteTitle?: string;
+  navLinks?: NavLink[];
+};
+
+export function Navbar({ siteTitle, navLinks }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname() ?? "";
 
@@ -26,7 +36,7 @@ export function Navbar() {
 
   const closeMobileMenu = () => setMobileMenuOpen(false);
 
-  const navItems = [
+  const defaultNavItems: NavLink[] = [
     { href: "/", label: "Home" },
     { href: "/catalog", label: "Design Catalog" },
     { href: "/book", label: "Book Appointment" },
@@ -34,11 +44,14 @@ export function Navbar() {
     { href: "/admin/login", label: "Admin" },
   ];
 
+  const navItems = navLinks?.length ? navLinks : defaultNavItems;
+
   return (
     <header className="sticky top-0 z-40 border-b border-black/10 bg-[rgba(255,255,255,0.92)] backdrop-blur-3xl shadow-2xl dark:border-white/10 dark:bg-black/70">
       <div className="mx-auto container flex flex-wrap items-center justify-between gap-3 py-3">
         <Link href="/" className="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.3em] text-amber-900 dark:text-amber-100">
-          <Image src="/rms-logo.jpeg" alt="RMS Ladies Boutique" width={150} height={52} priority className="h-10 w-auto" />
+          <Image src="/rms-logo.jpeg" alt={siteTitle ? `${siteTitle} logo` : "RMS Ladies Boutique"} width={150} height={52} priority className="h-10 w-auto" />
+          <span>{siteTitle ?? "RMS Ladies Boutique"}</span>
         </Link>
         <nav className="hidden items-center gap-6 lg:flex">
           {navItems.map((item) => (

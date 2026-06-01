@@ -18,8 +18,23 @@ function parsePairs(text: string) {
     });
 }
 
+function parseLinks(text: string) {
+  return text
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const [href, ...rest] = line.split("|").map((part) => part.trim());
+      return { href: href ?? "", label: rest.join(" | ") ?? "" };
+    });
+}
+
 function serializePairs(items?: { title: string; description: string }[]) {
   return (items ?? []).map((item) => `${item.title} | ${item.description}`).join("\n");
+}
+
+function serializeLinks(items?: { href: string; label: string }[]) {
+  return (items ?? []).map((item) => `${item.href} | ${item.label}`).join("\n");
 }
 
 function serializeStats(items?: { value: string; label: string }[]) {
@@ -57,6 +72,7 @@ export default function AdminSettingsPage() {
         setSettings({
           siteTitle: data.siteTitle ?? "",
           phoneNumber: data.phoneNumber ?? "",
+          contactEmail: data.contactEmail ?? "",
           whatsappTemplate: data.whatsappTemplate ?? "",
           logoUrl: data.logoUrl ?? "",
           statusStages: data.statusStages ?? [],
@@ -93,6 +109,7 @@ export default function AdminSettingsPage() {
       const payload = {
         siteTitle: settings.siteTitle,
         phoneNumber: settings.phoneNumber,
+        contactEmail: settings.contactEmail,
         whatsappTemplate: settings.whatsappTemplate,
         logoUrl: settings.logoUrl,
         statusStages: settings.statusStages,
@@ -130,6 +147,11 @@ export default function AdminSettingsPage() {
         <div>
           <label className="block text-sm text-zinc-300">Contact Phone</label>
           <Input value={settings?.phoneNumber ?? ""} onChange={(e) => setSettings((s) => (s ? { ...s, phoneNumber: e.target.value } : s))} />
+        </div>
+
+        <div>
+          <label className="block text-sm text-zinc-300">Contact Email</label>
+          <Input value={settings?.contactEmail ?? ""} onChange={(e) => setSettings((s) => (s ? { ...s, contactEmail: e.target.value } : s))} />
         </div>
 
         <div>
@@ -195,6 +217,26 @@ export default function AdminSettingsPage() {
           </div>
 
           <div>
+            <label className="block text-sm text-zinc-300">Navigation Links (href | label per line)</label>
+            <Textarea value={serializeLinks(homepage.navLinks)} onChange={(e) => updateHomepage({ navLinks: parseLinks(e.target.value) })} />
+          </div>
+
+          <div>
+            <label className="block text-sm text-zinc-300">Footer Tagline</label>
+            <Input value={homepage.footerTagline} onChange={(e) => updateHomepage({ footerTagline: e.target.value })} />
+          </div>
+
+          <div>
+            <label className="block text-sm text-zinc-300">Footer Email</label>
+            <Input value={homepage.footerEmail} onChange={(e) => updateHomepage({ footerEmail: e.target.value })} />
+          </div>
+
+          <div>
+            <label className="block text-sm text-zinc-300">Footer Phone</label>
+            <Input value={homepage.footerPhone} onChange={(e) => updateHomepage({ footerPhone: e.target.value })} />
+          </div>
+
+          <div>
             <label className="block text-sm text-zinc-300">Feature Cards (title | description per line)</label>
             <Textarea value={serializePairs(homepage.featureCards)} onChange={(e) => updateHomepage({ featureCards: parsePairs(e.target.value).map((item) => ({ title: item.first, description: item.second })) })} />
           </div>
@@ -207,6 +249,75 @@ export default function AdminSettingsPage() {
           <div>
             <label className="block text-sm text-zinc-300">Featured Collection Items (title | description per line)</label>
             <Textarea value={serializePairs(homepage.featuredCollectionItems)} onChange={(e) => updateHomepage({ featuredCollectionItems: parsePairs(e.target.value).map((item) => ({ title: item.first, description: item.second })) })} />
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <div>
+              <label className="block text-sm text-zinc-300">Booking Page Title</label>
+              <Input value={homepage.bookPageTitle} onChange={(e) => updateHomepage({ bookPageTitle: e.target.value })} />
+            </div>
+            <div>
+              <label className="block text-sm text-zinc-300">Booking Page Subtitle</label>
+              <Input value={homepage.bookPageSubtitle} onChange={(e) => updateHomepage({ bookPageSubtitle: e.target.value })} />
+            </div>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <div>
+              <label className="block text-sm text-zinc-300">Catalog Page Title</label>
+              <Input value={homepage.catalogTitle} onChange={(e) => updateHomepage({ catalogTitle: e.target.value })} />
+            </div>
+            <div>
+              <label className="block text-sm text-zinc-300">Catalog Page Subtitle</label>
+              <Input value={homepage.catalogDescription} onChange={(e) => updateHomepage({ catalogDescription: e.target.value })} />
+            </div>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <div>
+              <label className="block text-sm text-zinc-300">Dashboard Title</label>
+              <Input value={homepage.dashboardTitle} onChange={(e) => updateHomepage({ dashboardTitle: e.target.value })} />
+            </div>
+            <div>
+              <label className="block text-sm text-zinc-300">Dashboard Subtitle</label>
+              <Input value={homepage.dashboardSubtitle} onChange={(e) => updateHomepage({ dashboardSubtitle: e.target.value })} />
+            </div>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <div>
+              <label className="block text-sm text-zinc-300">Order Status Title</label>
+              <Input value={homepage.statusPageTitle} onChange={(e) => updateHomepage({ statusPageTitle: e.target.value })} />
+            </div>
+            <div>
+              <label className="block text-sm text-zinc-300">Order Status Subtitle</label>
+              <Input value={homepage.statusPageSubtitle} onChange={(e) => updateHomepage({ statusPageSubtitle: e.target.value })} />
+            </div>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <div>
+              <label className="block text-sm text-zinc-300">Tracking Page Title</label>
+              <Input value={homepage.trackingPageTitle} onChange={(e) => updateHomepage({ trackingPageTitle: e.target.value })} />
+            </div>
+            <div>
+              <label className="block text-sm text-zinc-300">Tracking Page Subtitle</label>
+              <Input value={homepage.trackingPageSubtitle} onChange={(e) => updateHomepage({ trackingPageSubtitle: e.target.value })} />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm text-zinc-300">Confirmation Title</label>
+            <Input value={homepage.confirmationTitle} onChange={(e) => updateHomepage({ confirmationTitle: e.target.value })} />
+          </div>
+          <div>
+            <label className="block text-sm text-zinc-300">Confirmation Description</label>
+            <Textarea value={homepage.confirmationDescription} onChange={(e) => updateHomepage({ confirmationDescription: e.target.value })} />
+          </div>
+
+          <div>
+            <label className="block text-sm text-zinc-300">Delivery Note</label>
+            <Textarea value={homepage.deliveryNote} onChange={(e) => updateHomepage({ deliveryNote: e.target.value })} />
           </div>
 
           <div>

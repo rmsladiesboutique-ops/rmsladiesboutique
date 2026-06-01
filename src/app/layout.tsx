@@ -5,6 +5,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { ThemeProvider } from "@/components/shared/theme-provider";
 import { PageTransition } from "@/components/shared/page-transition";
+import { getSettings } from "@/lib/services";
 import "./globals.css";
 
 const display = Playfair_Display({
@@ -19,21 +20,28 @@ const sans = Manrope({
 
 export const metadata: Metadata = {
   title: "RMS Ladies Boutique",
-  description: "Luxury ladies boutique appointment and order management platform built with Next.js and Supabase.",
+  description: "Luxury women-only boutique appointment and order management platform built with Next.js and Supabase.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const settings = await getSettings();
+
   return (
     <html lang="en" suppressHydrationWarning className={`${display.variable} ${sans.variable} h-full antialiased`}>
       <body className="min-h-full bg-background text-foreground selection:bg-amber-300/30 selection:text-foreground">
         <ThemeProvider>
-          <Navbar />
+          <Navbar siteTitle={settings?.siteTitle} navLinks={settings?.homepageContent?.navLinks} />
           <PageTransition>{children}</PageTransition>
-          <Footer />
+          <Footer
+            siteTitle={settings?.siteTitle}
+            tagline={settings?.homepageContent?.footerTagline}
+            phone={settings?.homepageContent?.footerPhone ?? settings?.phoneNumber}
+            email={settings?.homepageContent?.footerEmail ?? settings?.contactEmail}
+          />
           <Toaster richColors position="top-right" />
         </ThemeProvider>
       </body>

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { getDesigns } from "@/lib/services";
+import { getDesigns, getSettings } from "@/lib/services";
 import { formatCurrency } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -12,13 +12,17 @@ export const metadata: Metadata = {
 
 export default async function CatalogPage() {
   const designs = await getDesigns();
+  const settings = await getSettings();
+  const homepage = settings?.homepageContent;
+  const pageTitle = homepage?.catalogTitle ?? "Design Catalog";
+  const pageDescription = homepage?.catalogDescription ?? "Explore statement styles, hand-selected fabrics, and runway-ready tailoring for your most memorable moments.";
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-14 md:px-8">
       <div className="glass-panel-strong rounded-[2.5rem] p-6 md:p-8 lg:p-10">
         <p className="text-sm uppercase tracking-[0.28em] text-foreground/55">Collection</p>
-        <h1 className="mt-2 text-4xl font-semibold tracking-tight md:text-5xl">Design Catalog</h1>
-        <p className="mt-3 max-w-2xl text-foreground/70">Explore statement styles, hand-selected fabrics, and runway-ready tailoring for your most memorable moments.</p>
+        <h1 className="mt-2 text-4xl font-semibold tracking-tight md:text-5xl">{pageTitle}</h1>
+        <p className="mt-3 max-w-2xl text-foreground/70">{pageDescription}</p>
 
         <section className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {designs.map((design) => (

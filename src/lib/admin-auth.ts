@@ -1,3 +1,5 @@
+import { createHash } from "crypto";
+
 export const ADMIN_USERNAME = "admin";
 const ADMIN_PASSWORD_SHA256 = "7676aaafb027c825bd9abab78b234070e702752f625b752e55e55b48e607e358";
 export const ADMIN_SESSION_COOKIE = "rms_admin_session";
@@ -56,16 +58,20 @@ async function importSessionKey() {
 }
 
 async function sha256Hex(value: string) {
-  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value));
-  return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("");
+  if (typeof crypto?.subtle !== "undefined") {
+    const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value));
+    return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("");
+  }
+
+  return createHash("sha256").update(value, "utf8").digest("hex");
 }
 
 export async function verifyAdminCredentials(id: string, password: string) {
-  if (id !== ADMIN_USERNAME) {
+  if (id.trim().toLowerCase() !== ADMIN_USERNAME) {
     return false;
   }
 
-  return sha256Hex(password) === ADMIN_PASSWORD_SHA256;
+  return sha256Hex(password.trim()) === ADMIN_PASSWORD_SHA256;
 }
 
 export async function createAdminSessionToken(id: string) {

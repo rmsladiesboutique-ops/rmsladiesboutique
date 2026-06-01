@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { TrackingPanel } from "@/components/shared/tracking-panel";
-import { findAppointmentByCode } from "@/lib/services";
+import { findAppointmentByCode, getSettings } from "@/lib/services";
 
 export const metadata: Metadata = {
   title: "Status Tracking | Atelier Noir",
@@ -12,6 +12,10 @@ export default async function TrackingPage({ params }: { params: Promise<{ custo
   const { customerCode } = await params;
   const record = await findAppointmentByCode(customerCode);
   if (!record) notFound();
+  const settings = await getSettings();
+  const homepage = settings?.homepageContent;
+  const pageTitle = homepage?.trackingPageTitle ?? "Status Tracking";
+  const pageSubtitle = homepage?.trackingPageSubtitle ?? "Track your bespoke order from appointment through production and pickup with a clear, hand-finished status timeline.";
 
   return (
     <main className="mx-auto max-w-4xl px-4 py-14 md:px-8">
@@ -19,9 +23,9 @@ export default async function TrackingPage({ params }: { params: Promise<{ custo
         <div className="grid gap-8">
           <div className="space-y-4">
             <p className="text-sm uppercase tracking-[0.28em] text-foreground/55">Live Journey</p>
-            <h1 className="text-4xl font-semibold md:text-5xl">Status Tracking</h1>
+            <h1 className="text-4xl font-semibold md:text-5xl">{pageTitle}</h1>
             <p className="max-w-2xl text-base leading-8 text-foreground/72">
-              Track your bespoke order from appointment through production and pickup with a clear, hand-finished status timeline.
+              {pageSubtitle}
             </p>
           </div>
 

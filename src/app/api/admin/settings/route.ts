@@ -16,6 +16,7 @@ export async function GET(request: Request) {
 const patchSchema = z.object({
   siteTitle: z.string().optional(),
   phoneNumber: z.string().optional(),
+  contactEmail: z.string().optional(),
   whatsappTemplate: z.string().optional(),
   logoUrl: z.string().optional(),
   homepageContent: z.any().optional(),

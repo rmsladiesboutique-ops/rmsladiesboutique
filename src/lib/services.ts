@@ -257,6 +257,7 @@ export async function getSettings(): Promise<AppSettings | null> {
   return {
     siteTitle: data.site_title ?? "",
     phoneNumber: data.phone_number ?? "",
+    contactEmail: data.contact_email ?? "",
     whatsappTemplate: data.whatsapp_template ?? "",
     logoUrl: data.logo_url ?? "",
     statusStages: (data.status_stages as string[]) ?? [],
@@ -275,6 +276,7 @@ export async function updateSettings(payload: Partial<AppSettings>) {
         id: "singleton",
         site_title: payload.siteTitle,
         phone_number: payload.phoneNumber,
+        contact_email: payload.contactEmail,
         whatsapp_template: payload.whatsappTemplate,
         logo_url: payload.logoUrl,
         homepage_content: payload.homepageContent,

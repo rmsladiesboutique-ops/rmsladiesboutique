@@ -13,7 +13,7 @@ export default async function Home() {
     <main className="mx-auto max-w-7xl px-4 pb-20 pt-10 md:px-8 md:pt-14">
       <section className="hero-grid hero-spotlight grid items-center gap-6 overflow-hidden rounded-[2.5rem] p-5 sm:p-6 md:grid-cols-[1.1fr_0.9fr] md:gap-8 md:p-10 lg:p-12">
         <div className="space-y-6">
-          {homepage?.heroBadge || homepage?.heroHeadline || homepage?.heroDescription || homepage?.heroPrimaryCta || homepage?.heroSecondaryCta || homepage?.heroStats?.length ? (
+          {homepage?.heroBadge || homepage?.heroHeadline || homepage?.heroDescription || homepage?.heroPrimaryCta || homepage?.heroSecondaryCta || homepage?.heroStats?.length || homepage?.deliveryNote || settings?.phoneNumber || settings?.contactEmail ? (
             <>
               {(homepage.heroBadge || homepage.heroHeadline) && (
                 <div className="flex flex-wrap items-center gap-3">
@@ -31,6 +31,20 @@ export default async function Home() {
                 <p className="max-w-xl text-base leading-8 text-foreground/72 sm:text-lg">
                   {homepage.heroDescription}
                 </p>
+              )}
+
+              {homepage.deliveryNote && (
+                <p className="max-w-xl text-sm font-medium uppercase tracking-[0.24em] text-amber-700 sm:text-base">
+                  {homepage.deliveryNote}
+                </p>
+              )}
+
+              {(settings?.phoneNumber || settings?.contactEmail) && (
+                <div className="rounded-[2rem] border border-white/10 bg-black/5 p-5 text-sm text-foreground/80 shadow-sm sm:max-w-md">
+                  <p className="font-semibold text-foreground">Contact us</p>
+                  {settings?.phoneNumber && <p className="mt-2">Phone: {settings.phoneNumber}</p>}
+                  {settings?.contactEmail && <p>Email: {settings.contactEmail}</p>}
+                </div>
               )}
 
               {(homepage.heroPrimaryCta || homepage.heroSecondaryCta) && (
@@ -124,9 +138,9 @@ export default async function Home() {
 
       <section className="mt-14 grid gap-4 md:mt-16 md:grid-cols-3">
         {[
-          ["Bespoke Suits", "Personal pattern drafting and hand-finished construction."],
-          ["Wedding Couture", "Ceremonial garments designed to your body and style."],
-          ["Alteration Studio", "Precision fitting, sleeve balance, and full silhouette correction."],
+          ["Occasion Wear", "Personal pattern drafting and hand-finished construction for women."],
+          ["Bridal Couture", "Ceremonial gowns and eveningwear designed to your shape and style."],
+          ["Alteration Studio", "Precision fitting and silhouette refinement for a flawless feminine fit."],
         ].map(([title, desc]) => (
           <Card key={title} className="fashion-card overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_45px_120px_-60px_rgba(209,155,84,0.45)]">
             <CardContent>

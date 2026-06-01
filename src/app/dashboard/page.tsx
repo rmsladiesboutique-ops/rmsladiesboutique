@@ -1,13 +1,18 @@
 import type { Metadata } from "next";
 import { CustomerLookup } from "@/components/shared/customer-lookup";
 import { Badge } from "@/components/ui/badge";
+import { getSettings } from "@/lib/services";
 
 export const metadata: Metadata = {
   title: "Customer Dashboard | Atelier Noir",
   description: "Track tailoring appointments and progress using phone number and customer code.",
 };
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const settings = await getSettings();
+  const homepage = settings?.homepageContent;
+  const pageTitle = homepage?.dashboardTitle ?? "Customer Dashboard";
+  const pageDescription = homepage?.dashboardSubtitle ?? "Enter your phone number and 6-digit code to view current order status, styling notes, timeline updates, and your garment’s progress.";
   return (
     <main className="mx-auto max-w-5xl px-4 py-14 md:px-8">
       <section className="glass-panel rounded-[2.5rem] border border-amber-200/20 p-6 md:p-8 lg:p-10">
@@ -15,12 +20,12 @@ export default function DashboardPage() {
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-sm uppercase tracking-[0.28em] text-foreground/55">Customer Portal</p>
-              <h1 className="mt-2 text-4xl font-semibold md:text-5xl">Customer Dashboard</h1>
+              <h1 className="mt-2 text-4xl font-semibold md:text-5xl">{pageTitle}</h1>
             </div>
             <Badge className="px-4 py-2">Secure tracking</Badge>
           </div>
           <p className="max-w-2xl text-base leading-8 text-foreground/72">
-            Enter your phone number and 6-digit code to view current order status, styling notes, timeline updates, and your garment’s progress.
+            {pageDescription}
           </p>
         </div>
 

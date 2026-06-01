@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,6 +12,23 @@ export default function PublicStatusPage() {
   const [record, setRecord] = useState<AppointmentRecord | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [pageTitle, setPageTitle] = useState("Track Your Order");
+  const [pageDescription, setPageDescription] = useState("Enter your tracking code and instantly reveal your garment’s progress, production milestones, and delivery status.");
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch("/api/site-settings");
+        if (!res.ok) return;
+        const data = await res.json();
+        const homepage = data.homepageContent;
+        if (homepage?.statusPageTitle) setPageTitle(homepage.statusPageTitle);
+        if (homepage?.statusPageSubtitle) setPageDescription(homepage.statusPageSubtitle);
+      } catch {
+        // ignore
+      }
+    })();
+  }, []);
 
   const lookup = async () => {
     setLoading(true);
@@ -38,9 +55,9 @@ export default function PublicStatusPage() {
         <div className="space-y-5">
           <div>
             <p className="text-sm uppercase tracking-[0.28em] text-foreground/55">Order Status</p>
-            <h1 className="mt-2 text-3xl font-semibold md:text-4xl">Track Your Order</h1>
+            <h1 className="mt-2 text-3xl font-semibold md:text-4xl">{pageTitle}</h1>
           </div>
-          <p className="text-base leading-8 text-foreground/72">Enter your tracking code and instantly reveal your garment’s progress, production milestones, and delivery status.</p>
+          <p className="text-base leading-8 text-foreground/72">{pageDescription}</p>
         </div>
 
         <div className="mt-8 grid gap-3 sm:grid-cols-[1fr_auto]">

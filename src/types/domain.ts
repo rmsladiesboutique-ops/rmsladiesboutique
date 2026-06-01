@@ -88,6 +88,23 @@ export type HomepageContent = {
   featureCards?: HomepageCard[];
   featuredCollectionTitle?: string;
   featuredCollectionItems?: HomepageCard[];
+  deliveryNote?: string;
+  catalogTitle?: string;
+  catalogDescription?: string;
+  bookPageTitle?: string;
+  bookPageSubtitle?: string;
+  dashboardTitle?: string;
+  dashboardSubtitle?: string;
+  statusPageTitle?: string;
+  statusPageSubtitle?: string;
+  trackingPageTitle?: string;
+  trackingPageSubtitle?: string;
+  confirmationTitle?: string;
+  confirmationDescription?: string;
+  footerTagline?: string;
+  footerPhone?: string;
+  footerEmail?: string;
+  navLinks?: { href: string; label: string }[];
   pricingTitle?: string;
   pricingItems?: HomepageCard[];
   testimonialsTitle?: string;
@@ -100,6 +117,7 @@ export type HomepageContent = {
 export type AppSettings = {
   siteTitle: string;
   phoneNumber: string;
+  contactEmail: string;
   whatsappTemplate: string;
   logoUrl: string;
   statusStages: string[];
