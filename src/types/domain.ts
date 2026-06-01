@@ -66,12 +66,44 @@ export type AvailabilityRule = {
   isBlocked: boolean;
 };
 
+export type HomepageStat = {
+  value: string;
+  label: string;
+};
+
+export type HomepageCard = {
+  title: string;
+  description: string;
+};
+
+export type HomepageContent = {
+  heroBadge?: string;
+  heroHeadline?: string;
+  heroDescription?: string;
+  heroPrimaryCta?: string;
+  heroSecondaryCta?: string;
+  heroStats?: HomepageStat[];
+  featureSectionTitle?: string;
+  featureSectionSubtitle?: string;
+  featureCards?: HomepageCard[];
+  featuredCollectionTitle?: string;
+  featuredCollectionItems?: HomepageCard[];
+  pricingTitle?: string;
+  pricingItems?: HomepageCard[];
+  testimonialsTitle?: string;
+  testimonialsItems?: HomepageCard[];
+  ctaTitle?: string;
+  ctaDescription?: string;
+  ctaButton?: string;
+};
+
 export type AppSettings = {
   siteTitle: string;
   phoneNumber: string;
   whatsappTemplate: string;
   logoUrl: string;
   statusStages: string[];
+  homepageContent?: HomepageContent;
 };
 
 export type EmailTemplate = {

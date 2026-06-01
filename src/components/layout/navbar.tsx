@@ -13,7 +13,7 @@ const links = [
   { href: "/catalog", label: "Design Catalog" },
   { href: "/book", label: "Book Appointment" },
   { href: "/dashboard", label: "Customer Dashboard" },
-  { href: "/admin", label: "Admin" },
+  { href: "/admin/login", label: "Admin" },
 ];
 
 export function Navbar() {
@@ -31,7 +31,7 @@ export function Navbar() {
     { href: "/catalog", label: "Design Catalog" },
     { href: "/book", label: "Book Appointment" },
     { href: "/dashboard", label: "Customer Dashboard" },
-    { href: "/admin", label: "Admin" },
+    { href: "/admin/login", label: "Admin" },
   ];
 
   return (

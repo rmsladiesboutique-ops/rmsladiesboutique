@@ -2,13 +2,14 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
 
 export default function AdminShell({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname() ?? "";
+  const router = useRouter();
 
   const links = [
     { href: "/admin", label: "Dashboard" },
@@ -21,6 +22,12 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
   ];
 
   const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
+
+  const handleLogout = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    await fetch("/api/admin/logout", { method: "POST" });
+    router.push("/admin/login");
+  };
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(184,137,47,0.1),transparent_24%),radial-gradient(circle_at_85%_12%,rgba(255,255,255,0.18),transparent_18%)]">
@@ -49,7 +56,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
           </nav>
 
           <div className="flex items-center gap-2">
-            <form action="/api/admin/logout" method="POST">
+            <form onSubmit={handleLogout}>
               <Button variant="ghost" size="sm" type="submit" className="border border-black/10 bg-white/70 text-foreground hover:bg-white dark:border-white/10 dark:bg-white/5">
                 <LogOut className="mr-2 h-4 w-4" />
                 Logout
@@ -64,7 +71,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
               {links.map((l) => (
                 <Link key={l.href} href={l.href} className="rounded-xl px-3 py-3 text-sm text-foreground/80 transition hover:bg-black/5 dark:hover:bg-white/5" onClick={() => setOpen(false)}>{l.label}</Link>
               ))}
-              <form action="/api/admin/logout" method="POST" className="mt-2">
+              <form onSubmit={handleLogout} className="mt-2">
                 <Button variant="ghost" size="sm" type="submit" className="w-full justify-start border border-black/10 bg-white/70 text-foreground hover:bg-white dark:border-white/10 dark:bg-white/5">
                   <LogOut className="mr-2 h-4 w-4" />
                   Logout

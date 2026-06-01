@@ -80,6 +80,7 @@ CREATE TABLE IF NOT EXISTS app_settings (
 	phone_number text,
 	whatsapp_template text,
 	logo_url text,
+	homepage_content jsonb DEFAULT '{}',
 	status_stages text[] DEFAULT ARRAY['Appointment Submitted','Appointment Confirmed','Measurements Received','Production Started','Final Stitching','Ready for Pickup']::text[],
 	updated_at timestamptz DEFAULT now()
 );

@@ -10,6 +10,7 @@ import {
   type StatusHistoryEntry,
   type AppSettings,
   type EmailTemplate,
+  type HomepageContent,
   type MeasurementField,
 } from "@/types/domain";
 
@@ -254,11 +255,12 @@ export async function getSettings(): Promise<AppSettings | null> {
   if (!data) return null;
 
   return {
-    siteTitle: data.site_title ?? "RMS Ladies Boutique",
+    siteTitle: data.site_title ?? "",
     phoneNumber: data.phone_number ?? "",
     whatsappTemplate: data.whatsapp_template ?? "",
-    logoUrl: data.logo_url ?? "/rms-logo.jpeg",
-    statusStages: (data.status_stages as string[]) ?? STATUS_STAGES,
+    logoUrl: data.logo_url ?? "",
+    statusStages: (data.status_stages as string[]) ?? [],
+    homepageContent: (data.homepage_content as HomepageContent) ?? undefined,
   };
 }
 
@@ -275,6 +277,7 @@ export async function updateSettings(payload: Partial<AppSettings>) {
         phone_number: payload.phoneNumber,
         whatsapp_template: payload.whatsappTemplate,
         logo_url: payload.logoUrl,
+        homepage_content: payload.homepageContent,
         status_stages: payload.statusStages,
       },
       { onConflict: "id" },

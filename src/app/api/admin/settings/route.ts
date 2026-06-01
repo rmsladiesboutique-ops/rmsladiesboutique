@@ -18,6 +18,7 @@ const patchSchema = z.object({
   phoneNumber: z.string().optional(),
   whatsappTemplate: z.string().optional(),
   logoUrl: z.string().optional(),
+  homepageContent: z.any().optional(),
   statusStages: z.array(z.string()).optional(),
 });
 
