@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { CustomerLookup } from "@/components/shared/customer-lookup";
+import { Badge } from "@/components/ui/badge";
 
 export const metadata: Metadata = {
   title: "Customer Dashboard | Atelier Noir",

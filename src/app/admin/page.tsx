@@ -1,15 +1,10 @@
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { ArrowRight, CalendarCheck2, ClipboardList, PackageOpen, TrendingUp } from "lucide-react";
 import { getAppointments } from "@/lib/services";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-
-const AdminAnalytics = dynamic(() => import("@/components/shared/admin-analytics").then((mod) => mod.AdminAnalytics), {
-  ssr: false,
-  loading: () => <div className="mt-4 rounded-2xl border border-dashed border-amber-300/40 bg-amber-50/70 p-8 text-center text-sm text-amber-700">Loading analytics…</div>,
-});
+import { AdminAnalytics } from "@/components/shared/admin-analytics";
 
 export const metadata: Metadata = {
   title: "Admin Dashboard | Atelier Noir",
