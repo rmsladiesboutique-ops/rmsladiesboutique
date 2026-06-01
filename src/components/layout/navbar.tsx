@@ -18,7 +18,7 @@ const links = [
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "";
 
   if (pathname.startsWith("/admin")) {
     return null;
@@ -35,9 +35,9 @@ export function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-40 border-b border-black/5 bg-[rgba(255,248,240,0.82)] backdrop-blur-xl dark:border-white/10 dark:bg-black/65">
-      <div className="mx-auto container flex items-center justify-between gap-3 py-3">
-        <Link href="/" className="flex items-center gap-3 text-sm font-semibold tracking-[0.18em] text-amber-900 dark:text-amber-100">
+    <header className="sticky top-0 z-40 border-b border-black/10 bg-[rgba(255,255,255,0.92)] backdrop-blur-3xl shadow-2xl dark:border-white/10 dark:bg-black/70">
+      <div className="mx-auto container flex flex-wrap items-center justify-between gap-3 py-3">
+        <Link href="/" className="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.3em] text-amber-900 dark:text-amber-100">
           <Image src="/rms-logo.jpeg" alt="RMS Ladies Boutique" width={150} height={52} priority className="h-10 w-auto" />
         </Link>
         <nav className="hidden items-center gap-6 lg:flex">
@@ -45,7 +45,7 @@ export function Navbar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`text-sm transition ${pathname === item.href ? "text-foreground" : "text-foreground/70 hover:text-foreground"}`}
+              className={`text-sm uppercase tracking-[0.22em] transition ${pathname === item.href ? "text-foreground" : "text-foreground/65 hover:text-foreground"}`}
             >
               {item.label}
             </Link>
@@ -56,14 +56,14 @@ export function Navbar() {
             <ThemeToggle />
           </div>
           <Link href="/book" className="hidden md:inline-flex">
-            <Button size="sm" className="shadow-sm">
+            <Button size="sm" className="shadow-[0_14px_30px_-18px_rgba(194,159,75,0.85)]">
               <BookOpen className="h-4 w-4" />
               Book Now
             </Button>
           </Link>
           <button
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white/70 text-foreground shadow-sm transition hover:bg-white dark:border-white/10 dark:bg-white/5 md:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white/85 text-foreground shadow-sm transition hover:bg-white dark:border-white/10 dark:bg-white/10 md:hidden"
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-nav"

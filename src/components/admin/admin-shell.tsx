@@ -8,7 +8,7 @@ import { LogOut } from "lucide-react";
 
 export default function AdminShell({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "";
 
   const links = [
     { href: "/admin", label: "Dashboard" },

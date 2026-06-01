@@ -19,7 +19,27 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  return NextResponse.json(mockDesigns);
+  const supabase = createServiceRoleClient();
+  if (!supabase) {
+    return NextResponse.json(mockDesigns);
+  }
+
+  const { data, error } = await supabase.from("designs").select("*").order("created_at", { ascending: false });
+  if (error || !data) {
+    return NextResponse.json(mockDesigns);
+  }
+
+  return NextResponse.json(
+    data.map((design) => ({
+      id: design.id,
+      title: design.title,
+      category: design.category,
+      description: design.description,
+      price: design.price,
+      imageUrl: design.image_url,
+      available: design.available,
+    })),
+  );
 }
 
 export async function POST(request: Request) {

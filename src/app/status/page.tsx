@@ -33,22 +33,25 @@ export default function PublicStatusPage() {
   };
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-16 md:px-8">
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
-        <h1 className="text-3xl font-semibold">Track Your Order</h1>
-        <p className="mt-2 text-zinc-400">Enter your tracking code to see the current status of your garment.</p>
-
-        <div className="mt-6 grid gap-3 sm:grid-cols-3">
-          <Input placeholder="Enter code" value={code} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCode(e.target.value)} />
-          <div className="sm:col-span-2 flex gap-3">
-            <Button className="w-full sm:w-auto" onClick={lookup} disabled={loading || !code}>{loading ? "Looking up…" : "Check Status"}</Button>
+    <main className="mx-auto max-w-3xl px-4 py-14 md:px-8">
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }} className="glass-panel rounded-[2.5rem] border border-amber-200/20 p-6 md:p-8 lg:p-10">
+        <div className="space-y-5">
+          <div>
+            <p className="text-sm uppercase tracking-[0.28em] text-foreground/55">Order Status</p>
+            <h1 className="mt-2 text-3xl font-semibold md:text-4xl">Track Your Order</h1>
           </div>
+          <p className="text-base leading-8 text-foreground/72">Enter your tracking code and instantly reveal your garment’s progress, production milestones, and delivery status.</p>
         </div>
 
-        {error ? <div className="mt-4 text-sm text-rose-400">{error}</div> : null}
+        <div className="mt-8 grid gap-3 sm:grid-cols-[1fr_auto]">
+          <Input placeholder="Enter code" value={code} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCode(e.target.value)} />
+          <Button className="w-full sm:w-auto" onClick={lookup} disabled={loading || !code}>{loading ? "Looking up…" : "Check Status"}</Button>
+        </div>
+
+        {error ? <div className="mt-4 rounded-[1.5rem] border border-rose-300/25 bg-rose-50/60 p-4 text-sm text-rose-500">{error}</div> : null}
 
         {record ? (
-          <div className="mt-8">
+          <div className="mt-8 rounded-[2rem] border border-white/10 bg-black/5 p-6 shadow-[0_30px_90px_-56px_rgba(37,25,15,0.45)]">
             <TrackingPanel initial={record} />
           </div>
         ) : null}

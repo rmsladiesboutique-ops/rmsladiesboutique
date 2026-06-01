@@ -1,10 +1,15 @@
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { ArrowRight, CalendarCheck2, ClipboardList, PackageOpen, TrendingUp } from "lucide-react";
 import { getAppointments } from "@/lib/services";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { AdminAnalytics } from "@/components/shared/admin-analytics";
+
+const AdminAnalytics = dynamic(() => import("@/components/shared/admin-analytics").then((mod) => mod.AdminAnalytics), {
+  ssr: false,
+  loading: () => <div className="mt-4 rounded-2xl border border-dashed border-amber-300/40 bg-amber-50/70 p-8 text-center text-sm text-amber-700">Loading analytics…</div>,
+});
 
 export const metadata: Metadata = {
   title: "Admin Dashboard | Atelier Noir",
@@ -26,33 +31,58 @@ export default async function AdminPage() {
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-12 md:px-8">
-      <section className="glass-panel overflow-hidden rounded-[2rem] p-6 md:p-8 lg:p-10">
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="space-y-3">
-            <Badge>Control Center</Badge>
+      <section className="glass-panel overflow-hidden rounded-[2.5rem] border border-amber-200/20 p-6 md:p-8 lg:p-10">
+        <div className="flex flex-col gap-8 xl:flex-row xl:items-start xl:justify-between">
+          <div className="space-y-4">
+            <Badge className="px-4 py-2">Control Center</Badge>
             <h1 className="text-4xl font-semibold md:text-5xl">Admin Dashboard</h1>
-            <p className="max-w-2xl text-sm text-foreground/65 md:text-base">
+            <p className="max-w-2xl text-base leading-8 text-foreground/72">
               Monitor bookings, update status stages, manage availability, and keep production aligned from one polished workspace.
             </p>
           </div>
-          <div className="flex flex-wrap gap-2">
-            <Link href="/admin/appointments" className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/70 px-4 py-2 text-sm text-foreground shadow-sm dark:border-white/10 dark:bg-white/5">Appointments <ArrowRight className="h-4 w-4" /></Link>
-            <Link href="/admin/designs" className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/70 px-4 py-2 text-sm text-foreground shadow-sm dark:border-white/10 dark:bg-white/5">Designs <ArrowRight className="h-4 w-4" /></Link>
-            <Link href="/admin/availability" className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/70 px-4 py-2 text-sm text-foreground shadow-sm dark:border-white/10 dark:bg-white/5">Availability <ArrowRight className="h-4 w-4" /></Link>
+          <div className="grid gap-3 sm:grid-cols-3">
+            {[
+              ["/admin/appointments", "Appointments"],
+              ["/admin/designs", "Designs"],
+              ["/admin/availability", "Availability"],
+            ].map(([href, label]) => (
+              <Link
+                key={label}
+                href={href}
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/80 px-4 py-2 text-sm font-semibold text-foreground shadow-sm shadow-amber-200/20 transition hover:-translate-y-0.5 hover:bg-amber-50"
+              >
+                {label} <ArrowRight className="h-4 w-4 text-amber-700" />
+              </Link>
+            ))}
           </div>
         </div>
 
-        <section className="mt-8 grid gap-4 md:grid-cols-4">
-          {[{ label: "Total Appointments", value: total, icon: ClipboardList }, { label: "Pending Orders", value: pending, icon: TrendingUp }, { label: "Completed Orders", value: completed, icon: PackageOpen }, { label: "Bookings Today", value: todayBookings, icon: CalendarCheck2 }].map((item) => (
-          <Card key={item.label}><CardContent><div className="flex items-center justify-between"><p className="text-sm text-foreground/55">{item.label}</p><item.icon className="h-4 w-4 text-amber-700 dark:text-amber-200" /></div><p className="mt-4 text-3xl font-semibold text-amber-600 dark:text-amber-300">{item.value}</p></CardContent></Card>
-        ))}
+        <section className="mt-10 grid gap-4 md:grid-cols-4">
+          {[
+            { label: "Total Appointments", value: total, icon: ClipboardList },
+            { label: "Pending Orders", value: pending, icon: TrendingUp },
+            { label: "Completed Orders", value: completed, icon: PackageOpen },
+            { label: "Bookings Today", value: todayBookings, icon: CalendarCheck2 },
+          ].map((item) => (
+            <Card key={item.label} className="rounded-[1.75rem] border border-white/10 bg-black/5 shadow-[0_26px_70px_-52px_rgba(37,25,15,0.55)]">
+              <CardContent>
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-sm uppercase tracking-[0.24em] text-foreground/55">{item.label}</p>
+                  <item.icon className="h-5 w-5 text-amber-700" />
+                </div>
+                <p className="mt-5 text-3xl font-semibold text-amber-600">{item.value}</p>
+              </CardContent>
+            </Card>
+          ))}
         </section>
 
-        <section className="mt-8">
-          <Card>
-            <CardContent>
-              <h2 className="text-xl font-medium">Weekly Booking Analytics</h2>
-              <AdminAnalytics data={chartData} />
+        <section className="mt-10 rounded-[2rem] border border-white/10 bg-white/10 p-6 shadow-[0_35px_95px_-56px_rgba(209,155,84,0.35)]">
+          <Card className="border-0 bg-transparent shadow-none">
+            <CardContent className="p-0">
+              <h2 className="text-xl font-semibold">Weekly Booking Analytics</h2>
+              <div className="mt-6 rounded-[1.75rem] border border-white/10 bg-black/5 p-4">
+                <AdminAnalytics data={chartData} />
+              </div>
             </CardContent>
           </Card>
         </section>
