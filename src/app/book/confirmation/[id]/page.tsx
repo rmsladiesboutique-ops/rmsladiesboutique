@@ -29,6 +29,17 @@ export default async function ConfirmationPage({ params }: { params: Promise<{ i
 
           {booking ? (
             <>
+              <div className="space-y-3 rounded-3xl border border-amber-300/20 bg-amber-300/10 p-6">
+                <p className="text-sm uppercase tracking-[0.24em] text-amber-200/80">Appointment Submitted</p>
+                <p className="text-lg leading-8 text-zinc-100">
+                  Your appointment has been successfully submitted. Our team will contact you shortly to confirm the final details.
+                </p>
+                <div className="rounded-2xl bg-slate-950/95 p-5 text-center text-white shadow-sm shadow-amber-500/10">
+                  <p className="text-sm uppercase tracking-[0.22em] text-amber-200/80">Your 6-digit booking code</p>
+                  <p className="mt-3 text-5xl font-semibold tracking-[0.28em] text-amber-300 font-mono">{booking.customerCode}</p>
+                </div>
+              </div>
+
               <div className="space-y-3 rounded-lg border border-amber-300/20 bg-amber-300/5 p-4">
                 <h2 className="text-lg font-semibold text-zinc-100">Appointment Details</h2>
                 <div className="space-y-2">
@@ -39,14 +50,6 @@ export default async function ConfirmationPage({ params }: { params: Promise<{ i
                     <span className="text-zinc-400">Date & Time:</span> {booking.preferredDate} at {booking.preferredTime}
                   </p>
                 </div>
-              </div>
-
-              <div className="space-y-3 rounded-lg border border-emerald-300/20 bg-emerald-300/5 p-4">
-                <h2 className="text-lg font-semibold text-zinc-100">Your Unique Booking Code</h2>
-                <p className="text-center text-5xl font-bold tracking-widest text-amber-300 font-mono">
-                  {booking.customerCode}
-                </p>
-                <p className="text-center text-sm text-zinc-400">Keep this code safe - you'll need it to track your appointment</p>
               </div>
 
               <div className="space-y-3 rounded-lg border border-blue-300/20 bg-blue-300/5 p-4">
