@@ -1,10 +1,41 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Globe, MapPin, MessageSquare, PhoneCall } from "lucide-react";
+import { ArrowRight, MapPin, PhoneCall } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getSettings } from "@/lib/services";
+
+function InstagramLogo(props: any) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
+      <defs>
+        <linearGradient id="instagram-gradient" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#f09433" />
+          <stop offset="0.3" stopColor="#e6683c" />
+          <stop offset="0.6" stopColor="#dc2743" />
+          <stop offset="1" stopColor="#cc2366" />
+        </linearGradient>
+      </defs>
+      <rect x="2" y="2" width="20" height="20" rx="6" fill="url(#instagram-gradient)" />
+      <path d="M12 7.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9Z" fill="none" stroke="#fff" strokeWidth="1.8" />
+      <circle cx="12" cy="12" r="2.3" fill="#fff" />
+      <circle cx="16.5" cy="7.5" r="1.1" fill="#fff" />
+    </svg>
+  );
+}
+
+function WhatsAppLogo(props: any) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
+      <circle cx="12" cy="12" r="10" fill="#25D366" />
+      <path
+        d="M16.5 15.6c-.2-.1-1.2-.6-1.4-.7-.2-.1-.4 0-.6.1-.2.1-.6.2-.9.3-.2.1-.4.1-.6-.2-.2-.3-.8-.9-1-1.1-.2-.2-.3-.4-.2-.6.1-.2.2-.4.3-.6.1-.2.1-.4 0-.7-.1-.2-.6-1.5-.8-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.6 0-.9 0-.3 0-.7.1-1 .4-.3.3-1.2 1.2-1.2 2.8 0 1.6 1.2 3.2 1.3 3.5.1.3 2.2 3.4 5.4 4.6.8.3 1.4.5 1.9.5.5 0 1.5-.2 2-1.1.5-.9.5-1.7.4-1.8-.1-.1-.3-.2-.5-.3Z"
+        fill="#fff"
+      />
+    </svg>
+  );
+}
 
 export default async function Home() {
   const settings = await getSettings();
@@ -142,17 +173,17 @@ export default async function Home() {
           {
             title: "Occasion Wear",
             desc: "Personal pattern drafting and hand-finished construction for women.",
-            imageUrl: "https://images.unsplash.com/photo-1520975911890-39f0106742fe?auto=format&fit=crop&w=1200&q=80",
+            imageUrl: "/images/occasional-wear.jpeg",
           },
           {
             title: "Bridal Couture",
             desc: "Ceremonial gowns and eveningwear designed to your shape and style.",
-            imageUrl: "https://images.unsplash.com/photo-1514996937319-344454492b37?auto=format&fit=crop&w=1200&q=80",
+            imageUrl: "/images/bridal-wear.jpeg",
           },
           {
             title: "Simple Daily Wear",
             desc: "Precision fitting and silhouette refinement for a flawless feminine fit.",
-            imageUrl: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1200&q=80",
+            imageUrl: "/images/simple-daily-wear.jpeg",
           },
         ].map((card) => (
           <Link key={card.title} href="/catalog" className="group block">
@@ -237,7 +268,7 @@ export default async function Home() {
 
             <div className="rounded-[1.75rem] border border-black/10 bg-slate-50 p-5 text-foreground shadow-sm transition hover:-translate-y-1 hover:shadow-[0_25px_60px_-40px_rgba(15,12,10,0.45)] dark:border-white/10 dark:bg-zinc-900 dark:text-white">
               <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
-                <MessageSquare className="h-5 w-5" />
+                <WhatsAppLogo className="h-5 w-5" />
               </div>
               <p className="mt-5 text-sm font-semibold text-foreground">WhatsApp</p>
               <a
@@ -267,7 +298,7 @@ export default async function Home() {
 
             <div className="rounded-[1.75rem] border border-black/10 bg-slate-50 p-5 text-foreground shadow-sm transition hover:-translate-y-1 hover:shadow-[0_25px_60px_-40px_rgba(15,12,10,0.45)] dark:border-white/10 dark:bg-zinc-900 dark:text-white">
               <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-pink-500/10 text-pink-700 dark:bg-pink-500/15 dark:text-pink-300">
-                <Globe className="h-5 w-5" />
+                <InstagramLogo className="h-5 w-5" />
               </div>
               <p className="mt-5 text-sm font-semibold text-foreground">Instagram</p>
               <a
