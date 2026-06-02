@@ -40,7 +40,6 @@ export function Navbar({ siteTitle, navLinks }: NavbarProps) {
     { href: "/", label: "Home" },
     { href: "/catalog", label: "Design Catalog" },
     { href: "/book", label: "Book Appointment" },
-    { href: "/status", label: "Track Order" },
     { href: "/dashboard", label: "Customer Dashboard" },
     { href: "/admin/login", label: "Admin" },
   ];
@@ -51,15 +50,15 @@ export function Navbar({ siteTitle, navLinks }: NavbarProps) {
     <header className="sticky top-0 z-40 border-b border-black/10 bg-[rgba(255,255,255,0.92)] backdrop-blur-3xl shadow-2xl dark:border-white/10 dark:bg-black/70">
       <div className="mx-auto container flex flex-wrap items-center justify-between gap-3 py-3">
         <Link href="/" className="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.3em] text-amber-900 dark:text-amber-100">
-          <Image src="/rms-logo.jpeg" alt={siteTitle ? `${siteTitle} logo` : "Atelier Noir"} width={150} height={52} priority className="h-10 w-auto" />
-          <span>{siteTitle ?? "Atelier Noir"}</span>
+          <Image src="/rms-logo.jpeg" alt={siteTitle ? `${siteTitle} logo` : "Site logo"} width={150} height={52} priority className="h-10 w-auto" />
+          {siteTitle ? <span>{siteTitle}</span> : null}
         </Link>
         <nav className="hidden items-center gap-6 lg:flex">
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className={`text-sm uppercase tracking-[0.22em] transition ${pathname === item.href ? "text-foreground" : "text-foreground/65 hover:text-foreground"}`}
+              className={`text-sm tracking-[0.18em] transition ${pathname === item.href ? "text-foreground" : "text-foreground/65 hover:text-foreground"}`}
             >
               {item.label}
             </Link>

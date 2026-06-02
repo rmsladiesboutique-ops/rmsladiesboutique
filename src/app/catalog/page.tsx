@@ -34,9 +34,9 @@ export default async function CatalogPage() {
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-14 md:px-8">
-      <div className="glass-panel-strong rounded-[2.5rem] p-6 md:p-8 lg:p-10">
+      <div className="glass-panel-strong rounded-[2.5rem] p-6 md:p-8 lg:p-10 text-foreground">
         <p className="text-sm uppercase tracking-[0.28em] text-foreground/55">Collection</p>
-        <h1 className="mt-2 text-4xl font-semibold tracking-tight md:text-5xl">{pageTitle}</h1>
+        <h1 className="mt-2 text-4xl font-semibold tracking-tight text-foreground md:text-5xl">{pageTitle}</h1>
         <p className="mt-3 max-w-2xl text-foreground/70">{pageDescription}</p>
 
         {!hasDesigns ? (

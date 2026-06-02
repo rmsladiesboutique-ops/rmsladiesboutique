@@ -37,13 +37,13 @@ export function Footer({ siteTitle, tagline, phone, email }: FooterProps) {
   }
 
   return (
-    <footer className="mt-24 border-t border-black/10 bg-gradient-to-r from-amber-50 via-fuchsia-50 to-teal-50 dark:border-white/10 dark:bg-gradient-to-r dark:from-[#090706] dark:via-[#14100f] dark:to-[#131010]">
-      <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 py-10 text-sm text-foreground/70 md:flex-row md:px-8">
+    <footer className="mt-24 border-t border-slate-200/70 bg-slate-50 text-slate-900 dark:border-white/10 dark:bg-[#080706] dark:text-slate-200">
+      <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 px-4 py-12 md:flex-row md:px-8">
         <div>
-          <p className="font-semibold text-foreground">{siteTitle ?? "Atelier Noir"}</p>
-          <p className="mt-1 text-xs uppercase tracking-[0.3em] text-foreground/55">{tagline ?? "Expert tailoring and personalised womenswear appointments."}</p>
+          <p className="text-lg font-semibold text-foreground">{siteTitle ?? "Atelier Noir"}</p>
+          <p className="mt-2 max-w-md text-sm uppercase tracking-[0.28em] text-foreground/55">{tagline ?? "Expert tailoring and personalised womenswear appointments."}</p>
         </div>
-        <div className="grid gap-2 text-center md:text-right">
+        <div className="grid gap-3 text-left md:text-right">
           <a href="tel:+918296028147" className="inline-flex items-center justify-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm font-semibold text-foreground shadow-sm transition hover:bg-amber-100 dark:bg-zinc-900 dark:text-white">
             <PhoneCall className="h-4 w-4" /> 8296028147
           </a>
