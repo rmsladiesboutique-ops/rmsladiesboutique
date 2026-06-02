@@ -243,8 +243,8 @@ export default async function Home() {
                 <PhoneCall className="h-5 w-5" />
               </div>
               <p className="mt-5 text-sm font-semibold text-foreground">Call studio</p>
-              <a href="tel:+918296028147" className="mt-3 block text-lg font-semibold text-slate-950 transition hover:text-amber-700 dark:text-white">
-                8296028147
+              <a href="tel:+918951432847" className="mt-3 block text-lg font-semibold text-slate-950 transition hover:text-amber-700 dark:text-white">
+                8951432847
               </a>
             </div>
 
@@ -254,7 +254,7 @@ export default async function Home() {
               </div>
               <p className="mt-5 text-sm font-semibold text-foreground">WhatsApp</p>
               <a
-                href="https://wa.me/918296028147?text=Hey!%20I%20just%20visited%20your%20website%20and%20need%20more%20details."
+                href="https://wa.me/918951432847?text=Hey!%20I%20just%20visited%20your%20website%20and%20need%20more%20details."
                 target="_blank"
                 rel="noreferrer"
                 className="mt-3 inline-flex items-center gap-2 rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700"

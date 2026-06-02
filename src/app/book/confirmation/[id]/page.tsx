@@ -33,12 +33,10 @@ export default async function ConfirmationPage({ params }: { params: Promise<{ i
             <>
               <div className="space-y-3 rounded-3xl border border-amber-300/20 bg-amber-300/10 p-6">
                 <p className="text-sm uppercase tracking-[0.24em] text-amber-200/80">Appointment Submitted</p>
-                <p className="text-lg leading-8 text-zinc-100">
-                  Your appointment has been successfully submitted. Our team will contact you shortly to confirm the final details.
-                </p>
                 <div className="rounded-2xl bg-slate-950/95 p-5 text-center text-white shadow-sm shadow-amber-500/10">
                   <p className="text-sm uppercase tracking-[0.22em] text-amber-200/80">Your 6-digit booking code</p>
                   <p className="mt-3 text-5xl font-semibold tracking-[0.28em] text-amber-300 font-mono">{booking.customerCode}</p>
+                  <p className="mt-3 text-sm text-zinc-400">Your team will contact you shortly with confirmation details.</p>
                 </div>
               </div>
 

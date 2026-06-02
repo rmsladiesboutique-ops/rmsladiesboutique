@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { getAvailability, getSettings } from "@/lib/services";
 
 export const metadata: Metadata = {
-  title: "Book Appointment | Atelier Noir for Women",
+  title: "Book Appointment | RMS Ladies Boutique",
   description: "Book women's couture fittings and custom tailoring appointments for a premium female-only experience.",
 };
 
