@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { Instagram, MapPin, PhoneCall } from "lucide-react";
+import { Globe, MapPin, PhoneCall } from "lucide-react";
 
 type FooterProps = {
   siteTitle?: string;
@@ -32,7 +32,7 @@ export function Footer({ siteTitle, tagline, phone, email }: FooterProps) {
             <MapPin className="h-4 w-4" /> View location
           </a>
           <a href="https://www.instagram.com/rmsladiesboutique?igsh=M3gybDBzdmkyN2Y5" target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm font-semibold text-foreground shadow-sm transition hover:bg-pink-100 dark:bg-zinc-900 dark:text-white">
-            <Instagram className="h-4 w-4" /> Instagram
+            <Globe className="h-4 w-4" /> Instagram
           </a>
         </div>
       </div>

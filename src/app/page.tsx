@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Instagram, MapPin, MessageSquare, PhoneCall } from "lucide-react";
+import { ArrowRight, Globe, MapPin, MessageSquare, PhoneCall } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -267,7 +267,7 @@ export default async function Home() {
 
             <div className="rounded-[1.75rem] border border-black/10 bg-slate-50 p-5 text-foreground shadow-sm transition hover:-translate-y-1 hover:shadow-[0_25px_60px_-40px_rgba(15,12,10,0.45)] dark:border-white/10 dark:bg-zinc-900 dark:text-white">
               <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-pink-500/10 text-pink-700 dark:bg-pink-500/15 dark:text-pink-300">
-                <Instagram className="h-5 w-5" />
+                <Globe className="h-5 w-5" />
               </div>
               <p className="mt-5 text-sm font-semibold text-foreground">Instagram</p>
               <a
