@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -31,17 +31,32 @@ type Values = z.infer<typeof schema>;
 
 type Props = {
   availableDates: string[];
-  availableSlots: string[];
+  availableDateSlots: Record<string, string[]>;
 };
 
-export function BookingForm({ availableDates, availableSlots }: Props) {
+export function BookingForm({ availableDates, availableDateSlots }: Props) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const { register, handleSubmit, watch, formState: { errors } } = useForm<Values>({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm<Values>({
     resolver: zodResolver(schema),
     defaultValues: { customDesign: false, gender: "Female" },
   });
   const customDesign = watch("customDesign");
+  const selectedDate = watch("preferredDate");
+  const selectedTime = watch("preferredTime");
+  const availableSlots = selectedDate ? availableDateSlots[selectedDate] ?? [] : [];
+
+  useEffect(() => {
+    if (selectedDate && selectedTime && !availableSlots.includes(selectedTime)) {
+      setValue("preferredTime", "");
+    }
+  }, [selectedDate, selectedTime, availableSlots, setValue]);
 
   const onSubmit = async (values: Values) => {
     setLoading(true);
@@ -113,14 +128,30 @@ export function BookingForm({ availableDates, availableSlots }: Props) {
           ))}
         </Select>
       </div>
+      {availableDates.length === 0 ? (
+        <div className="md:col-span-2 rounded-3xl border border-amber-300/30 bg-amber-50/80 p-4 text-sm text-amber-900">
+          There are no open booking dates at the moment. Please check back later or contact the atelier for holiday availability.
+        </div>
+      ) : null}
       <div className="space-y-1.5">
         <Select {...register("preferredTime")}>
           <option value="">Preferred time</option>
-          {availableSlots.map((s) => (
-            <option key={s} value={s}>{s}</option>
-          ))}
+          {!selectedDate ? (
+            <option value="" disabled>Choose a date first</option>
+          ) : availableSlots.length === 0 ? (
+            <option value="" disabled>No available times</option>
+          ) : (
+            availableSlots.map((s) => (
+              <option key={s} value={s}>{s}</option>
+            ))
+          )}
         </Select>
       </div>
+      {selectedDate && availableSlots.length === 0 ? (
+        <div className="md:col-span-2 rounded-3xl border border-amber-300/30 bg-amber-50/80 p-4 text-sm text-amber-900">
+          Selected date is currently unavailable. Please choose another day or contact us to request a holiday booking.
+        </div>
+      ) : null}
       <div className="space-y-1.5">
         <Input placeholder="Clothing type" {...register("clothingType")} />
       </div>
@@ -153,7 +184,7 @@ export function BookingForm({ availableDates, availableSlots }: Props) {
       )}
 
       <div className="md:col-span-2">
-        <Button type="submit" className="w-full" disabled={loading}>{loading ? "Submitting..." : "Confirm Appointment"}</Button>
+        <Button type="submit" className="w-full" disabled={loading || availableDates.length === 0}>{loading ? "Submitting..." : "Confirm Appointment"}</Button>
       </div>
     </form>
   );

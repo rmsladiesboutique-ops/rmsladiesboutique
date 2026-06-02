@@ -16,10 +16,10 @@ import {
 
 export async function getDesigns(): Promise<DesignItem[]> {
   const supabase = createServiceRoleClient();
-  if (!supabase) return mockDesigns;
+  if (!supabase) return [];
 
   const { data, error } = await supabase.from("designs").select("*").order("created_at", { ascending: false });
-  if (error || !data) return mockDesigns;
+  if (error || !data) return [];
 
   return data.map((d) => ({
     id: d.id,
@@ -240,6 +240,27 @@ export async function getAvailability() {
 
   const { data } = await supabase.from("availability_rules").select("*").order("date", { ascending: true });
   if (!data) return { holidayMode: false, rules: mockAvailability };
+
+  return {
+    holidayMode: data.some((d) => d.holiday_mode),
+    rules: data.map((d) => ({ id: d.id, date: d.date, slots: d.slots, isBlocked: d.is_blocked })),
+  };
+}
+
+export async function updateAvailability(payload: { holidayMode: boolean; rules: { id: string; date: string; slots: string[]; isBlocked: boolean }[] }) {
+  const supabase = createServiceRoleClient();
+  if (!supabase) return null;
+
+  const rows = payload.rules.map((rule) => ({
+    id: rule.id,
+    date: rule.date,
+    slots: rule.slots,
+    is_blocked: rule.isBlocked,
+    holiday_mode: payload.holidayMode,
+  }));
+
+  const { data, error } = await supabase.from("availability_rules").upsert(rows, { onConflict: "id" }).select();
+  if (error || !data) return null;
 
   return {
     holidayMode: data.some((d) => d.holiday_mode),

@@ -21,8 +21,6 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
     { href: "/admin/appointments", label: "Appointments" },
     { href: "/admin/designs", label: "Designs" },
     { href: "/admin/availability", label: "Availability" },
-    { href: "/admin/settings", label: "Settings" },
-    { href: "/admin/email-templates", label: "Email Templates" },
     { href: "/admin/measurements", label: "Measurements" },
   ];
 
@@ -91,16 +89,12 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
 
       <footer className="fixed bottom-4 left-1/2 z-50 w-[min(640px,90%)] -translate-x-1/2 rounded-full border border-black/5 bg-white/80 px-4 py-2 shadow-[0_18px_50px_-32px_rgba(36,24,14,0.85)] backdrop-blur-xl dark:border-white/10 dark:bg-black/65 md:hidden">
         <div className="flex items-center justify-between">
-          {links.slice(0, 4).map((l) => (
+          {links.slice(0, 5).map((l) => (
             <Link key={l.href} href={l.href} className={`flex flex-col items-center rounded-xl px-2 py-1 text-xs transition ${isActive(l.href) ? "text-amber-700 dark:text-amber-200" : "text-foreground/65"}`}>
               <span className={`h-6 w-6 rounded-md ${isActive(l.href) ? "bg-amber-500/20" : "bg-black/5 dark:bg-white/10"}`} />
               <span className="mt-1">{l.label.split(" ")[0]}</span>
             </Link>
           ))}
-          <Link href="/admin/settings" className={`flex flex-col items-center rounded-xl px-2 py-1 text-xs transition ${isActive("/admin/settings") ? "text-amber-700 dark:text-amber-200" : "text-foreground/65"}`}>
-            <span className={`h-6 w-6 rounded-md ${isActive("/admin/settings") ? "bg-amber-500/20" : "bg-black/5 dark:bg-white/10"}`} />
-            <span className="mt-1">More</span>
-          </Link>
         </div>
       </footer>
     </div>

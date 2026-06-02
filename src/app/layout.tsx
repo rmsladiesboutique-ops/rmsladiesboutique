@@ -19,8 +19,8 @@ const sans = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "RMS Ladies Boutique",
-  description: "Luxury women-only boutique appointment and order management platform built with Next.js and Supabase.",
+  title: "Atelier Noir | Women’s Couture Tailoring",
+  description: "Luxury women-only tailoring with curated appointments, design catalog access, and order tracking.",
 };
 
 export default async function RootLayout({

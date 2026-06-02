@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createServiceRoleClient } from "@/lib/supabase/admin";
-import { mockDesigns } from "@/lib/mock-data";
 import { ADMIN_SESSION_COOKIE, verifyAdminSessionToken } from "@/lib/admin-auth";
 
 const schema = z.object({
@@ -21,12 +20,12 @@ export async function GET(request: Request) {
 
   const supabase = createServiceRoleClient();
   if (!supabase) {
-    return NextResponse.json(mockDesigns);
+    return NextResponse.json([]);
   }
 
   const { data, error } = await supabase.from("designs").select("*").order("created_at", { ascending: false });
   if (error || !data) {
-    return NextResponse.json(mockDesigns);
+    return NextResponse.json([]);
   }
 
   return NextResponse.json(

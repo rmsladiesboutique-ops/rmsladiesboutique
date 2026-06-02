@@ -9,13 +9,79 @@ import { getSettings } from "@/lib/services";
 export default async function Home() {
   const settings = await getSettings();
   const homepage = settings?.homepageContent;
+  const heroBadge = homepage?.heroBadge ?? "Simple Regular Wear";
+  const heroHeadline = homepage?.heroHeadline ?? "Tailoring made for women who value fit, comfort and style.";
+  const heroDescription = homepage?.heroDescription ?? "Book a private womenswear appointment and explore a curated catalog of streamlined, premium designs.";
+  const heroPrimaryCta = homepage?.heroPrimaryCta ?? "Book a fitting";
+  const heroSecondaryCta = homepage?.heroSecondaryCta ?? "Explore the catalog";
+  const heroStats = homepage?.heroStats?.length
+    ? homepage.heroStats
+    : [
+        { value: "120+", label: "Appointments booked" },
+        { value: "4.9/5", label: "Client satisfaction" },
+        { value: "2-3 weeks", label: "Ready-to-wear timeline" },
+      ];
+  const deliveryNote = homepage?.deliveryNote ?? "Every piece is finished with care and delivered in a discreet, women-only studio experience.";
+  const featureSectionTitle = homepage?.featureSectionTitle ?? "What we craft";
+  const featureSectionSubtitle = homepage?.featureSectionSubtitle ?? "Personal fittings, refined tailoring, and effortless wardrobe pieces for modern women.";
+  const featureCards = homepage?.featureCards?.length
+    ? homepage.featureCards
+    : [
+        { title: "Precise fitting", description: "Every visit begins with measurements designed for movement and confidence." },
+        { title: "Modern tailoring", description: "Clean silhouettes with thoughtful finishes for both daily wear and special occasions." },
+      ];
+  const featuredCollectionTitle = homepage?.featuredCollectionTitle ?? "Ready-to-wear favorites";
+  const featuredCollectionItems = homepage?.featuredCollectionItems?.length
+    ? homepage.featuredCollectionItems
+    : [
+        { title: "Essential blazer", description: "Effortless structure for polished everyday dressing." },
+        { title: "Signature dress", description: "Soft volume and tailored details for easy confidence." },
+        { title: "Classic shirt", description: "Versatile layering pieces cut for a flattering fit." },
+      ];
+
   return (
     <main className="mx-auto max-w-7xl px-4 pb-20 pt-10 md:px-8 md:pt-14">
       <section className="hero-grid hero-spotlight grid items-center gap-6 overflow-hidden rounded-[2.5rem] p-5 sm:p-6 md:grid-cols-[1.1fr_0.9fr] md:gap-8 md:p-10 lg:p-12">
         <div className="space-y-6">
-          {homepage?.heroBadge || homepage?.heroHeadline || homepage?.heroDescription || homepage?.heroPrimaryCta || homepage?.heroSecondaryCta || homepage?.heroStats?.length || homepage?.deliveryNote || settings?.phoneNumber || settings?.contactEmail ? (
-            <>
-              {(homepage.heroBadge || homepage.heroHeadline) && (
+            <div className="flex flex-wrap items-center gap-3">
+              <Badge className="fashion-chip">{heroBadge}</Badge>
+            </div>
+
+            <h1 className="max-w-xl text-5xl font-semibold leading-[1.02] tracking-[-0.03em] sm:text-6xl md:text-7xl">
+              {heroHeadline}
+            </h1>
+
+            <p className="max-w-xl text-base leading-8 text-foreground/72 sm:text-lg">
+              {heroDescription}
+            </p>
+
+            <p className="max-w-xl text-base leading-8 text-foreground/72 sm:text-lg">
+              Shape your clothes according to your desire with custom fittings, refined tailoring, and an expert touch at every stage.
+            </p>
+
+            <div className="inline-flex items-center gap-2 rounded-full border border-amber-300/40 bg-amber-100/90 px-4 py-2 text-sm font-semibold text-amber-900 shadow-sm shadow-amber-200/20">
+              <span className="rounded-full bg-amber-500 px-2 py-1 text-xs uppercase tracking-[0.2em] text-black">Free delivery</span>
+              <span>within 5km range</span>
+            </div>
+
+            <p className="max-w-xl text-sm font-medium uppercase tracking-[0.24em] text-amber-700 sm:text-base">
+              {deliveryNote}
+            </p>
+
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <Link href="/book" className="w-full sm:w-auto"><Button size="lg" className="w-full sm:w-auto">{heroPrimaryCta}</Button></Link>
+              <Link href="/catalog" className="w-full sm:w-auto"><Button size="lg" variant="outline" className="w-full sm:w-auto">{heroSecondaryCta}</Button></Link>
+            </div>
+
+            <div className="grid gap-3 pt-3 sm:grid-cols-3">
+              {heroStats.map((stat) => (
+                <div key={stat.value + stat.label} className="fashion-chip rounded-3xl p-4">
+                  <p className="text-lg font-semibold text-foreground">{stat.value}</p>
+                  <p className="mt-1 text-sm text-foreground/60">{stat.label}</p>
+                </div>
+              ))}
+            </div>
+        </div>
                 <div className="flex flex-wrap items-center gap-3">
                   {homepage.heroBadge && <Badge className="fashion-chip">{homepage.heroBadge}</Badge>}
                 </div>
@@ -92,49 +158,39 @@ export default async function Home() {
         </div>
       </section>
 
-      {homepage?.featureSectionTitle || homepage?.featureSectionSubtitle || homepage?.featureCards?.length || homepage?.featuredCollectionTitle || homepage?.featuredCollectionItems?.length ? (
-        <section className="mt-14 grid gap-6 md:grid-cols-[1.3fr_0.7fr]">
-          <Card className="feature-highlight rounded-[2rem] p-8">
-            <CardContent className="space-y-5">
-              <p className="text-sm uppercase tracking-[0.28em] text-foreground/55">Signature services</p>
-              {homepage.featureSectionTitle && <h2 className="text-4xl font-semibold">{homepage.featureSectionTitle}</h2>}
-              {homepage.featureSectionSubtitle && (
-                <p className="max-w-2xl text-base leading-8 text-foreground/72">
-                  {homepage.featureSectionSubtitle}
-                </p>
-              )}
-              {homepage.featureCards?.length ? (
-                <div className="grid gap-4 sm:grid-cols-2">
-                  {homepage.featureCards.map((card) => (
-                    <div key={card.title} className="rounded-3xl border border-white/15 bg-white/10 p-4 text-sm text-foreground/75 shadow-[0_18px_50px_-40px_rgba(209,155,84,0.35)] backdrop-blur-sm">
-                      <p className="font-semibold text-foreground">{card.title}</p>
-                      <p className="mt-2">{card.description}</p>
-                    </div>
-                  ))}
+      <section className="mt-14 grid gap-6 md:grid-cols-[1.3fr_0.7fr]">
+        <Card className="feature-highlight rounded-[2rem] p-8">
+          <CardContent className="space-y-5">
+            <p className="text-sm uppercase tracking-[0.28em] text-foreground/55">Signature services</p>
+            <h2 className="text-4xl font-semibold">{featureSectionTitle}</h2>
+            <p className="max-w-2xl text-base leading-8 text-foreground/72">
+              {featureSectionSubtitle}
+            </p>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {featureCards.map((card) => (
+                <div key={card.title} className="rounded-3xl border border-white/15 bg-white/10 p-4 text-sm text-foreground/75 shadow-[0_18px_50px_-40px_rgba(209,155,84,0.35)] backdrop-blur-sm">
+                  <p className="font-semibold text-foreground">{card.title}</p>
+                  <p className="mt-2">{card.description}</p>
                 </div>
-              ) : null}
-            </CardContent>
-          </Card>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
 
-          {homepage.featuredCollectionItems?.length ? (
-            <Card className="glass-panel rounded-[2rem] p-8">
-              <CardContent className="space-y-5">
-                {homepage.featuredCollectionTitle && (
-                  <p className="text-sm uppercase tracking-[0.28em] text-foreground/55">{homepage.featuredCollectionTitle}</p>
-                )}
-                <div className="grid gap-4">
-                  {homepage.featuredCollectionItems.map((item) => (
-                    <div key={item.title} className="rounded-[1.5rem] border border-white/15 bg-black/5 p-4 shadow-[0_15px_45px_-35px_rgba(37,25,15,0.6)]">
-                      <p className="text-lg font-semibold text-foreground">{item.title}</p>
-                      <p className="mt-2 text-sm text-foreground/65">{item.description}</p>
-                    </div>
-                  ))}
+        <Card className="glass-panel rounded-[2rem] p-8">
+          <CardContent className="space-y-5">
+            <p className="text-sm uppercase tracking-[0.28em] text-foreground/55">{featuredCollectionTitle}</p>
+            <div className="grid gap-4">
+              {featuredCollectionItems.map((item) => (
+                <div key={item.title} className="rounded-[1.5rem] border border-white/15 bg-black/5 p-4 shadow-[0_15px_45px_-35px_rgba(37,25,15,0.6)]">
+                  <p className="text-lg font-semibold text-foreground">{item.title}</p>
+                  <p className="mt-2 text-sm text-foreground/65">{item.description}</p>
                 </div>
-              </CardContent>
-            </Card>
-          ) : null}
-        </section>
-      ) : null}
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </section>
 
       <section className="mt-14 grid gap-4 md:mt-16 md:grid-cols-3">
         {[

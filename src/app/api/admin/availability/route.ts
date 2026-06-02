@@ -1,13 +1,37 @@
 import { NextResponse } from "next/server";
-import { getAvailability } from "@/lib/services";
+import { getAvailability, updateAvailability } from "@/lib/services";
 import { ADMIN_SESSION_COOKIE, verifyAdminSessionToken } from "@/lib/admin-auth";
 
-export async function GET(request: Request) {
+async function requireAdmin(request: Request) {
   const sessionToken = request.headers.get("cookie")?.match(new RegExp(`${ADMIN_SESSION_COOKIE}=([^;]+)`))?.[1];
   if (!(await verifyAdminSessionToken(sessionToken))) {
+    return null;
+  }
+  return true;
+}
+
+export async function GET(request: Request) {
+  if (!(await requireAdmin(request))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const data = await getAvailability();
+  return NextResponse.json(data);
+}
+
+export async function PATCH(request: Request) {
+  if (!(await requireAdmin(request))) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const body = await request.json();
+  const rules = Array.isArray(body.rules) ? body.rules : [];
+  const holidayMode = Boolean(body.holidayMode);
+
+  const data = await updateAvailability({ holidayMode, rules });
+  if (!data) {
+    return NextResponse.json({ error: "Unable to update availability" }, { status: 500 });
+  }
+
   return NextResponse.json(data);
 }
