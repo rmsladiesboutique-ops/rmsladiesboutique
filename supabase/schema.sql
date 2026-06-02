@@ -26,6 +26,7 @@ create table if not exists public.appointments (
 	id uuid primary key default gen_random_uuid(),
 	customer_name text not null,
 	phone_number text not null,
+	address text not null,
 	email text not null,
 	gender text not null,
 	preferred_date date not null,

@@ -6,6 +6,7 @@ import { sendBookingEmailNotification } from "@/lib/notifications";
 const schema = z.object({
   customerName: z.string().min(2),
   phoneNumber: z.string().min(8),
+  address: z.string().min(5),
   email: z.string().email(),
   gender: z.string(),
   preferredDate: z.string(),

@@ -258,6 +258,43 @@ select {
   background: linear-gradient(90deg, var(--accent-fuchsia), var(--gold), var(--accent-emerald));
 }
 
+@media (max-width: 767px) {
+  body {
+    background: var(--background);
+  }
+
+  main::before,
+  .hero-spotlight::before {
+    display: none;
+  }
+
+  .hero-grid,
+  .glass-panel,
+  .glass-panel-strong,
+  .fashion-card,
+  .fashion-chip {
+    box-shadow: none !important;
+  }
+
+  .glass-panel,
+  .glass-panel-strong {
+    backdrop-filter: none;
+  }
+
+  .hero-grid {
+    border-color: rgba(209, 155, 84, 0.12);
+  }
+
+  .hero-grid h1 {
+    font-size: clamp(2.25rem, 5vw, 3.5rem);
+  }
+
+  .hero-grid p,
+  .hero-grid .fashion-chip {
+    color: rgba(var(--foreground-rgb), 0.72) !important;
+  }
+}
+
 .feature-highlight {
   background: linear-gradient(135deg, rgba(241, 148, 184, 0.12), rgba(209, 155, 84, 0.12), rgba(31, 122, 120, 0.12));
   border: 1px solid rgba(209, 155, 84, 0.24);

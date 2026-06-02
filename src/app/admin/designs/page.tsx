@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
 import type { DesignItem } from "@/types/domain";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -55,13 +54,21 @@ export default function AdminDesignsPage() {
   };
 
   const uploadToStorage = async (file: File) => {
-    const supabase = createClient();
-    if (!supabase) return null;
-    const path = `designs/${Date.now()}-${file.name}`;
-    const { error } = await supabase.storage.from("design-catalog").upload(path, file, { upsert: true });
-    if (error) return null;
-    const { data } = supabase.storage.from("design-catalog").getPublicUrl(path);
-    return data.publicUrl;
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const res = await fetch("/api/admin/designs/upload", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!res.ok) {
+      console.error("Upload failed", await res.text());
+      return null;
+    }
+
+    const data = await res.json();
+    return data.publicUrl as string | null;
   };
 
   const add = async () => {

@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 const schema = z.object({
   customerName: z.string().min(2),
   phoneNumber: z.string().min(8),
+  address: z.string().min(5),
   email: z.string().email(),
   gender: z.string().default("Female"),
   preferredDate: z.string().min(1),
@@ -63,6 +64,7 @@ export function BookingForm({ availableDates, availableDateSlots }: Props) {
     const payload = {
       customerName: values.customerName,
       phoneNumber: values.phoneNumber,
+      address: values.address,
       email: values.email,
       gender: values.gender,
       preferredDate: values.preferredDate,
@@ -111,6 +113,10 @@ export function BookingForm({ availableDates, availableDateSlots }: Props) {
       <div className="space-y-1.5">
         <Input placeholder="Phone number" {...register("phoneNumber")} />
         {errors.phoneNumber && <p className="mt-1 text-xs text-red-400">Phone number is required</p>}
+      </div>
+      <div className="space-y-1.5">
+        <Input placeholder="Address" {...register("address")} />
+        {errors.address && <p className="mt-1 text-xs text-red-400">Address is required</p>}
       </div>
       <div className="space-y-1.5">
         <Input placeholder="Email" type="email" {...register("email")} />

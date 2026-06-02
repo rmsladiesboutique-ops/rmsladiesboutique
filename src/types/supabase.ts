@@ -38,6 +38,7 @@ export type Database = {
           preferred_date: string;
           preferred_time: string;
           clothing_type: string;
+          address: string;
           measurement_notes: string;
           custom_design: boolean;
           customer_code: string;
@@ -58,6 +59,7 @@ export type Database = {
           preferred_date: string;
           preferred_time: string;
           clothing_type: string;
+          address: string;
           measurement_notes?: string;
           custom_design?: boolean;
           customer_code: string;

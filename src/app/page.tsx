@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Instagram, MapPin, MessageSquare, PhoneCall } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -84,9 +84,9 @@ export default async function Home() {
         </div>
 
         <div className="relative">
-          <div className="absolute -left-10 top-8 h-28 w-28 rounded-full bg-gradient-to-br from-fuchsia-300/30 to-coral-200/0 blur-3xl" />
-          <div className="absolute -right-10 bottom-10 h-32 w-32 rounded-full bg-gradient-to-br from-emerald-200/20 to-coral-200/0 blur-3xl" />
-          <div className="relative h-[340px] overflow-hidden rounded-[2rem] border border-white/20 shadow-[0_45px_120px_-60px_rgba(37,25,15,0.95)] sm:h-[440px]">
+          <div className="hidden md:block absolute -left-10 top-8 h-28 w-28 rounded-full bg-gradient-to-br from-fuchsia-300/30 to-coral-200/0 blur-3xl" />
+          <div className="hidden md:block absolute -right-10 bottom-10 h-32 w-32 rounded-full bg-gradient-to-br from-emerald-200/20 to-coral-200/0 blur-3xl" />
+          <div className="relative h-[280px] overflow-hidden rounded-[2rem] border border-white/20 shadow-none md:shadow-[0_45px_120px_-60px_rgba(37,25,15,0.95)] sm:h-[340px] md:h-[440px]">
             <Image
               src={homepage?.heroImageUrl || "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1300&q=80"}
               alt={homepage?.heroHeadline ? homepage.heroHeadline : "Couture fashion scene"}
@@ -137,19 +137,42 @@ export default async function Home() {
         </Card>
       </section>
 
-      <section className="mt-14 grid gap-4 md:mt-16 md:grid-cols-3">
+      <section className="mt-14 grid gap-4 md:grid-cols-3">
         {[
-          ["Occasion Wear", "Personal pattern drafting and hand-finished construction for women."],
-          ["Bridal Couture", "Ceremonial gowns and eveningwear designed to your shape and style."],
-          ["Simple Regular Wear", "Precision fitting and silhouette refinement for a flawless feminine fit."],
-        ].map(([title, desc]) => (
-          <Card key={title} className="fashion-card overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_45px_120px_-60px_rgba(209,155,84,0.45)]">
-            <CardContent>
-              <h2 className="text-2xl font-semibold">{title}</h2>
-              <p className="mt-3 text-sm text-foreground/65">{desc}</p>
-              <ArrowRight className="mt-6 h-4 w-4 text-amber-700 dark:text-amber-200" />
-            </CardContent>
-          </Card>
+          {
+            title: "Occasion Wear",
+            desc: "Personal pattern drafting and hand-finished construction for women.",
+            imageUrl: "https://images.unsplash.com/photo-1520975911890-39f0106742fe?auto=format&fit=crop&w=1200&q=80",
+          },
+          {
+            title: "Bridal Couture",
+            desc: "Ceremonial gowns and eveningwear designed to your shape and style.",
+            imageUrl: "https://images.unsplash.com/photo-1514996937319-344454492b37?auto=format&fit=crop&w=1200&q=80",
+          },
+          {
+            title: "Simple Daily Wear",
+            desc: "Precision fitting and silhouette refinement for a flawless feminine fit.",
+            imageUrl: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1200&q=80",
+          },
+        ].map((card) => (
+          <Link key={card.title} href="/catalog" className="group block">
+            <Card className="fashion-card overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_45px_120px_-60px_rgba(209,155,84,0.45)]">
+              <CardContent className="grid gap-4 lg:grid-cols-[120px_1fr]">
+                <div className="relative h-40 overflow-hidden rounded-[1.5rem] border border-white/15 bg-zinc-950 sm:h-44">
+                  <Image src={card.imageUrl} alt={card.title} fill className="object-cover" />
+                </div>
+                <div className="flex flex-col justify-between gap-4">
+                  <div>
+                    <h2 className="text-2xl font-semibold text-foreground">{card.title}</h2>
+                    <p className="mt-3 text-sm text-foreground/65">{card.desc}</p>
+                  </div>
+                  <div className="flex items-center justify-end">
+                    <ArrowRight className="h-5 w-5 text-amber-700 transition-transform duration-300 group-hover:translate-x-1" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
         ))}
       </section>
 
@@ -192,6 +215,73 @@ export default async function Home() {
           )}
         </section>
       ) : null}
+
+      <section className="mt-14 rounded-[2rem] border border-black/10 bg-white/95 p-8 shadow-[0_24px_60px_-48px_rgba(15,12,10,0.35)] dark:border-white/10 dark:bg-zinc-950/90">
+        <div className="mx-auto max-w-4xl">
+          <p className="text-sm uppercase tracking-[0.26em] text-foreground/55">Contact details</p>
+          <h2 className="mt-3 text-4xl font-semibold text-foreground">Ready to book your fitting?</h2>
+          <p className="mt-3 text-base leading-7 text-foreground/70">
+            Reach out directly via phone, WhatsApp, location or Instagram for fast styling support and appointment help.
+          </p>
+
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <div className="rounded-[1.75rem] border border-black/10 bg-slate-50 p-5 text-foreground shadow-sm transition hover:-translate-y-1 hover:shadow-[0_25px_60px_-40px_rgba(15,12,10,0.45)] dark:border-white/10 dark:bg-zinc-900 dark:text-white">
+              <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500/10 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300">
+                <PhoneCall className="h-5 w-5" />
+              </div>
+              <p className="mt-5 text-sm font-semibold text-foreground">Call studio</p>
+              <a href="tel:+918296028147" className="mt-3 block text-lg font-semibold text-slate-950 transition hover:text-amber-700 dark:text-white">
+                8296028147
+              </a>
+            </div>
+
+            <div className="rounded-[1.75rem] border border-black/10 bg-slate-50 p-5 text-foreground shadow-sm transition hover:-translate-y-1 hover:shadow-[0_25px_60px_-40px_rgba(15,12,10,0.45)] dark:border-white/10 dark:bg-zinc-900 dark:text-white">
+              <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
+                <MessageSquare className="h-5 w-5" />
+              </div>
+              <p className="mt-5 text-sm font-semibold text-foreground">WhatsApp</p>
+              <a
+                href="https://wa.me/918296028147?text=Hey!%20I%20just%20visited%20your%20website%20and%20need%20more%20details."
+                target="_blank"
+                rel="noreferrer"
+                className="mt-3 inline-flex items-center gap-2 rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700"
+              >
+                Message us
+              </a>
+            </div>
+
+            <div className="rounded-[1.75rem] border border-black/10 bg-slate-50 p-5 text-foreground shadow-sm transition hover:-translate-y-1 hover:shadow-[0_25px_60px_-40px_rgba(15,12,10,0.45)] dark:border-white/10 dark:bg-zinc-900 dark:text-white">
+              <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-500/10 text-sky-700 dark:bg-sky-500/15 dark:text-sky-300">
+                <MapPin className="h-5 w-5" />
+              </div>
+              <p className="mt-5 text-sm font-semibold text-foreground">Visit the studio</p>
+              <a
+                href="https://maps.app.goo.gl/ouR5nVnGQCM6aPxK6?g_st=aw"
+                target="_blank"
+                rel="noreferrer"
+                className="mt-3 block text-base font-medium text-slate-950 transition hover:text-sky-700 dark:text-white"
+              >
+                View location
+              </a>
+            </div>
+
+            <div className="rounded-[1.75rem] border border-black/10 bg-slate-50 p-5 text-foreground shadow-sm transition hover:-translate-y-1 hover:shadow-[0_25px_60px_-40px_rgba(15,12,10,0.45)] dark:border-white/10 dark:bg-zinc-900 dark:text-white">
+              <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-pink-500/10 text-pink-700 dark:bg-pink-500/15 dark:text-pink-300">
+                <Instagram className="h-5 w-5" />
+              </div>
+              <p className="mt-5 text-sm font-semibold text-foreground">Instagram</p>
+              <a
+                href="https://www.instagram.com/rmsladiesboutique?igsh=M3gybDBzdmkyN2Y5"
+                target="_blank"
+                rel="noreferrer"
+                className="mt-3 block text-base font-medium text-slate-950 transition hover:text-pink-700 dark:text-white"
+              >
+                @rmsladiesboutique
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }

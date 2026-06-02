@@ -69,13 +69,13 @@ export default async function CatalogPage() {
                         <div className="flex items-center justify-between gap-2">
                           <div>
                             <h2 className="text-xl font-semibold text-white">{design.title}</h2>
-                            <p className="text-sm text-amber-100/80">{design.category}</p>
+                            <p className="text-sm text-amber-100/90">{design.category}</p>
                           </div>
-                          <Badge className={design.available ? "border-amber-300 bg-amber-500/10 text-amber-200" : "border-zinc-600 bg-zinc-700/40 text-zinc-200"}>
+                          <Badge className={design.available ? "border-amber-300 bg-amber-500/10 text-amber-200" : "border-zinc-600 bg-zinc-700/50 text-zinc-200"}>
                             {design.available ? "Available" : "Unavailable"}
                           </Badge>
                         </div>
-                        <p className="text-sm text-foreground/70 leading-7">{design.description}</p>
+                        <p className="text-sm text-white/80 leading-7">{design.description}</p>
                         <p className="text-lg font-semibold text-amber-200">{formatCurrency(design.price)}</p>
                       </CardContent>
                     </Card>

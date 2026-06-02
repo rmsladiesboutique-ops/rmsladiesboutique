@@ -31,6 +31,7 @@ export type StatusHistoryEntry = {
 export type AppointmentPayload = {
   customerName: string;
   phoneNumber: string;
+  address: string;
   email: string;
   gender: string;
   preferredDate: string;
