@@ -35,9 +35,9 @@ export default async function CatalogPage() {
   return (
     <main className="mx-auto max-w-7xl px-4 py-14 md:px-8">
       <div className="glass-panel-strong rounded-[2.5rem] p-6 md:p-8 lg:p-10 text-foreground">
-        <p className="text-sm uppercase tracking-[0.28em] text-foreground/55">Collection</p>
-        <h1 className="mt-2 text-4xl font-semibold tracking-tight text-foreground md:text-5xl">{pageTitle}</h1>
-        <p className="mt-3 max-w-2xl text-foreground/70">{pageDescription}</p>
+        <p className="text-sm uppercase tracking-[0.28em] text-slate-600 dark:text-slate-400">Collection</p>
+        <h1 className="mt-2 text-4xl font-semibold tracking-tight text-slate-950 dark:text-white md:text-5xl">{pageTitle}</h1>
+        <p className="mt-3 max-w-2xl text-slate-700 dark:text-slate-300">{pageDescription}</p>
 
         {!hasDesigns ? (
           <div className="mt-10 rounded-[2rem] border border-amber-200/30 bg-amber-50/70 p-8 text-center text-sm text-amber-900 shadow-sm">
@@ -51,9 +51,9 @@ export default async function CatalogPage() {
             { key: "regular", title: "Simple Regular Wear", items: bySection.regular },
           ].map((section) => (
             <div key={section.key}>
-              <h3 className="text-2xl font-semibold">{section.title}</h3>
+              <h3 className="text-2xl font-semibold text-slate-950 dark:text-white">{section.title}</h3>
               {section.items.length === 0 ? (
-                <p className="mt-2 text-sm text-foreground/60">No items in this section.</p>
+                <p className="mt-2 text-sm text-slate-700 dark:text-slate-300">No items in this section.</p>
               ) : (
                 <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                   {section.items.map((design) => (
