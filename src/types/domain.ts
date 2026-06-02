@@ -82,6 +82,7 @@ export type HomepageContent = {
   heroDescription?: string;
   heroPrimaryCta?: string;
   heroSecondaryCta?: string;
+  heroImageUrl?: string;
   heroStats?: HomepageStat[];
   featureSectionTitle?: string;
   featureSectionSubtitle?: string;

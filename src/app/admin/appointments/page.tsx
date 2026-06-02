@@ -121,7 +121,18 @@ export default function AdminAppointmentsPage() {
     }));
   };
 
-  const remove = (id: string) => setRows((prev) => prev.filter((r) => r.id !== id));
+  const remove = async (id: string) => {
+    try {
+      const res = await fetch(`/api/admin/appointments/${id}`, { method: "DELETE" });
+      if (!res.ok) {
+        if (res.status === 401) router.push("/admin/login");
+        return;
+      }
+      setRows((prev) => prev.filter((r) => r.id !== id));
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const viewHistory = async (id: string) => {
     setHistoryLoading(true);

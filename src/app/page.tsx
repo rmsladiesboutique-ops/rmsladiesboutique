@@ -77,8 +77,8 @@ export default async function Home() {
           <div className="absolute -right-10 bottom-10 h-32 w-32 rounded-full bg-gradient-to-br from-emerald-200/20 to-coral-200/0 blur-3xl" />
           <div className="relative h-[340px] overflow-hidden rounded-[2rem] border border-white/20 shadow-[0_45px_120px_-60px_rgba(37,25,15,0.95)] sm:h-[440px]">
             <Image
-              src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1300&q=80"
-              alt="Couture fashion scene"
+              src={homepage?.heroImageUrl || "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1300&q=80"}
+              alt={homepage?.heroHeadline ? homepage.heroHeadline : "Couture fashion scene"}
               fill
               className="object-cover"
               priority
@@ -140,7 +140,7 @@ export default async function Home() {
         {[
           ["Occasion Wear", "Personal pattern drafting and hand-finished construction for women."],
           ["Bridal Couture", "Ceremonial gowns and eveningwear designed to your shape and style."],
-          ["Alteration Studio", "Precision fitting and silhouette refinement for a flawless feminine fit."],
+          ["Simple Regular Wear", "Precision fitting and silhouette refinement for a flawless feminine fit."],
         ].map(([title, desc]) => (
           <Card key={title} className="fashion-card overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_45px_120px_-60px_rgba(209,155,84,0.45)]">
             <CardContent>

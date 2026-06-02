@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -102,6 +103,19 @@ export default function AdminSettingsPage() {
     );
   };
 
+  const uploadHeroImage = async (file: File) => {
+    const supabase = createClient();
+    if (!supabase) return null;
+    const path = `homepage-hero/${Date.now()}-${file.name}`;
+    const { error } = await supabase.storage.from("design-catalog").upload(path, file, { upsert: true });
+    if (error) {
+      console.error(error);
+      return null;
+    }
+    const { data } = supabase.storage.from("design-catalog").getPublicUrl(path);
+    return data.publicUrl;
+  };
+
   const onSave = async () => {
     if (!settings) return;
     setSaving(true);
@@ -188,6 +202,26 @@ export default function AdminSettingsPage() {
           <div>
             <label className="block text-sm text-zinc-300">Hero Description</label>
             <Textarea value={homepage.heroDescription} onChange={(e) => updateHomepage({ heroDescription: e.target.value })} />
+          </div>
+
+          <div>
+            <label className="block text-sm text-zinc-300">Hero Image URL</label>
+            <Input value={homepage.heroImageUrl ?? ""} onChange={(e) => updateHomepage({ heroImageUrl: e.target.value })} />
+          </div>
+
+          <div className="flex items-center gap-3">
+            <input
+              type="file"
+              accept="image/*"
+              className="text-sm text-zinc-200"
+              onChange={async (e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+                const publicUrl = await uploadHeroImage(file);
+                if (publicUrl) updateHomepage({ heroImageUrl: publicUrl });
+              }}
+            />
+            <span className="text-sm text-zinc-400">Upload an image to use as the homepage hero background.</span>
           </div>
 
           <div className="grid gap-4 md:grid-cols-2">

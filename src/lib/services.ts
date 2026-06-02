@@ -359,3 +359,81 @@ export async function deleteMeasurementField(id: string) {
   const { error } = await supabase.from("measurement_fields").delete().eq("id", id);
   return error ? null : true;
 }
+
+export async function deleteAppointment(id: string) {
+  const supabase = createServiceRoleClient();
+
+  if (!supabase) {
+    const idx = mockAppointments.findIndex((a) => a.id === id);
+    if (idx >= 0) {
+      mockAppointments.splice(idx, 1);
+      return true;
+    }
+    return null;
+  }
+
+  const { error } = await supabase.from("appointments").delete().eq("id", id);
+  return error ? null : true;
+}
+
+export async function cleanupUnuploadedDesigns() {
+  const supabase = createServiceRoleClient();
+
+  if (!supabase) {
+    const before = mockDesigns.length;
+    for (let i = mockDesigns.length - 1; i >= 0; i--) {
+      const d = mockDesigns[i];
+      if (!d.imageUrl) mockDesigns.splice(i, 1);
+    }
+    return before - mockDesigns.length;
+  }
+
+  const { data } = await supabase.from("designs").select("id, image_url");
+  if (!data) return 0;
+
+  const idsToDelete = data.filter((d: any) => !d.image_url || d.image_url === "").map((d: any) => d.id);
+  if (idsToDelete.length === 0) return 0;
+
+  await supabase.from("designs").delete().in("id", idsToDelete);
+  return idsToDelete.length;
+}
+
+export async function normalizeDesignCategories() {
+  const supabase = createServiceRoleClient();
+
+  const normalize = (raw?: string | null) => {
+    const c = (raw ?? "").toString().toLowerCase().trim();
+    if (!c) return "Simple Regular Wear";
+    if (c.includes("bridal")) return "Bridal Wear";
+    if (c.includes("occasion") || c.includes("occasional")) return "Occasion Wear";
+    return "Simple Regular Wear";
+  };
+
+  if (!supabase) {
+    let count = 0;
+    for (const d of mockDesigns) {
+      const normalized = normalize(d.category as any);
+      if (d.category !== normalized) {
+        d.category = normalized as any;
+        count++;
+      }
+    }
+    return count;
+  }
+
+  const { data } = await supabase.from("designs").select("id, category");
+  if (!data) return 0;
+
+  let updated = 0;
+  for (const row of data) {
+    const id = row.id;
+    const current = row.category ?? "";
+    const normalized = normalize(current);
+    if (normalized !== current) {
+      await supabase.from("designs").update({ category: normalized }).eq("id", id);
+      updated++;
+    }
+  }
+
+  return updated;
+}
