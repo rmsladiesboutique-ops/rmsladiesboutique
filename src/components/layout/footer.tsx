@@ -40,7 +40,7 @@ export function Footer({ siteTitle, tagline, phone, email }: FooterProps) {
     <footer className="mt-24 border-t border-slate-200/70 bg-slate-50 text-slate-900 dark:border-white/10 dark:bg-[#080706] dark:text-slate-200">
       <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 px-4 py-12 md:flex-row md:px-8">
         <div>
-          <p className="text-lg font-semibold text-foreground">{siteTitle ?? "Atelier Noir"}</p>
+          <p className="text-lg font-semibold text-foreground">{siteTitle ?? "RMS LADIES BOUTIQUE"}</p>
           <p className="mt-2 max-w-md text-sm uppercase tracking-[0.28em] text-foreground/55">{tagline ?? "Expert tailoring and personalised womenswear appointments."}</p>
         </div>
         <div className="grid gap-3 text-left md:text-right">
@@ -54,6 +54,9 @@ export function Footer({ siteTitle, tagline, phone, email }: FooterProps) {
             <InstagramLogo className="h-4 w-4" /> Instagram
           </a>
         </div>
+      </div>
+      <div className="border-t border-slate-200/50 dark:border-white/5 mt-8 pt-6 px-4 md:px-8">
+        <p className="text-xs text-foreground/40 text-center">This is a website developed by EGB DEVELOPERS</p>
       </div>
     </footer>
   );
