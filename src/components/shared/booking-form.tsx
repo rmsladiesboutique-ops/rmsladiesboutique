@@ -12,9 +12,11 @@ import { Button } from "@/components/ui/button";
 
 const schema = z.object({
   customerName: z.string().min(2),
-  phoneNumber: z.string().min(8),
+  phoneNumber: z
+    .string()
+    .regex(/^[+\d]?(?:[\d\-\s()]{7,20})$/, "Invalid phone number"),
   address: z.string().min(5),
-  email: z.string().email(),
+  email: z.string().email().optional(),
   gender: z.string().default("Female"),
   preferredDate: z.string().min(1),
   preferredTime: z.string().min(1),
@@ -112,7 +114,9 @@ export function BookingForm({ availableDates, availableDateSlots }: Props) {
       </div>
       <div className="space-y-1.5">
         <Input placeholder="Phone number" {...register("phoneNumber")} />
-        {errors.phoneNumber && <p className="mt-1 text-xs text-red-400">Phone number is required</p>}
+        {errors.phoneNumber && (
+          <p className="mt-1 text-xs text-red-400">{errors.phoneNumber.message ?? "Phone number is required"}</p>
+        )}
       </div>
       <div className="space-y-1.5">
         <Input placeholder="Address" {...register("address")} />
@@ -120,7 +124,10 @@ export function BookingForm({ availableDates, availableDateSlots }: Props) {
       </div>
       <div className="space-y-1.5">
         <Input placeholder="Email" type="email" {...register("email")} />
-        {errors.email && <p className="mt-1 text-xs text-red-400">Valid email is required</p>}
+        <Input placeholder="Email (optional)" type="email" {...register("email")} />
+        {errors.email && (
+          <p className="mt-1 text-xs text-red-400">{errors.email.message ?? "Email must be valid"}</p>
+        )}
       </div>
       <input type="hidden" value="Female" {...register("gender")} />
       <div className="space-y-1.5">

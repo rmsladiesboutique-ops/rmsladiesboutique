@@ -5,9 +5,11 @@ import { sendBookingEmailNotification } from "@/lib/notifications";
 
 const schema = z.object({
   customerName: z.string().min(2),
-  phoneNumber: z.string().min(8),
+  phoneNumber: z
+    .string()
+    .regex(/^[+\d]?(?:[\d\-\s()]{7,20})$/, "Invalid phone number"),
   address: z.string().min(5),
-  email: z.string().email(),
+  email: z.string().email().optional(),
   gender: z.string(),
   preferredDate: z.string(),
   preferredTime: z.string(),
@@ -33,7 +35,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
   }
 
-  const appointment = await createAppointment(parsed.data);
-  await sendBookingEmailNotification(appointment);
-  return NextResponse.json(appointment);
+  try {
+    const appointment = await createAppointment(parsed.data);
+    await sendBookingEmailNotification(appointment);
+    return NextResponse.json(appointment);
+  } catch (error) {
+    console.error("Create appointment failed:", error);
+    return NextResponse.json({ error: "Unable to save appointment. Please try again later." }, { status: 500 });
+  }
 }

@@ -49,11 +49,11 @@ export async function createAppointment(payload: AppointmentPayload): Promise<Ap
 
   const supabase = createServiceRoleClient();
   if (!supabase) {
-    mockAppointments.unshift(record);
-    return record;
+    console.error("Supabase admin client not available. Check SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY environment variables.");
+    throw new Error("Supabase admin client not configured");
   }
 
-  const { error } = await supabase.from("appointments").insert({
+  const { data, error } = await supabase.from("appointments").insert({
     id: record.id,
     customer_name: record.customerName,
     phone_number: record.phoneNumber,
@@ -71,10 +71,15 @@ export async function createAppointment(payload: AppointmentPayload): Promise<Ap
     completion_percent: record.completionPercent,
     estimated_completion_date: record.estimatedCompletionDate,
     admin_notes: record.adminNotes,
-  });
+  }).select().single();
 
-  if (!error && payload.customDesign) {
-    await supabase.from("custom_requests").insert({
+  if (error || !data) {
+    console.error("Supabase insert appointment error:", error);
+    throw new Error("Unable to create appointment at this time.");
+  }
+
+  if (payload.customDesign) {
+    const { error: requestError } = await supabase.from("custom_requests").insert({
       appointment_id: record.id,
       fabric_type: payload.customRequest?.fabricType ?? null,
       color: payload.customRequest?.color ?? null,
@@ -82,14 +87,15 @@ export async function createAppointment(payload: AppointmentPayload): Promise<Ap
       special_instructions: payload.customRequest?.specialInstructions ?? null,
       design_preferences: payload.customRequest?.designPreferences ?? null,
     });
-  }
 
-  if (error) {
-    mockAppointments.unshift(record);
+    if (requestError) {
+      console.error("Supabase insert custom request error:", requestError);
+    }
   }
 
   return record;
 }
+
 
 export async function findAppointment(phoneNumber: string, customerCode: string) {
   const supabase = createServiceRoleClient();
@@ -112,7 +118,7 @@ export async function findAppointment(phoneNumber: string, customerCode: string)
     id: data.id,
     customerName: data.customer_name,
     phoneNumber: data.phone_number,
-    address: data.address,
+    address: data.address ?? "",
     email: data.email,
     gender: data.gender,
     preferredDate: data.preferred_date,
@@ -143,7 +149,7 @@ export async function findAppointmentByCode(customerCode: string) {
     id: data.id,
     customerName: data.customer_name,
     phoneNumber: data.phone_number,
-    address: data.address,
+    address: data.address ?? "",
     email: data.email,
     gender: data.gender,
     preferredDate: data.preferred_date,
@@ -174,7 +180,7 @@ export async function getAppointmentById(id: string) {
     id: data.id,
     customerName: data.customer_name,
     phoneNumber: data.phone_number,
-    address: data.address,
+    address: data.address ?? "",
     email: data.email,
     gender: data.gender,
     preferredDate: data.preferred_date,
@@ -196,14 +202,18 @@ export async function getAppointments() {
   const supabase = createServiceRoleClient();
   if (!supabase) return mockAppointments;
 
-  const { data } = await supabase.from("appointments").select("*").order("created_at", { ascending: false });
+  const { data, error } = await supabase.from("appointments").select("*").order("created_at", { ascending: false });
+  if (error) {
+    console.error("Supabase getAppointments error:", error);
+    return mockAppointments;
+  }
   if (!data) return mockAppointments;
 
   return data.map((a) => ({
     id: a.id,
     customerName: a.customer_name,
     phoneNumber: a.phone_number,
-    address: a.address,
+    address: a.address ?? "",
     email: a.email,
     gender: a.gender,
     preferredDate: a.preferred_date,
