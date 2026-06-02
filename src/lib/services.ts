@@ -161,6 +161,37 @@ export async function findAppointmentByCode(customerCode: string) {
   } as AppointmentRecord;
 }
 
+export async function getAppointmentById(id: string) {
+  const supabase = createServiceRoleClient();
+  if (!supabase) {
+    return mockAppointments.find((a) => a.id === id) ?? null;
+  }
+
+  const { data } = await supabase.from("appointments").select("*").eq("id", id).maybeSingle();
+  if (!data) return null;
+
+  return {
+    id: data.id,
+    customerName: data.customer_name,
+    phoneNumber: data.phone_number,
+    address: data.address,
+    email: data.email,
+    gender: data.gender,
+    preferredDate: data.preferred_date,
+    preferredTime: data.preferred_time,
+    clothingType: data.clothing_type,
+    measurementNotes: data.measurement_notes,
+    customDesign: data.custom_design,
+    customerCode: data.customer_code,
+    status: data.status,
+    statusIndex: data.status_index,
+    completionPercent: data.completion_percent,
+    estimatedCompletionDate: data.estimated_completion_date ?? "",
+    adminNotes: data.admin_notes ?? "",
+    createdAt: data.created_at,
+  } as AppointmentRecord;
+}
+
 export async function getAppointments() {
   const supabase = createServiceRoleClient();
   if (!supabase) return mockAppointments;

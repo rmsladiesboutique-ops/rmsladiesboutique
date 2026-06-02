@@ -1,22 +1,24 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { mockAppointments } from "@/lib/mock-data";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { getSettings } from "@/lib/services";
+import { getAppointmentById, getSettings } from "@/lib/services";
 
 export const metadata: Metadata = {
-  title: "Booking Confirmation | Atelier Noir",
-  description: "View your appointment confirmation and customer tracking code.",
+  title: "Booking Confirmation | RMS Ladies Boutique",
+  description: "Your appointment confirmation and booking code.",
 };
 
 export default async function ConfirmationPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const booking = mockAppointments.find((b) => b.id === id);
+  const booking = await getAppointmentById(id);
   const settings = await getSettings();
   const homepage = settings?.homepageContent;
   const confirmationTitle = homepage?.confirmationTitle ?? "Booking Confirmed";
   const confirmationDescription = homepage?.confirmationDescription ?? "Your appointment was submitted successfully.";
+  const successMessage = booking
+    ? "Your appointment has been successfully submitted. Our team will contact you shortly with confirmation details."
+    : confirmationDescription;
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-16 md:px-8">
@@ -24,7 +26,7 @@ export default async function ConfirmationPage({ params }: { params: Promise<{ i
         <CardContent className="space-y-6">
           <div className="space-y-2">
             <h1 className="text-4xl font-semibold text-amber-300">{confirmationTitle}</h1>
-            <p className="text-lg text-zinc-300">{confirmationDescription}</p>
+            <p className="text-lg text-zinc-300">{successMessage}</p>
           </div>
 
           {booking ? (
