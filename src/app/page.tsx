@@ -82,61 +82,6 @@ export default async function Home() {
               ))}
             </div>
         </div>
-                <div className="flex flex-wrap items-center gap-3">
-                  {homepage.heroBadge && <Badge className="fashion-chip">{homepage.heroBadge}</Badge>}
-                </div>
-              )}
-
-              {homepage.heroHeadline && (
-                <h1 className="max-w-xl text-5xl font-semibold leading-[1.02] tracking-[-0.03em] sm:text-6xl md:text-7xl">
-                  {homepage.heroHeadline}
-                </h1>
-              )}
-
-              {homepage.heroDescription && (
-                <p className="max-w-xl text-base leading-8 text-foreground/72 sm:text-lg">
-                  {homepage.heroDescription}
-                </p>
-              )}
-
-              {homepage.deliveryNote && (
-                <p className="max-w-xl text-sm font-medium uppercase tracking-[0.24em] text-amber-700 sm:text-base">
-                  {homepage.deliveryNote}
-                </p>
-              )}
-
-              {(settings?.phoneNumber || settings?.contactEmail) && (
-                <div className="rounded-[2rem] border border-white/10 bg-black/5 p-5 text-sm text-foreground/80 shadow-sm sm:max-w-md">
-                  <p className="font-semibold text-foreground">Contact us</p>
-                  {settings?.phoneNumber && <p className="mt-2">Phone: {settings.phoneNumber}</p>}
-                  {settings?.contactEmail && <p>Email: {settings.contactEmail}</p>}
-                </div>
-              )}
-
-              {(homepage.heroPrimaryCta || homepage.heroSecondaryCta) && (
-                <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                  {homepage.heroPrimaryCta && (
-                    <Link href="/book" className="w-full sm:w-auto"><Button size="lg" className="w-full sm:w-auto">{homepage.heroPrimaryCta}</Button></Link>
-                  )}
-                  {homepage.heroSecondaryCta && (
-                    <Link href="/catalog" className="w-full sm:w-auto"><Button size="lg" variant="outline" className="w-full sm:w-auto">{homepage.heroSecondaryCta}</Button></Link>
-                  )}
-                </div>
-              )}
-
-              {homepage.heroStats?.length ? (
-                <div className="grid gap-3 pt-3 sm:grid-cols-3">
-                  {homepage.heroStats.map((stat) => (
-                    <div key={stat.value + stat.label} className="fashion-chip rounded-3xl p-4">
-                      <p className="text-lg font-semibold text-foreground">{stat.value}</p>
-                      <p className="mt-1 text-sm text-foreground/60">{stat.label}</p>
-                    </div>
-                  ))}
-                </div>
-              ) : null}
-            </>
-          ) : null}
-        </div>
 
         <div className="relative">
           <div className="absolute -left-10 top-8 h-28 w-28 rounded-full bg-gradient-to-br from-fuchsia-300/30 to-coral-200/0 blur-3xl" />

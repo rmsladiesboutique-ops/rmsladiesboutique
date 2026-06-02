@@ -85,6 +85,7 @@ export default async function CatalogPage() {
             </div>
           ))}
         </section>
+        )}
       </div>
     </main>
   );
