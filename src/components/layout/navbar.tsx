@@ -47,7 +47,7 @@ export function Navbar({ siteTitle, navLinks }: NavbarProps) {
 
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/85 backdrop-blur-3xl shadow-[0_20px_70px_-30px_rgba(15,12,10,0.15)] dark:border-white/10 dark:bg-zinc-950/80">
-      <div className="mx-auto container flex flex-wrap items-center justify-between gap-3 py-3 sm:py-4">
+      <div className="mx-auto container flex flex-wrap items-center justify-between gap-3 py-4">
         <Link href="/" className="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.32em] text-slate-900 transition dark:text-slate-100">
           <Image src="/rms-logo.jpeg" alt={siteTitle ? `${siteTitle} logo` : "Site logo"} width={150} height={52} priority className="h-10 w-auto rounded-xl object-contain" />
           {siteTitle ? <span className="text-base font-semibold tracking-[0.22em] text-slate-900 dark:text-slate-100">{siteTitle}</span> : null}
@@ -85,9 +85,9 @@ export function Navbar({ siteTitle, navLinks }: NavbarProps) {
 
       <div
         id="mobile-nav"
-        className={`border-t border-black/5 bg-[rgba(255,250,244,0.98)] px-4 pb-4 pt-3 shadow-[0_18px_40px_-28px_rgba(26,18,12,0.45)] backdrop-blur-xl transition-all duration-300 dark:border-white/10 dark:bg-black/90 md:hidden ${mobileMenuOpen ? "max-h-[560px] opacity-100 pointer-events-auto" : "pointer-events-none max-h-0 overflow-hidden opacity-0"}`}
+        className={`border-t border-black/5 bg-[rgba(255,250,244,0.96)] px-4 pb-4 pt-3 shadow-[0_18px_40px_-28px_rgba(26,18,12,0.45)] backdrop-blur-xl transition-all duration-200 dark:border-white/10 dark:bg-black/90 md:hidden ${mobileMenuOpen ? "max-h-[520px] opacity-100" : "pointer-events-none max-h-0 overflow-hidden opacity-0"}`}
       >
-        <div className="space-y-3">
+        <div className="space-y-2">
           {navItems.map((item) => {
             const active = pathname === item.href;
 
@@ -105,8 +105,8 @@ export function Navbar({ siteTitle, navLinks }: NavbarProps) {
           })}
         </div>
 
-        <div className="mt-4 grid grid-cols-1 gap-3">
-          <Link href="/book" onClick={closeMobileMenu} className="inline-flex items-center justify-center gap-2 rounded-2xl bg-amber-500 px-4 py-3 text-sm font-medium text-black shadow-[0_14px_30px_-18px_rgba(184,137,47,0.8)] transition hover:bg-amber-400">
+        <div className="mt-4">
+          <Link href="/book" onClick={closeMobileMenu} className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-amber-500 px-4 py-3 text-sm font-medium text-black shadow-[0_14px_30px_-18px_rgba(184,137,47,0.8)] transition hover:bg-amber-400">
             <BookOpen className="h-4 w-4" />
             Book Now
           </Link>

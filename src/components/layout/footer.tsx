@@ -38,7 +38,7 @@ export function Footer({ siteTitle, tagline, phone, email }: FooterProps) {
 
   return (
     <footer className="mt-24 border-t border-slate-200/70 bg-gradient-to-b from-white/95 via-slate-50/95 to-slate-100 text-slate-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.65)] dark:border-white/10 dark:bg-[#080706] dark:text-slate-200">
-      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 md:grid-cols-[1.3fr_auto] md:items-center md:px-8">
+      <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 px-4 py-12 md:flex-row md:px-8">
         <div>
           <p className="text-3xl font-semibold uppercase tracking-[0.24em] text-foreground dark:text-slate-100">{siteTitle ?? "RMS LADIES BOUTIQUE"}</p>
           <p className="mt-3 max-w-md text-sm uppercase tracking-[0.28em] text-foreground/65 dark:text-slate-400">{tagline ?? "Expert tailoring and personalised womenswear appointments."}</p>

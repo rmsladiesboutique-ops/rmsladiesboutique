@@ -63,22 +63,22 @@ export default async function Home() {
         { title: "Modern tailoring", description: "Clean silhouettes with thoughtful finishes for both daily wear and special occasions." },
       ];
   return (
-    <main className="mx-auto max-w-7xl px-4 pb-24 pt-10 sm:px-6 md:px-8 md:pt-16">
-      <section className="hero-grid hero-spotlight grid gap-8 lg:grid-cols-[1.25fr_0.95fr] overflow-hidden rounded-[2.5rem] border border-slate-200/70 bg-white/95 p-6 sm:p-8 lg:p-10 shadow-[0_35px_100px_-60px_rgba(15,12,10,0.15)] dark:border-white/10 dark:bg-slate-950/90">
-        <div className="space-y-6 mx-auto w-full max-w-3xl">
-            <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-start">
+    <main className="mx-auto max-w-7xl px-4 pb-20 pt-10 md:px-8 md:pt-14">
+      <section className="hero-grid hero-spotlight grid gap-10 lg:grid-cols-[1.25fr_0.95fr] overflow-hidden rounded-[2.5rem] p-8 sm:p-10 shadow-[0_30px_60px_-40px_rgba(15,12,10,0.12)]">
+        <div className="space-y-8 mx-auto max-w-3xl">
+            <div className="flex flex-wrap items-center gap-3">
               <Badge className="fashion-chip">{heroBadge}</Badge>
             </div>
 
-            <h1 className="text-4xl font-semibold leading-[1.02] tracking-[-0.03em] text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
+            <h1 className="text-5xl font-semibold leading-[1.02] tracking-[-0.03em] text-foreground sm:text-6xl md:text-7xl">
               {heroHeadline}
             </h1>
 
-            <p className="max-w-2xl text-base leading-8 text-slate-900 sm:text-lg">
+            <p className="text-base leading-8 text-slate-900 sm:text-lg">
               {heroDescription}
             </p>
 
-            <p className="max-w-2xl text-base leading-8 text-slate-900 sm:text-lg">
+            <p className="text-base leading-8 text-slate-900 sm:text-lg">
               {heroExtra}
             </p>
 
@@ -93,13 +93,13 @@ export default async function Home() {
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-              <Link href="/book" className="w-full sm:w-auto"><Button size="lg" className="w-full rounded-full sm:w-auto tracking-[0.18em] px-8">{heroPrimaryCta}</Button></Link>
-              <Link href="/catalog" className="w-full sm:w-auto"><Button size="lg" variant="outline" className="w-full rounded-full sm:w-auto tracking-[0.18em] px-8">{heroSecondaryCta}</Button></Link>
+              <Link href="/book" className="w-full sm:w-auto"><Button size="lg" className="w-full sm:w-auto">{heroPrimaryCta}</Button></Link>
+              <Link href="/catalog" className="w-full sm:w-auto"><Button size="lg" variant="outline" className="w-full sm:w-auto">{heroSecondaryCta}</Button></Link>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-3">
               {heroStats.map((stat) => (
-                <div key={stat.value + stat.label} className="rounded-3xl border border-slate-200/80 bg-slate-50 p-5 text-center shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-md dark:border-slate-700/70 dark:bg-slate-900/85">
+                <div key={stat.value + stat.label} className="rounded-3xl border border-slate-200/80 bg-white p-5 text-center shadow-sm dark:border-slate-700/70 dark:bg-slate-900/80">
                   <p className="text-lg font-semibold text-slate-950 dark:text-white">{stat.value}</p>
                   <p className="mt-1 text-sm text-slate-700 dark:text-slate-400">{stat.label}</p>
                 </div>
@@ -117,8 +117,8 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="mt-14 grid gap-6 lg:grid-cols-[1.55fr_1fr]">
-        <Card className="feature-highlight rounded-[2rem] p-8 shadow-xl border border-slate-200/70 bg-white/95 transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_28px_80px_-40px_rgba(209,155,84,0.18)] dark:border-white/10 dark:bg-slate-950/85">
+      <section className="mt-14 grid gap-6 lg:grid-cols-[1.6fr_1fr]">
+        <Card className="feature-highlight rounded-[2rem] p-8 shadow-xl border border-slate-200/70 bg-white">
           <CardContent className="space-y-5">
             <p className="text-sm uppercase tracking-[0.28em] text-slate-700">Signature services</p>
             <h2 className="text-4xl font-semibold text-slate-950">{featureSectionTitle}</h2>
@@ -127,9 +127,9 @@ export default async function Home() {
             </p>
             <div className="grid gap-4 sm:grid-cols-2">
               {featureCards.map((card) => (
-                <div key={card.title} className="rounded-3xl border border-slate-200/70 bg-white/95 text-slate-950 dark:bg-slate-950/80 dark:text-white p-6 text-sm shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_48px_-30px_rgba(15,12,10,0.16)]">
+                <div key={card.title} className="rounded-3xl border border-slate-200/70 bg-white/95 text-slate-950 dark:bg-slate-950/80 dark:text-white p-5 text-sm shadow-sm">
                   <p className="font-semibold text-slate-950 dark:text-white">{card.title}</p>
-                  <p className="mt-3 text-slate-700 dark:text-slate-300">{card.description}</p>
+                  <p className="mt-2 text-slate-700 dark:text-slate-300">{card.description}</p>
                 </div>
               ))}
             </div>
@@ -209,12 +209,12 @@ export default async function Home() {
         <div className="mx-auto max-w-4xl">
           <p className="text-sm uppercase tracking-[0.26em] text-slate-700">Contact details</p>
           <h2 className="mt-3 text-4xl font-semibold text-slate-950">Ready to book your fitting?</h2>
-          <p className="mt-3 max-w-3xl text-base leading-7 text-slate-800">
+          <p className="mt-3 text-base leading-7 text-slate-800">
             Reach out directly via phone, WhatsApp, location or Instagram for fast styling support and appointment help.
           </p>
 
           <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            <div className="contact-card rounded-[1.75rem] border border-slate-200/80 bg-white p-6 text-slate-950 transition duration-300 hover:-translate-y-1 dark:border-white/10 dark:bg-zinc-900 dark:text-white">
+            <div className="rounded-[1.75rem] border border-slate-200/70 bg-white p-5 text-slate-950 shadow-sm transition hover:-translate-y-1 hover:shadow-[0_25px_60px_-40px_rgba(15,12,10,0.45)] dark:border-white/10 dark:bg-zinc-900 dark:text-white">
               <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500/10 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300">
                 <PhoneCall className="h-5 w-5" />
               </div>
@@ -224,7 +224,7 @@ export default async function Home() {
               </a>
             </div>
 
-            <div className="contact-card rounded-[1.75rem] border border-slate-200/80 bg-white p-6 text-slate-950 transition duration-300 hover:-translate-y-1 dark:border-white/10 dark:bg-zinc-900 dark:text-white">
+            <div className="rounded-[1.75rem] border border-slate-200/70 bg-white p-5 text-slate-950 shadow-sm transition hover:-translate-y-1 hover:shadow-[0_25px_60px_-40px_rgba(15,12,10,0.45)] dark:border-white/10 dark:bg-zinc-900 dark:text-white">
               <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
                 <WhatsAppLogo className="h-5 w-5" />
               </div>
@@ -239,7 +239,7 @@ export default async function Home() {
               </a>
             </div>
 
-            <div className="contact-card rounded-[1.75rem] border border-slate-200/80 bg-white p-6 text-slate-950 transition duration-300 hover:-translate-y-1 dark:border-white/10 dark:bg-zinc-900 dark:text-white">
+            <div className="rounded-[1.75rem] border border-slate-200/70 bg-white p-5 text-slate-950 shadow-sm transition hover:-translate-y-1 hover:shadow-[0_25px_60px_-40px_rgba(15,12,10,0.45)] dark:border-white/10 dark:bg-zinc-900 dark:text-white">
               <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-500/10 text-sky-700 dark:bg-sky-500/15 dark:text-sky-300">
                 <MapPin className="h-5 w-5" />
               </div>
@@ -254,7 +254,7 @@ export default async function Home() {
               </a>
             </div>
 
-            <div className="contact-card rounded-[1.75rem] border border-slate-200/80 bg-white p-6 text-slate-950 transition duration-300 hover:-translate-y-1 dark:border-white/10 dark:bg-zinc-900 dark:text-white">
+            <div className="rounded-[1.75rem] border border-slate-200/70 bg-white p-5 text-slate-950 shadow-sm transition hover:-translate-y-1 hover:shadow-[0_25px_60px_-40px_rgba(15,12,10,0.45)] dark:border-white/10 dark:bg-zinc-900 dark:text-white">
               <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-tr from-pink-500 via-orange-400 to-yellow-300 text-white dark:bg-pink-500/15 dark:text-pink-200">
                 <InstagramLogo className="h-5 w-5" />
               </div>
