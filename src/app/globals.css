@@ -25,6 +25,33 @@
   --font-sans: var(--font-sans);
 }
 
+@media (prefers-color-scheme: dark) {
+  :root:not(.light):not(.dark) {
+    color-scheme: dark;
+    --background: #090706;
+    --foreground: #f4eee3;
+    --foreground-rgb: 244,238,227;
+    --gold: #e0bc7f;
+    --gold-strong: #d2a95d;
+    --muted: #b8a998;
+    --surface: rgba(24, 18, 16, 0.82);
+    --surface-strong: rgba(28, 20, 17, 0.96);
+    --border: rgba(255, 235, 212, 0.1);
+    --accent-rose: #f19cb8;
+    --accent-berry: #dd7e9f;
+    --accent-teal: #5ec5b9;
+    --accent-fuchsia: #e594d8;
+    --accent-coral: #ffb6a9;
+    --accent-emerald: #74d6be;
+  }
+
+  :root:not(.light):not(.dark) body {
+    background:
+      linear-gradient(180deg, #0b0908 0%, #090706 45%, #050302 100%);
+    color: var(--foreground);
+  }
+}
+
 .dark {
   --background: #090706;
   --foreground: #f4eee3;
@@ -183,11 +210,23 @@ select {
   backdrop-filter: blur(22px) saturate(180%);
 }
 
+.dark .glass-panel {
+  background: linear-gradient(180deg, rgba(15, 12, 10, 0.85), rgba(16, 14, 11, 0.92));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 24px 80px -36px rgba(0, 0, 0, 0.55);
+}
+
 .glass-panel-strong {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(250, 247, 242, 0.9));
   border: 1px solid rgba(209, 155, 84, 0.14);
   box-shadow: 0 32px 100px -44px rgba(31, 24, 18, 0.22);
   backdrop-filter: blur(28px) saturate(200%);
+}
+
+.dark .glass-panel-strong {
+  background: linear-gradient(180deg, rgba(18, 16, 13, 0.9), rgba(18, 16, 13, 0.96));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 32px 100px -44px rgba(0, 0, 0, 0.55);
 }
 
 .hero-grid {
@@ -237,8 +276,13 @@ select {
 }
 
 .hero-image-copy {
-  border-top: 1px solid rgba(255, 255, 255, 0.45);
-  background: rgba(255, 255, 255, 0.82);
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  background: linear-gradient(180deg, rgba(16, 14, 11, 0.92), rgba(16, 14, 11, 0.72));
+  color: #f8f5f0;
+}
+
+.hero-image-copy p {
+  color: rgba(248, 245, 240, 0.9);
 }
 
 /* Ensure readable text contrast inside hero for both themes */

@@ -110,9 +110,9 @@ export default async function Home() {
         <div className="hero-image-panel relative hidden overflow-hidden rounded-[2rem] border border-slate-200/80 bg-slate-50 shadow-[0_30px_80px_-50px_rgba(15,12,10,0.12)] dark:border-slate-700/70 dark:bg-slate-900/80 lg:block">
           <div className="hero-image-accent" />
           <Image src="/images/bridal-wear.jpeg" alt="Tailored garment" fill className="object-cover" priority />
-          <div className="hero-image-copy absolute inset-x-0 bottom-0 p-6 backdrop-blur-sm bg-white/30 text-slate-900 dark:bg-slate-950/50 dark:text-white">
-            <p className="text-sm uppercase tracking-[0.3em] text-slate-700 dark:text-slate-300">Studio craftsmanship</p>
-            <p className="mt-2 text-xl font-semibold">Refined finishes for every occasion</p>
+          <div className="hero-image-copy absolute inset-x-0 bottom-0 p-6 backdrop-blur-sm bg-slate-950/70 text-white">
+            <p className="text-sm uppercase tracking-[0.3em] text-white/70">Studio craftsmanship</p>
+            <p className="mt-2 text-xl font-semibold text-white">Refined finishes for every occasion</p>
           </div>
         </div>
       </section>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -44,74 +44,64 @@ export default function AdminAvailabilityPage() {
   const rules = availability?.rules ?? [];
   const holidayMode = availability?.holidayMode ?? false;
 
-  const handleToggleRule = (id: string) => {
-    setAvailability((prev) =>
-      prev
-        ? {
-            ...prev,
-            rules: prev.rules.map((rule) =>
-              rule.id === id ? { ...rule, isBlocked: !rule.isBlocked } : rule,
-            ),
-          }
-        : prev,
-    );
+  const handleToggleRule = async (id: string) => {
+    if (!availability) return;
+
+    const nextAvailability = {
+      ...availability,
+      rules: availability.rules.map((rule) =>
+        rule.id === id ? { ...rule, isBlocked: !rule.isBlocked } : rule,
+      ),
+    };
+
+    await saveAvailabilityState(nextAvailability);
   };
 
-  const handleToggleHoliday = () => {
-    setAvailability((prev) => (prev ? { ...prev, holidayMode: !prev.holidayMode } : prev));
+  const handleToggleHoliday = async () => {
+    if (!availability) return;
+
+    const nextAvailability = {
+      ...availability,
+      holidayMode: !availability.holidayMode,
+    };
+
+    await saveAvailabilityState(nextAvailability);
   };
 
-  const handleAddRule = () => {
+  const handleAddRule = async () => {
     if (!newDate.trim()) {
       return;
     }
 
-    setAvailability((prev) =>
-      prev
-        ? {
-            ...prev,
-            rules: [
-              ...prev.rules,
-              {
-                id: crypto.randomUUID(),
-                date: newDate,
-                slots: newSlots
-                  .split(",")
-                  .map((slot) => slot.trim())
-                  .filter(Boolean),
-                isBlocked: false,
-              },
-            ],
-          }
-        : {
-            holidayMode: false,
-            rules: [
-              {
-                id: crypto.randomUUID(),
-                date: newDate,
-                slots: newSlots
-                  .split(",")
-                  .map((slot) => slot.trim())
-                  .filter(Boolean),
-                isBlocked: false,
-              },
-            ],
-          },
-    );
+    const nextRule: AvailabilityRule = {
+      id: crypto.randomUUID(),
+      date: newDate,
+      slots: newSlots
+        .split(",")
+        .map((slot) => slot.trim())
+        .filter(Boolean),
+      isBlocked: false,
+    };
+
+    const nextAvailability: AvailabilityPayload = {
+      holidayMode: availability?.holidayMode ?? false,
+      rules: [...(availability?.rules ?? []), nextRule],
+    };
 
     setNewDate("");
     setNewSlots("");
+    await saveAvailabilityState(nextAvailability);
   };
 
-  const handleSave = async () => {
-    if (!availability) return;
+  const saveAvailabilityState = async (nextAvailability: AvailabilityPayload) => {
+    setAvailability(nextAvailability);
     setSaving(true);
     setError(null);
 
     const res = await fetch("/api/admin/availability", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(availability),
+      body: JSON.stringify(nextAvailability),
     });
 
     if (!res.ok) {
@@ -124,6 +114,22 @@ export default function AdminAvailabilityPage() {
     const data = await res.json();
     setAvailability(data);
     setSaving(false);
+  };
+
+  const handleSave = async () => {
+    if (!availability) return;
+    await saveAvailabilityState(availability);
+  };
+
+  const handleDeleteRule = async (id: string) => {
+    if (!availability) return;
+
+    const nextAvailability = {
+      ...availability,
+      rules: availability.rules.filter((rule) => rule.id !== id),
+    };
+
+    await saveAvailabilityState(nextAvailability);
   };
 
   return (
@@ -171,9 +177,14 @@ export default function AdminAvailabilityPage() {
                         <p className="font-medium">{rule.date}</p>
                         <p className="text-sm text-zinc-400">{rule.slots.length ? rule.slots.join(", ") : "No slots"}</p>
                       </div>
-                      <Button size="sm" variant="outline" onClick={() => handleToggleRule(rule.id)}>
-                        {rule.isBlocked ? "Unblock" : "Block"}
-                      </Button>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <Button size="sm" variant="outline" onClick={() => handleToggleRule(rule.id)}>
+                          {rule.isBlocked ? "Unblock" : "Block"}
+                        </Button>
+                        <Button size="sm" variant="outline" className="border-red-500/40 text-red-200 hover:border-red-400/60 hover:bg-red-500/10" onClick={() => handleDeleteRule(rule.id)}>
+                          Delete
+                        </Button>
+                      </div>
                     </div>
                   ))
                 )}

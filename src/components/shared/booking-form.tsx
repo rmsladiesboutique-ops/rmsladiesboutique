@@ -16,7 +16,6 @@ const schema = z.object({
     .string()
     .regex(/^[+\d]?(?:[\d\-\s()]{7,20})$/, "Invalid phone number"),
   address: z.string().min(5),
-  email: z.string().email().optional(),
   gender: z.string().default("Female"),
   preferredDate: z.string().min(1),
   preferredTime: z.string().min(1),
@@ -40,6 +39,7 @@ type Props = {
 export function BookingForm({ availableDates, availableDateSlots }: Props) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -62,12 +62,13 @@ export function BookingForm({ availableDates, availableDateSlots }: Props) {
   }, [selectedDate, selectedTime, availableSlots, setValue]);
 
   const onSubmit = async (values: Values) => {
+    setErrorMessage(null);
     setLoading(true);
+
     const payload = {
       customerName: values.customerName,
       phoneNumber: values.phoneNumber,
       address: values.address,
-      email: values.email,
       gender: values.gender,
       preferredDate: values.preferredDate,
       preferredTime: values.preferredTime,
@@ -85,17 +86,32 @@ export function BookingForm({ availableDates, availableDateSlots }: Props) {
         : undefined,
     };
 
-    const res = await fetch("/api/appointments", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+    try {
+      const res = await fetch("/api/appointments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
-    setLoading(false);
+      const data = await res.json();
+      setLoading(false);
 
-    if (!res.ok) return;
-    const data = await res.json();
-    router.push(`/book/confirmation/${data.id}`);
+      if (!res.ok) {
+        setErrorMessage(data?.error ?? "Unable to submit your appointment. Please try again.");
+        return;
+      }
+
+      if (!data?.id) {
+        setErrorMessage("Booking was created, but we could not determine the confirmation code. Please contact the studio.");
+        return;
+      }
+
+      router.push(`/book/confirmation/${data.id}`);
+    } catch (error) {
+      setLoading(false);
+      setErrorMessage("Unable to submit your appointment. Please check your connection and try again.");
+      console.error("Booking submit failed:", error);
+    }
   };
 
   return (
@@ -121,13 +137,6 @@ export function BookingForm({ availableDates, availableDateSlots }: Props) {
       <div className="space-y-1.5">
         <Input placeholder="Address" {...register("address")} />
         {errors.address && <p className="mt-1 text-xs text-red-400">Address is required</p>}
-      </div>
-      <div className="space-y-1.5">
-        <Input placeholder="Email" type="email" {...register("email")} />
-        <Input placeholder="Email (optional)" type="email" {...register("email")} />
-        {errors.email && (
-          <p className="mt-1 text-xs text-red-400">{errors.email.message ?? "Email must be valid"}</p>
-        )}
       </div>
       <input type="hidden" value="Female" {...register("gender")} />
       <div className="space-y-1.5">
@@ -185,9 +194,6 @@ export function BookingForm({ availableDates, availableDateSlots }: Props) {
             <Input placeholder="Color" {...register("color")} />
           </div>
           <div className="md:col-span-2 space-y-1.5">
-            <Input placeholder="Measurements details" {...register("measurements")} />
-          </div>
-          <div className="md:col-span-2 space-y-1.5">
             <Textarea placeholder="Special instructions" {...register("specialInstructions")} />
           </div>
           <div className="md:col-span-2 space-y-1.5">
@@ -195,6 +201,12 @@ export function BookingForm({ availableDates, availableDateSlots }: Props) {
           </div>
         </>
       )}
+
+      {errorMessage ? (
+        <div className="md:col-span-2 rounded-3xl border border-red-300/20 bg-red-50/80 p-4 text-sm text-red-700">
+          {errorMessage}
+        </div>
+      ) : null}
 
       <div className="md:col-span-2">
         <Button type="submit" className="w-full" disabled={loading || availableDates.length === 0}>{loading ? "Submitting..." : "Confirm Appointment"}</Button>

@@ -9,15 +9,15 @@ export const metadata: Metadata = {
   description: "Your appointment confirmation and booking code.",
 };
 
-export default async function ConfirmationPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
+export default async function ConfirmationPage({ params }: { params: { id: string } }) {
+  const { id } = params;
   const booking = await getAppointmentById(id);
   const settings = await getSettings();
   const homepage = settings?.homepageContent;
   const confirmationTitle = homepage?.confirmationTitle ?? "Booking Confirmed";
   const confirmationDescription = homepage?.confirmationDescription ?? "Your appointment was submitted successfully.";
   const successMessage = booking
-    ? "Your appointment has been successfully submitted. Our team will contact you shortly with confirmation details."
+    ? "Your appointment is confirmed. Our team will contact you shortly with the appointment details."
     : confirmationDescription;
 
   return (

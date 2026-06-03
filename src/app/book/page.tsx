@@ -55,10 +55,7 @@ export default async function BookPage() {
                 <div className="rounded-[1.75rem] border border-amber-300/30 bg-amber-50/80 p-6 text-amber-800">
                   <p className="text-sm font-semibold uppercase tracking-[0.24em]">Holiday mode active</p>
                   <p className="mt-2 text-sm">Booking is temporarily paused while the atelier rests and prepares the next collection.</p>
-                  {settings?.contactEmail ? (
-                    <p className="mt-3 text-sm">Questions? Email <a href={`mailto:${settings.contactEmail}`} className="font-semibold underline">{settings.contactEmail}</a>.</p>
-                  ) : null}
-                </div>
+                    </div>
               ) : (
                 <BookingForm
                   availableDates={open.map((o) => o.date)}
