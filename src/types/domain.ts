@@ -32,12 +32,12 @@ export type AppointmentPayload = {
   customerName: string;
   phoneNumber: string;
   address: string;
-  email: string;
+  email?: string;
   gender: string;
   preferredDate: string;
   preferredTime: string;
   clothingType: string;
-  measurementNotes: string;
+  measurementNotes?: string;
   customDesign: boolean;
   customRequest?: {
     fabricType?: string;

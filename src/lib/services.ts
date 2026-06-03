@@ -53,17 +53,14 @@ export async function createAppointment(payload: AppointmentPayload): Promise<Ap
     throw new Error("Supabase admin client not configured");
   }
 
-  const { data, error } = await supabase.from("appointments").insert({
+  const appointmentPayload: Record<string, unknown> = {
     id: record.id,
     customer_name: record.customerName,
     phone_number: record.phoneNumber,
-    email: record.email,
     gender: record.gender,
     preferred_date: record.preferredDate,
     preferred_time: record.preferredTime,
     clothing_type: record.clothingType,
-    address: record.address,
-    measurement_notes: record.measurementNotes,
     custom_design: record.customDesign,
     customer_code: record.customerCode,
     status: record.status,
@@ -71,7 +68,29 @@ export async function createAppointment(payload: AppointmentPayload): Promise<Ap
     completion_percent: record.completionPercent,
     estimated_completion_date: record.estimatedCompletionDate,
     admin_notes: record.adminNotes,
-  }).select().single();
+  };
+
+  if (typeof record.address === "string") {
+    appointmentPayload.address = record.address;
+  }
+
+  if (typeof record.email === "string") {
+    appointmentPayload.email = record.email;
+  }
+
+  if (typeof record.measurementNotes === "string") {
+    appointmentPayload.measurement_notes = record.measurementNotes;
+  }
+
+  let { data, error } = await supabase.from("appointments").insert(appointmentPayload).select().single();
+
+  const addressMissingError = error && (error.code === "42703" || error.code === "PGRST204") && error.message?.includes("address");
+  if (addressMissingError) {
+    delete appointmentPayload.address;
+    const retry = await supabase.from("appointments").insert(appointmentPayload).select().single();
+    data = retry.data;
+    error = retry.error;
+  }
 
   if (error || !data) {
     console.error("Supabase insert appointment error:", error);

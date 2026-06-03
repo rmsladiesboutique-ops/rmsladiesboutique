@@ -40,11 +40,12 @@ function WhatsAppLogo(props: any) {
 export default async function Home() {
   const settings = await getSettings();
   const homepage = settings?.homepageContent;
-  const heroBadge = homepage?.heroBadge ?? "Simple Regular Wear";
-  const heroHeadline = homepage?.heroHeadline ?? "Tailoring made for women who value fit, comfort and style.";
-  const heroDescription = homepage?.heroDescription ?? "Book a private womenswear appointment and explore a curated catalog of streamlined, premium designs.";
-  const heroPrimaryCta = homepage?.heroPrimaryCta ?? "Book a fitting";
-  const heroSecondaryCta = homepage?.heroSecondaryCta ?? "Explore the catalog";
+  const heroBadge = homepage?.heroBadge ?? "Bespoke Atelier";
+  const heroHeadline = homepage?.heroHeadline ?? "Bespoke tailoring for women who demand precision, comfort and enduring style.";
+  const heroDescription = homepage?.heroDescription ?? "Secure a private appointment with our atelier and refine your wardrobe with expertly crafted pieces.";
+  const heroExtra = homepage?.heroExtra ?? "Personal fittings, refined tailoring, and hand-finished construction designed for your life.";
+  const heroPrimaryCta = homepage?.heroPrimaryCta ?? "Book an appointment";
+  const heroSecondaryCta = homepage?.heroSecondaryCta ?? "Browse the collection";
   const heroStats = homepage?.heroStats?.length
     ? homepage.heroStats
     : [
@@ -61,18 +62,9 @@ export default async function Home() {
         { title: "Precise fitting", description: "Every visit begins with measurements designed for movement and confidence." },
         { title: "Modern tailoring", description: "Clean silhouettes with thoughtful finishes for both daily wear and special occasions." },
       ];
-  const featuredCollectionTitle = homepage?.featuredCollectionTitle ?? "Ready-to-wear favorites";
-  const featuredCollectionItems = homepage?.featuredCollectionItems?.length
-    ? homepage.featuredCollectionItems
-    : [
-        { title: "Essential blazer", description: "Effortless structure for polished everyday dressing." },
-        { title: "Signature dress", description: "Soft volume and tailored details for easy confidence." },
-        { title: "Classic shirt", description: "Versatile layering pieces cut for a flattering fit." },
-      ];
-
   return (
     <main className="mx-auto max-w-7xl px-4 pb-20 pt-10 md:px-8 md:pt-14">
-      <section className="hero-grid overflow-hidden rounded-[2.5rem] p-8 sm:p-10 shadow-[0_30px_60px_-40px_rgba(15,12,10,0.12)]">
+      <section className="hero-grid hero-spotlight overflow-hidden rounded-[2.5rem] p-8 sm:p-10 shadow-[0_30px_60px_-40px_rgba(15,12,10,0.12)]">
         <div className="space-y-8 mx-auto max-w-3xl">
             <div className="flex flex-wrap items-center gap-3">
               <Badge className="fashion-chip">{heroBadge}</Badge>
@@ -87,7 +79,7 @@ export default async function Home() {
             </p>
 
             <p className="text-base leading-8 text-foreground/80 sm:text-lg">
-              Shape your clothes according to your desire with custom fittings, refined tailoring, and an expert touch at every stage.
+              {heroExtra}
             </p>
 
             <div className="grid gap-4 sm:grid-cols-[1fr_auto] items-center">
@@ -134,59 +126,6 @@ export default async function Home() {
             </div>
           </CardContent>
         </Card>
-
-        <Card className="glass-panel rounded-[2rem] p-8 shadow-lg border border-black/5">
-          <CardContent className="space-y-5">
-            <p className="text-sm uppercase tracking-[0.28em] text-foreground/55">{featuredCollectionTitle}</p>
-            <div className="grid gap-4">
-              {featuredCollectionItems.map((item) => (
-                <div key={item.title} className="rounded-[1.5rem] border border-slate-200/70 bg-white/95 text-slate-950 dark:bg-slate-950/80 dark:text-white p-5 shadow-sm">
-                  <p className="text-lg font-semibold text-slate-950 dark:text-white">{item.title}</p>
-                  <p className="mt-2 text-sm text-slate-700 dark:text-slate-300">{item.description}</p>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </section>
-
-      <section className="mt-14 grid gap-4 md:grid-cols-3">
-        {[
-          {
-            title: "Occasion Wear",
-            desc: "Personal pattern drafting and hand-finished construction for women.",
-            imageUrl: "/images/occasional-wear.jpeg",
-          },
-          {
-            title: "Bridal Couture",
-            desc: "Ceremonial gowns and eveningwear designed to your shape and style.",
-            imageUrl: "/images/bridal-wear.jpeg",
-          },
-          {
-            title: "Simple Daily Wear",
-            desc: "Precision fitting and silhouette refinement for a flawless feminine fit.",
-            imageUrl: "/images/simple-daily-wear.jpeg",
-          },
-        ].map((card) => (
-          <Link key={card.title} href="/catalog" className="group block">
-            <Card className="fashion-card overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_45px_120px_-60px_rgba(209,155,84,0.45)]">
-              <CardContent className="grid gap-4 lg:grid-cols-[120px_1fr]">
-                <div className="relative overflow-hidden rounded-[1.5rem] border border-white/15 bg-zinc-950 aspect-[4/3] sm:aspect-[16/9] lg:aspect-[5/4]">
-                  <Image src={card.imageUrl} alt={card.title} fill className="object-cover object-center" />
-                </div>
-                <div className="flex flex-col justify-between gap-4">
-                  <div>
-                    <h2 className="text-2xl font-semibold text-foreground">{card.title}</h2>
-                    <p className="mt-3 text-sm text-foreground/65">{card.desc}</p>
-                  </div>
-                  <div className="flex items-center justify-end">
-                    <ArrowRight className="h-5 w-5 text-amber-700 transition-transform duration-300 group-hover:translate-x-1" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
-        ))}
       </section>
 
       {(homepage?.pricingTitle || homepage?.pricingItems?.length) || (homepage?.testimonialsTitle || homepage?.testimonialsItems?.length) ? (

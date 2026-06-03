@@ -169,10 +169,18 @@ select {
 
 .hero-spotlight {
   position: relative;
+  overflow: hidden;
 }
 
 .hero-spotlight::before {
-  display: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(209, 155, 84, 0.18), transparent 32%),
+    radial-gradient(circle at bottom right, rgba(209, 87, 143, 0.12), transparent 28%);
+  pointer-events: none;
+  opacity: 0.85;
+  transform: translate(-10%, -10%) scale(1.15);
 }
 
 /* Ensure readable text contrast inside hero for both themes */
