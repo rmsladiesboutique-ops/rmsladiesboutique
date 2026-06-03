@@ -99,9 +99,9 @@ export default async function Home() {
 
             <div className="grid gap-4 sm:grid-cols-3">
               {heroStats.map((stat) => (
-                <div key={stat.value + stat.label} className="rounded-3xl border border-slate-200/80 bg-white p-5 text-center shadow-sm dark:border-slate-700/70 dark:bg-slate-900/80">
-                  <p className="text-lg font-semibold text-slate-950 dark:text-white">{stat.value}</p>
-                  <p className="mt-1 text-sm text-slate-800 dark:text-slate-400">{stat.label}</p>
+                <div key={stat.value + stat.label} className="rounded-3xl border border-slate-200/80 bg-white p-5 text-center shadow-sm dark:border-slate-700/70 dark:bg-slate-950/95">
+                  <p className="text-lg font-semibold text-slate-950 dark:text-slate-100">{stat.value}</p>
+                  <p className="mt-1 text-sm text-slate-800 dark:text-slate-300">{stat.label}</p>
                 </div>
               ))}
             </div>
@@ -110,50 +110,50 @@ export default async function Home() {
         <div className="hero-image-panel relative hidden overflow-hidden rounded-[2rem] border border-slate-200/80 bg-slate-50 shadow-[0_30px_80px_-50px_rgba(15,12,10,0.12)] dark:border-slate-700/70 dark:bg-slate-900/80 lg:block">
           <div className="hero-image-accent" />
           <Image src="/images/bridal-wear.jpeg" alt="Tailored garment" fill className="object-cover" priority />
-          <div className="hero-image-copy absolute inset-x-0 bottom-0 p-6 backdrop-blur-sm bg-white/30 text-slate-900 dark:bg-slate-950/50 dark:text-white">
-            <p className="text-sm uppercase tracking-[0.3em] text-slate-800 dark:text-slate-300">Studio craftsmanship</p>
-            <p className="mt-2 text-xl font-semibold">Refined finishes for every occasion</p>
+          <div className="hero-image-copy absolute inset-x-0 bottom-0 p-6 backdrop-blur-sm bg-white/60 text-slate-900 dark:bg-slate-950/90 dark:text-slate-100">
+            <p className="text-sm uppercase tracking-[0.3em] text-slate-800 dark:text-slate-200">Studio craftsmanship</p>
+            <p className="mt-2 text-xl font-semibold text-slate-950 dark:text-white">Refined finishes for every occasion</p>
           </div>
         </div>
       </section>
 
       <section className="mt-14 grid gap-6 lg:grid-cols-[1.6fr_1fr]">
-        <Card className="feature-highlight rounded-[2rem] p-8 shadow-xl border border-slate-200/70 bg-white">
+        <Card className="feature-highlight rounded-[2rem] p-8 shadow-xl border border-slate-200/70 bg-white dark:bg-slate-950/95">
           <CardContent className="space-y-5">
-            <p className="text-sm uppercase tracking-[0.28em] text-slate-800">Signature services</p>
-            <h2 className="text-4xl font-semibold text-slate-950">{featureSectionTitle}</h2>
-            <p className="max-w-2xl text-base leading-8 text-slate-950">
+            <p className="text-sm uppercase tracking-[0.28em] text-slate-800 dark:text-slate-300">Signature services</p>
+            <h2 className="text-4xl font-semibold text-slate-950 dark:text-white">{featureSectionTitle}</h2>
+            <p className="max-w-2xl text-base leading-8 text-slate-950 dark:text-slate-100">
               {featureSectionSubtitle}
             </p>
             <div className="grid gap-4 sm:grid-cols-2">
               {featureCards.map((card) => (
-                <div key={card.title} className="rounded-3xl border border-slate-200/70 bg-white/95 text-slate-950 dark:bg-slate-950/80 dark:text-white p-5 text-sm shadow-sm">
-                  <p className="font-semibold text-slate-950 dark:text-white">{card.title}</p>
-                  <p className="mt-2 text-slate-800 dark:text-slate-300">{card.description}</p>
+                <div key={card.title} className="rounded-3xl border border-slate-200/70 bg-white p-5 text-slate-950 shadow-sm dark:border-white/10 dark:bg-slate-900/95 dark:text-slate-100 text-sm">
+                  <p className="font-semibold text-slate-950 dark:text-slate-100">{card.title}</p>
+                  <p className="mt-2 text-slate-800 dark:text-slate-200">{card.description}</p>
                 </div>
               ))}
             </div>
           </CardContent>
         </Card>
 
-        <Card className="rounded-[2rem] border border-slate-200/80 bg-slate-50 p-8 text-slate-950 shadow-xl dark:border-white/10 dark:bg-slate-950/90 dark:text-white">
+        <Card className="rounded-[2rem] border border-slate-200/80 bg-slate-50 p-8 text-slate-950 shadow-xl dark:border-white/10 dark:bg-slate-950/95 dark:text-white">
           <CardContent className="space-y-6">
             <div>
-              <p className="text-sm uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">Why clients choose us</p>
-              <h3 className="mt-3 text-3xl font-semibold">Tailored results with thoughtful service</h3>
+              <p className="text-sm uppercase tracking-[0.28em] text-slate-700 dark:text-slate-300">Why clients choose us</p>
+              <h3 className="mt-3 text-3xl font-semibold text-slate-950 dark:text-white">Tailored results with thoughtful service</h3>
             </div>
             <div className="space-y-4 text-sm leading-7 text-slate-900 dark:text-slate-300">
-              <div className="rounded-3xl border border-slate-200/80 bg-white/95 p-5 shadow-sm dark:border-white/10 dark:bg-slate-900/85">
-                <p className="font-semibold">One-on-one fittings</p>
-                <p className="mt-2 text-slate-800 dark:text-slate-400">Expert measurements and styling guidance for every appointment.</p>
+              <div className="rounded-3xl border border-slate-200/80 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-slate-900/95">
+                <p className="font-semibold text-slate-950 dark:text-slate-100">One-on-one fittings</p>
+                <p className="mt-2 text-slate-700 dark:text-slate-200">Expert measurements and styling guidance for every appointment.</p>
               </div>
-              <div className="rounded-3xl border border-slate-200/80 bg-white/95 p-5 shadow-sm dark:border-white/10 dark:bg-slate-900/85">
-                <p className="font-semibold">Premium craftsmanship</p>
-                <p className="mt-2 text-slate-800 dark:text-slate-400">Luxury finishes, precise construction and time-honored tailoring techniques.</p>
+              <div className="rounded-3xl border border-slate-200/80 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-slate-900/95">
+                <p className="font-semibold text-slate-950 dark:text-slate-100">Premium craftsmanship</p>
+                <p className="mt-2 text-slate-700 dark:text-slate-200">Luxury finishes, precise construction and time-honored tailoring techniques.</p>
               </div>
-              <div className="rounded-3xl border border-slate-200/80 bg-white/95 p-5 shadow-sm dark:border-white/10 dark:bg-slate-900/85">
-                <p className="font-semibold">Discreet studio experience</p>
-                <p className="mt-2 text-slate-800 dark:text-slate-400">A comfortable, private environment designed for personal wardrobe care.</p>
+              <div className="rounded-3xl border border-slate-200/80 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-slate-900/95">
+                <p className="font-semibold text-slate-950 dark:text-slate-100">Discreet studio experience</p>
+                <p className="mt-2 text-slate-700 dark:text-slate-200">A comfortable, private environment designed for personal wardrobe care.</p>
               </div>
             </div>
             <div className="mt-2">
@@ -173,7 +173,7 @@ export default async function Home() {
                 {homepage.pricingTitle && <h3 className="text-2xl">{homepage.pricingTitle}</h3>}
                 <div className="mt-4 space-y-3 text-sm text-slate-800">
                   {homepage.pricingItems.map((item) => (
-                    <p key={item.title}>{item.title}: {item.description}</p>
+                    <p key={item.title} className="text-slate-900 dark:text-slate-200">{item.title}: {item.description}</p>
                   ))}
                 </div>
               </CardContent>
@@ -186,7 +186,7 @@ export default async function Home() {
                 {homepage.testimonialsTitle && <h3 className="text-2xl">{homepage.testimonialsTitle}</h3>}
                 <div className="mt-4 space-y-4 text-sm text-slate-800">
                   {homepage.testimonialsItems.map((item) => (
-                    <p key={item.title}>&quot;{item.description}&quot; - {item.title}</p>
+                    <p key={item.title} className="text-slate-900 dark:text-slate-200">&quot;{item.description}&quot; - {item.title}</p>
                   ))}
                 </div>
               </CardContent>
@@ -198,7 +198,7 @@ export default async function Home() {
       {homepage?.ctaTitle || homepage?.ctaDescription || homepage?.ctaButton ? (
         <section className="mt-14 overflow-hidden rounded-[2rem] border border-white/15 bg-gradient-to-r from-amber-400/10 via-fuchsia-200/10 to-teal-200/10 p-8 text-center shadow-[0_40px_90px_-52px_rgba(209,155,84,0.8)] md:mt-16 md:p-10">
           {homepage.ctaTitle && <h3 className="text-3xl font-semibold text-slate-950">{homepage.ctaTitle}</h3>}
-          {homepage.ctaDescription && <p className="mt-2 text-slate-800">{homepage.ctaDescription}</p>}
+          {homepage.ctaDescription && <p className="mt-2 text-slate-900 dark:text-slate-100">{homepage.ctaDescription}</p>}
           {homepage.ctaButton && (
             <div className="mt-6"><Link href="/book"><Button size="lg">{homepage.ctaButton}</Button></Link></div>
           )}
