@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BookOpen, ChevronRight, Menu, X } from "lucide-react";
-import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { Button } from "@/components/ui/button";
 
 const links = [
@@ -65,9 +64,6 @@ export function Navbar({ siteTitle, navLinks }: NavbarProps) {
           ))}
         </nav>
         <div className="flex items-center gap-2 md:gap-3">
-          <div className="hidden md:block">
-            <ThemeToggle />
-          </div>
           <Link href="/book" className="hidden md:inline-flex">
             <Button size="sm" className="rounded-full bg-amber-800 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white shadow-[0_18px_45px_-24px_rgba(204,157,84,0.8)] transition hover:bg-amber-700">
               <BookOpen className="h-4 w-4" />
@@ -109,14 +105,11 @@ export function Navbar({ siteTitle, navLinks }: NavbarProps) {
           })}
         </div>
 
-        <div className="mt-4 grid grid-cols-2 gap-3">
+        <div className="mt-4 grid grid-cols-1 gap-3">
           <Link href="/book" onClick={closeMobileMenu} className="inline-flex items-center justify-center gap-2 rounded-2xl bg-amber-500 px-4 py-3 text-sm font-medium text-black shadow-[0_14px_30px_-18px_rgba(184,137,47,0.8)] transition hover:bg-amber-400">
             <BookOpen className="h-4 w-4" />
             Book Now
           </Link>
-          <div className="flex justify-end">
-            <ThemeToggle />
-          </div>
         </div>
       </div>
     </header>
