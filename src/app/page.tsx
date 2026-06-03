@@ -99,9 +99,9 @@ export default async function Home() {
 
             <div className="grid gap-4 sm:grid-cols-3">
               {heroStats.map((stat) => (
-                <div key={stat.value + stat.label} className="rounded-3xl border border-slate-200/80 bg-white p-5 text-center shadow-sm dark:border-slate-700/70 dark:bg-slate-950/95">
-                  <p className="text-lg font-semibold text-slate-950 dark:text-slate-100">{stat.value}</p>
-                  <p className="mt-1 text-sm text-slate-800 dark:text-slate-300">{stat.label}</p>
+                <div key={stat.value + stat.label} className="rounded-3xl border border-slate-200/80 bg-white p-5 text-center shadow-sm dark:border-slate-700/70 dark:bg-slate-950 dark:text-slate-50">
+                  <p className="text-lg font-semibold text-slate-950 dark:text-slate-50">{stat.value}</p>
+                  <p className="mt-1 text-sm text-slate-800 dark:text-slate-200">{stat.label}</p>
                 </div>
               ))}
             </div>
@@ -110,9 +110,9 @@ export default async function Home() {
         <div className="hero-image-panel relative hidden overflow-hidden rounded-[2rem] border border-slate-200/80 bg-slate-50 shadow-[0_30px_80px_-50px_rgba(15,12,10,0.12)] dark:border-slate-700/70 dark:bg-slate-900/80 lg:block">
           <div className="hero-image-accent" />
           <Image src="/images/bridal-wear.jpeg" alt="Tailored garment" fill className="object-cover" priority />
-          <div className="hero-image-copy absolute inset-x-0 bottom-0 p-6 backdrop-blur-sm bg-white/60 text-slate-900 dark:bg-slate-950/90 dark:text-slate-100">
+          <div className="hero-image-copy absolute inset-x-0 bottom-0 p-6 backdrop-blur-sm bg-white/70 text-slate-900 dark:bg-slate-950/95 dark:text-slate-50">
             <p className="text-sm uppercase tracking-[0.3em] text-slate-800 dark:text-slate-200">Studio craftsmanship</p>
-            <p className="mt-2 text-xl font-semibold text-slate-950 dark:text-white">Refined finishes for every occasion</p>
+            <p className="mt-2 text-xl font-semibold text-slate-950 dark:text-slate-50">Refined finishes for every occasion</p>
           </div>
         </div>
       </section>
@@ -127,8 +127,8 @@ export default async function Home() {
             </p>
             <div className="grid gap-4 sm:grid-cols-2">
               {featureCards.map((card) => (
-                <div key={card.title} className="rounded-3xl border border-slate-200/70 bg-white p-5 text-slate-950 shadow-sm dark:border-white/10 dark:bg-slate-900/95 dark:text-slate-100 text-sm">
-                  <p className="font-semibold text-slate-950 dark:text-slate-100">{card.title}</p>
+                <div key={card.title} className="rounded-3xl border border-slate-200/70 bg-white p-5 text-slate-950 shadow-sm dark:border-slate-700/70 dark:bg-slate-900 dark:text-slate-50 text-sm">
+                  <p className="font-semibold text-slate-950 dark:text-slate-50">{card.title}</p>
                   <p className="mt-2 text-slate-800 dark:text-slate-200">{card.description}</p>
                 </div>
               ))}
@@ -143,16 +143,16 @@ export default async function Home() {
               <h3 className="mt-3 text-3xl font-semibold text-slate-950 dark:text-white">Tailored results with thoughtful service</h3>
             </div>
             <div className="space-y-4 text-sm leading-7 text-slate-900 dark:text-slate-300">
-              <div className="rounded-3xl border border-slate-200/80 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-slate-900/95">
-                <p className="font-semibold text-slate-950 dark:text-slate-100">One-on-one fittings</p>
+              <div className="rounded-3xl border border-slate-200/80 bg-white p-5 shadow-sm dark:border-slate-700/70 dark:bg-slate-900 dark:text-slate-50">
+                <p className="font-semibold text-slate-950 dark:text-slate-50">One-on-one fittings</p>
                 <p className="mt-2 text-slate-700 dark:text-slate-200">Expert measurements and styling guidance for every appointment.</p>
               </div>
-              <div className="rounded-3xl border border-slate-200/80 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-slate-900/95">
-                <p className="font-semibold text-slate-950 dark:text-slate-100">Premium craftsmanship</p>
+              <div className="rounded-3xl border border-slate-200/80 bg-white p-5 shadow-sm dark:border-slate-700/70 dark:bg-slate-900 dark:text-slate-50">
+                <p className="font-semibold text-slate-950 dark:text-slate-50">Premium craftsmanship</p>
                 <p className="mt-2 text-slate-700 dark:text-slate-200">Luxury finishes, precise construction and time-honored tailoring techniques.</p>
               </div>
-              <div className="rounded-3xl border border-slate-200/80 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-slate-900/95">
-                <p className="font-semibold text-slate-950 dark:text-slate-100">Discreet studio experience</p>
+              <div className="rounded-3xl border border-slate-200/80 bg-white p-5 shadow-sm dark:border-slate-700/70 dark:bg-slate-900 dark:text-slate-50">
+                <p className="font-semibold text-slate-950 dark:text-slate-50">Discreet studio experience</p>
                 <p className="mt-2 text-slate-700 dark:text-slate-200">A comfortable, private environment designed for personal wardrobe care.</p>
               </div>
             </div>
@@ -171,9 +171,9 @@ export default async function Home() {
             <Card className="fashion-card">
               <CardContent>
                 {homepage.pricingTitle && <h3 className="text-2xl">{homepage.pricingTitle}</h3>}
-                <div className="mt-4 space-y-3 text-sm text-slate-800">
+                <div className="mt-4 space-y-3 text-sm text-slate-900 dark:text-slate-200">
                   {homepage.pricingItems.map((item) => (
-                    <p key={item.title} className="text-slate-900 dark:text-slate-200">{item.title}: {item.description}</p>
+                    <p key={item.title} className="dark:text-slate-100">{item.title}: {item.description}</p>
                   ))}
                 </div>
               </CardContent>
@@ -184,9 +184,9 @@ export default async function Home() {
             <Card className="fashion-card">
               <CardContent>
                 {homepage.testimonialsTitle && <h3 className="text-2xl">{homepage.testimonialsTitle}</h3>}
-                <div className="mt-4 space-y-4 text-sm text-slate-800">
+                <div className="mt-4 space-y-4 text-sm text-slate-900 dark:text-slate-200">
                   {homepage.testimonialsItems.map((item) => (
-                    <p key={item.title} className="text-slate-900 dark:text-slate-200">&quot;{item.description}&quot; - {item.title}</p>
+                    <p key={item.title} className="dark:text-slate-100">&quot;{item.description}&quot; - {item.title}</p>
                   ))}
                 </div>
               </CardContent>
