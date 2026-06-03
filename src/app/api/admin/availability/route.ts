@@ -42,7 +42,16 @@ export async function DELETE(request: Request) {
   }
 
   const url = new URL(request.url);
-  const id = url.searchParams.get("id");
+  let id = url.searchParams.get("id");
+
+  if (!id) {
+    try {
+      const body = await request.json();
+      id = body?.id;
+    } catch {
+      id = null;
+    }
+  }
 
   if (!id) {
     return NextResponse.json({ error: "Missing id" }, { status: 400 });

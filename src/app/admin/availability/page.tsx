@@ -126,8 +126,11 @@ export default function AdminAvailabilityPage() {
     setSaving(true);
     setError(null);
 
-    const res = await fetch(`/api/admin/availability?id=${encodeURIComponent(id)}`, {
+    const res = await fetch("/api/admin/availability", {
       method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ id }),
     });
 
     if (!res.ok) {
