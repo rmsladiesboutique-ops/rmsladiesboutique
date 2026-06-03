@@ -37,16 +37,21 @@ export function Footer({ siteTitle, tagline, phone, email }: FooterProps) {
   }
 
   return (
-    <footer className="mt-24 border-t border-slate-200/70 bg-gradient-to-b from-white/95 via-slate-50/95 to-slate-100 text-slate-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.65)] dark:border-white/10 dark:bg-[#080706] dark:text-slate-200">
-      <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 px-4 py-12 md:flex-row md:px-8">
-        <div>
+    <footer className="mt-24 border-t border-slate-200/70 bg-gradient-to-b from-white/95 via-amber-50/80 to-slate-100 text-slate-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.65)] dark:border-white/10 dark:bg-[#080706] dark:text-slate-200">
+      <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 px-4 py-16 md:flex-row md:px-8">
+        <div className="max-w-2xl">
           <p className="text-3xl font-semibold uppercase tracking-[0.24em] text-foreground dark:text-slate-100">{siteTitle ?? "RMS LADIES BOUTIQUE"}</p>
           <p className="mt-3 max-w-md text-sm uppercase tracking-[0.28em] text-foreground/65 dark:text-slate-400">{tagline ?? "Expert tailoring and personalised womenswear appointments."}</p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <a href="tel:+918296028147" className="inline-flex items-center gap-2 rounded-full border border-amber-200/60 bg-amber-50/90 px-5 py-3 text-sm font-semibold text-amber-950 shadow-sm transition hover:bg-amber-100 dark:border-amber-300/20 dark:bg-amber-500/10 dark:text-amber-100">
+              <PhoneCall className="h-4 w-4" /> Call us
+            </a>
+            <a href="mailto:contact@atelier.com" className="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/95 px-5 py-3 text-sm font-semibold text-foreground shadow-sm transition hover:bg-slate-50 dark:border-white/10 dark:bg-slate-900/90 dark:text-white">
+              {email ?? "contact@atelier.com"}
+            </a>
+          </div>
         </div>
         <div className="grid gap-3 text-left md:text-right">
-          <a href="tel:+918296028147" className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-200/80 bg-white/95 px-5 py-4 text-base font-semibold text-foreground shadow-sm transition hover:border-amber-200 hover:bg-amber-50 dark:border-white/10 dark:bg-zinc-900 dark:text-white">
-            <PhoneCall className="h-4 w-4" /> 8296028147
-          </a>
           <a href="https://maps.app.goo.gl/ouR5nVnGQCM6aPxK6?g_st=aw" target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-200/80 bg-white/95 px-5 py-4 text-base font-semibold text-foreground shadow-sm transition hover:border-sky-200 hover:bg-sky-50 dark:border-white/10 dark:bg-zinc-900 dark:text-white">
             <MapPin className="h-4 w-4" /> View location
           </a>

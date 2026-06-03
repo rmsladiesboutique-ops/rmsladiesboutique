@@ -123,13 +123,29 @@ export default function AdminAvailabilityPage() {
 
   const handleDeleteRule = async (id: string) => {
     if (!availability) return;
+    setSaving(true);
+    setError(null);
 
-    const nextAvailability = {
-      ...availability,
-      rules: availability.rules.filter((rule) => rule.id !== id),
-    };
+    const res = await fetch(`/api/admin/availability?id=${encodeURIComponent(id)}`, {
+      method: "DELETE",
+    });
 
-    await saveAvailabilityState(nextAvailability);
+    if (!res.ok) {
+      const data = await res.json();
+      setError(data?.error || "Unable to delete availability rule");
+      setSaving(false);
+      return;
+    }
+
+    setAvailability((prev) =>
+      prev
+        ? {
+            ...prev,
+            rules: prev.rules.filter((rule) => rule.id !== id),
+          }
+        : prev,
+    );
+    setSaving(false);
   };
 
   return (

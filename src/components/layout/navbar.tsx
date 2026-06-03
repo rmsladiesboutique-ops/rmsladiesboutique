@@ -46,10 +46,10 @@ export function Navbar({ siteTitle, navLinks }: NavbarProps) {
   const navItems = navLinks?.length ? navLinks : defaultNavItems;
 
   return (
-    <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/85 backdrop-blur-3xl shadow-[0_20px_70px_-30px_rgba(15,12,10,0.15)] dark:border-white/10 dark:bg-zinc-950/80">
+    <header className="sticky top-0 z-40 border-b border-slate-200/70 bg-white/90 backdrop-blur-2xl shadow-[0_24px_70px_-32px_rgba(20,16,12,0.16)] dark:border-white/10 dark:bg-slate-950/90">
       <div className="mx-auto container flex flex-wrap items-center justify-between gap-3 py-4">
         <Link href="/" className="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.32em] text-slate-900 transition dark:text-slate-100">
-          <Image src="/rms-logo.jpeg" alt={siteTitle ? `${siteTitle} logo` : "Site logo"} width={150} height={52} priority className="h-10 w-auto rounded-xl object-contain" />
+          <Image src="/rms-logo.jpeg" alt={siteTitle ? `${siteTitle} logo` : "Site logo"} width={150} height={52} priority className="h-11 w-auto rounded-2xl object-contain border border-slate-200/70 bg-white/80 shadow-sm dark:border-white/10 dark:bg-slate-900/70" />
           {siteTitle ? <span className="text-base font-semibold tracking-[0.22em] text-slate-900 dark:text-slate-100">{siteTitle}</span> : null}
         </Link>
         <nav className="hidden items-center gap-7 lg:flex">
@@ -57,7 +57,7 @@ export function Navbar({ siteTitle, navLinks }: NavbarProps) {
             <Link
               key={item.href}
               href={item.href}
-              className={`text-base font-semibold uppercase tracking-[0.22em] leading-6 transition ${pathname === item.href ? "text-foreground" : "text-foreground/75 hover:text-foreground"}`}
+              className={`text-base font-semibold uppercase tracking-[0.22em] leading-6 transition ${pathname === item.href ? "text-foreground" : "text-foreground/70 hover:text-foreground"}`}
             >
               {item.label}
             </Link>
@@ -65,14 +65,14 @@ export function Navbar({ siteTitle, navLinks }: NavbarProps) {
         </nav>
         <div className="flex items-center gap-2 md:gap-3">
           <Link href="/book" className="hidden md:inline-flex">
-            <Button size="sm" className="rounded-full bg-amber-800 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white shadow-[0_18px_45px_-24px_rgba(204,157,84,0.8)] transition hover:bg-amber-700">
+            <Button size="sm" className="rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-fuchsia-500 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-black shadow-[0_18px_45px_-24px_rgba(194,159,75,0.85)] transition hover:brightness-105">
               <BookOpen className="h-4 w-4" />
               Book Now
             </Button>
           </Link>
           <button
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white/85 text-foreground shadow-sm transition hover:bg-white dark:border-white/10 dark:bg-white/10 md:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200/80 bg-white/95 text-foreground shadow-sm transition hover:bg-amber-50 dark:border-white/10 dark:bg-slate-900/80 md:hidden"
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-nav"
@@ -85,9 +85,9 @@ export function Navbar({ siteTitle, navLinks }: NavbarProps) {
 
       <div
         id="mobile-nav"
-        className={`border-t border-black/5 bg-[rgba(255,250,244,0.96)] px-4 pb-4 pt-3 shadow-[0_18px_40px_-28px_rgba(26,18,12,0.45)] backdrop-blur-xl transition-all duration-200 dark:border-white/10 dark:bg-black/90 md:hidden ${mobileMenuOpen ? "max-h-[520px] opacity-100" : "pointer-events-none max-h-0 overflow-hidden opacity-0"}`}
+        className={`border-t border-slate-200/60 bg-white/90 px-4 pb-4 pt-3 shadow-[0_18px_40px_-28px_rgba(26,18,12,0.18)] backdrop-blur-xl transition-all duration-200 dark:border-white/10 dark:bg-slate-950/95 md:hidden ${mobileMenuOpen ? "max-h-[520px] opacity-100" : "pointer-events-none max-h-0 overflow-hidden opacity-0"}`}
       >
-        <div className="space-y-2">
+        <div className="space-y-3">
           {navItems.map((item) => {
             const active = pathname === item.href;
 

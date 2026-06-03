@@ -332,6 +332,19 @@ export async function updateAvailability(payload: { holidayMode: boolean; rules:
   };
 }
 
+export async function deleteAvailabilityRule(id: string) {
+  const supabase = createServiceRoleClient();
+  if (!supabase) return false;
+
+  const { error } = await supabase.from("availability_rules").delete().eq("id", id);
+  if (error) {
+    console.error("Failed to delete availability rule", error);
+    return false;
+  }
+
+  return true;
+}
+
 export async function getSettings(): Promise<AppSettings | null> {
   const supabase = createServiceRoleClient();
   if (!supabase) return null;

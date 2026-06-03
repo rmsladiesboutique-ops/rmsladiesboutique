@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getAvailability, updateAvailability } from "@/lib/services";
+import { deleteAvailabilityRule, getAvailability, updateAvailability } from "@/lib/services";
 import { ADMIN_SESSION_COOKIE, verifyAdminSessionToken } from "@/lib/admin-auth";
 
 async function requireAdmin(request: Request) {
@@ -34,4 +34,24 @@ export async function PATCH(request: Request) {
   }
 
   return NextResponse.json(data);
+}
+
+export async function DELETE(request: Request) {
+  if (!(await requireAdmin(request))) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const url = new URL(request.url);
+  const id = url.searchParams.get("id");
+
+  if (!id) {
+    return NextResponse.json({ error: "Missing id" }, { status: 400 });
+  }
+
+  const deleted = await deleteAvailabilityRule(id);
+  if (!deleted) {
+    return NextResponse.json({ error: "Unable to delete availability rule" }, { status: 500 });
+  }
+
+  return NextResponse.json({ ok: true });
 }
