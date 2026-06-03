@@ -64,7 +64,7 @@ export default async function Home() {
       ];
   return (
     <main className="mx-auto max-w-7xl px-4 pb-20 pt-10 md:px-8 md:pt-14">
-      <section className="hero-grid hero-spotlight overflow-hidden rounded-[2.5rem] p-8 sm:p-10 shadow-[0_30px_60px_-40px_rgba(15,12,10,0.12)]">
+      <section className="hero-grid hero-spotlight grid gap-10 lg:grid-cols-[1.25fr_0.95fr] overflow-hidden rounded-[2.5rem] p-8 sm:p-10 shadow-[0_30px_60px_-40px_rgba(15,12,10,0.12)]">
         <div className="space-y-8 mx-auto max-w-3xl">
             <div className="flex flex-wrap items-center gap-3">
               <Badge className="fashion-chip">{heroBadge}</Badge>
@@ -74,11 +74,11 @@ export default async function Home() {
               {heroHeadline}
             </h1>
 
-            <p className="text-base leading-8 text-foreground/80 sm:text-lg">
+            <p className="text-base leading-8 text-foreground/90 sm:text-lg">
               {heroDescription}
             </p>
 
-            <p className="text-base leading-8 text-foreground/80 sm:text-lg">
+            <p className="text-base leading-8 text-foreground/90 sm:text-lg">
               {heroExtra}
             </p>
 
@@ -101,19 +101,28 @@ export default async function Home() {
               {heroStats.map((stat) => (
                 <div key={stat.value + stat.label} className="rounded-3xl border border-slate-200/80 bg-slate-50 p-5 text-center shadow-sm dark:border-slate-700/70 dark:bg-slate-900/80">
                   <p className="text-lg font-semibold text-foreground dark:text-white">{stat.value}</p>
-                  <p className="mt-1 text-sm text-foreground/60 dark:text-slate-400">{stat.label}</p>
+                  <p className="mt-1 text-sm text-foreground/70 dark:text-slate-400">{stat.label}</p>
                 </div>
               ))}
             </div>
         </div>
+
+        <div className="hero-image-panel relative hidden overflow-hidden rounded-[2rem] border border-slate-200/80 bg-slate-50 shadow-[0_30px_80px_-50px_rgba(15,12,10,0.12)] dark:border-slate-700/70 dark:bg-slate-900/80 lg:block">
+          <div className="hero-image-accent" />
+          <Image src="/images/bridal-wear.jpeg" alt="Tailored garment" fill className="object-cover" priority />
+          <div className="hero-image-copy absolute inset-x-0 bottom-0 p-6 backdrop-blur-sm bg-white/30 text-slate-900 dark:bg-slate-950/50 dark:text-white">
+            <p className="text-sm uppercase tracking-[0.3em] text-slate-700 dark:text-slate-300">Studio craftsmanship</p>
+            <p className="mt-2 text-xl font-semibold">Refined finishes for every occasion</p>
+          </div>
+        </div>
       </section>
 
-      <section className="mt-14 grid gap-6 md:grid-cols-[1.3fr_0.7fr]">
+      <section className="mt-14 grid gap-6 lg:grid-cols-[1.6fr_1fr]">
         <Card className="feature-highlight rounded-[2rem] p-8 shadow-xl border border-black/5">
           <CardContent className="space-y-5">
             <p className="text-sm uppercase tracking-[0.28em] text-foreground/55">Signature services</p>
             <h2 className="text-4xl font-semibold">{featureSectionTitle}</h2>
-            <p className="max-w-2xl text-base leading-8 text-foreground/75">
+            <p className="max-w-2xl text-base leading-8 text-foreground/80">
               {featureSectionSubtitle}
             </p>
             <div className="grid gap-4 sm:grid-cols-2">
@@ -123,6 +132,34 @@ export default async function Home() {
                   <p className="mt-2 text-slate-700 dark:text-slate-300">{card.description}</p>
                 </div>
               ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="rounded-[2rem] border border-slate-200/80 bg-slate-50 p-8 text-slate-950 shadow-xl dark:border-white/10 dark:bg-slate-950/90 dark:text-white">
+          <CardContent className="space-y-6">
+            <div>
+              <p className="text-sm uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">Why clients choose us</p>
+              <h3 className="mt-3 text-3xl font-semibold">Tailored results with thoughtful service</h3>
+            </div>
+            <div className="space-y-4 text-sm leading-7 text-slate-700 dark:text-slate-300">
+              <div className="rounded-3xl border border-slate-200/80 bg-white/95 p-5 shadow-sm dark:border-white/10 dark:bg-slate-900/85">
+                <p className="font-semibold">One-on-one fittings</p>
+                <p className="mt-2 text-slate-600 dark:text-slate-400">Expert measurements and styling guidance for every appointment.</p>
+              </div>
+              <div className="rounded-3xl border border-slate-200/80 bg-white/95 p-5 shadow-sm dark:border-white/10 dark:bg-slate-900/85">
+                <p className="font-semibold">Premium craftsmanship</p>
+                <p className="mt-2 text-slate-600 dark:text-slate-400">Luxury finishes, precise construction and time-honored tailoring techniques.</p>
+              </div>
+              <div className="rounded-3xl border border-slate-200/80 bg-white/95 p-5 shadow-sm dark:border-white/10 dark:bg-slate-900/85">
+                <p className="font-semibold">Discreet studio experience</p>
+                <p className="mt-2 text-slate-600 dark:text-slate-400">A comfortable, private environment designed for personal wardrobe care.</p>
+              </div>
+            </div>
+            <div className="mt-2">
+              <Link href="/book" className="inline-flex items-center justify-center rounded-full bg-amber-700 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-amber-800">
+                Book a private consultation
+              </Link>
             </div>
           </CardContent>
         </Card>
@@ -161,7 +198,7 @@ export default async function Home() {
       {homepage?.ctaTitle || homepage?.ctaDescription || homepage?.ctaButton ? (
         <section className="mt-14 overflow-hidden rounded-[2rem] border border-white/15 bg-gradient-to-r from-amber-400/10 via-fuchsia-200/10 to-teal-200/10 p-8 text-center shadow-[0_40px_90px_-52px_rgba(209,155,84,0.8)] md:mt-16 md:p-10">
           {homepage.ctaTitle && <h3 className="text-3xl font-semibold">{homepage.ctaTitle}</h3>}
-          {homepage.ctaDescription && <p className="mt-2 text-foreground/70">{homepage.ctaDescription}</p>}
+          {homepage.ctaDescription && <p className="mt-2 text-foreground/80">{homepage.ctaDescription}</p>}
           {homepage.ctaButton && (
             <div className="mt-6"><Link href="/book"><Button size="lg">{homepage.ctaButton}</Button></Link></div>
           )}
@@ -172,7 +209,7 @@ export default async function Home() {
         <div className="mx-auto max-w-4xl">
           <p className="text-sm uppercase tracking-[0.26em] text-foreground/55">Contact details</p>
           <h2 className="mt-3 text-4xl font-semibold text-foreground">Ready to book your fitting?</h2>
-          <p className="mt-3 text-base leading-7 text-foreground/70">
+          <p className="mt-3 text-base leading-7 text-foreground/80">
             Reach out directly via phone, WhatsApp, location or Instagram for fast styling support and appointment help.
           </p>
 
