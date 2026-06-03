@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -17,6 +18,7 @@ type AvailabilityPayload = {
 };
 
 export default function AdminAvailabilityPage() {
+  const router = useRouter();
   const [availability, setAvailability] = useState<AvailabilityPayload | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -126,14 +128,23 @@ export default function AdminAvailabilityPage() {
     setSaving(true);
     setError(null);
 
-    const res = await fetch("/api/admin/availability", {
+    const res = await fetch(`/api/admin/availability?id=${encodeURIComponent(id)}`, {
       method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({ id }),
     });
 
     if (!res.ok) {
+      const data = await res.json();
+      setError(data?.error || "Unable to delete availability rule");
+      setSaving(false);
+      return;
+    }
+
+    if (!res.ok) {
+      if (res.status === 401) {
+        router.push("/admin/login");
+        return;
+      }
+
       const data = await res.json();
       setError(data?.error || "Unable to delete availability rule");
       setSaving(false);

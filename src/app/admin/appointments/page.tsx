@@ -108,7 +108,7 @@ export default function AdminAppointmentsPage() {
               ...r,
               status,
               statusIndex: isCustom ? r.statusIndex : statusIndex,
-              completionPercent: isCustom ? r.completionPercent : Math.round((statusIndex / 6) * 100),
+              completionPercent: isCustom ? r.completionPercent : Math.round((statusIndex / STATUS_STAGES.length) * 100),
               adminNotes: notes[id] ?? r.adminNotes,
             }
           : r,

@@ -242,7 +242,7 @@ export async function getAppointments() {
     customDesign: a.custom_design,
     customerCode: a.customer_code,
     status: a.status,
-    statusIndex: a.status_index,
+    statusIndex: typeof a.status_index === "number" ? a.status_index : 0,
     completionPercent: a.completion_percent,
     estimatedCompletionDate: a.estimated_completion_date ?? "",
     adminNotes: a.admin_notes ?? "",

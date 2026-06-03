@@ -1,9 +1,11 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { format } from "date-fns";
 import { ArrowRight, CalendarCheck2, ClipboardList, PackageOpen, TrendingUp } from "lucide-react";
 import { getAppointments } from "@/lib/services";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { STATUS_STAGES } from "@/types/domain";
 
 export const metadata: Metadata = {
   title: "Admin Dashboard | Atelier Noir",
@@ -13,9 +15,9 @@ export const metadata: Metadata = {
 export default async function AdminPage() {
   const appointments = await getAppointments();
   const total = appointments.length;
-  const pending = appointments.filter((a) => a.statusIndex < 6).length;
-  const completed = appointments.filter((a) => a.statusIndex === 6).length;
-  const today = new Date().toISOString().slice(0, 10);
+  const pending = appointments.filter((a) => a.statusIndex < STATUS_STAGES.length).length;
+  const completed = appointments.filter((a) => a.statusIndex >= STATUS_STAGES.length).length;
+  const today = format(new Date(), "yyyy-MM-dd");
   const todayBookings = appointments.filter((a) => a.preferredDate === today).length;
 
   return (
