@@ -47,7 +47,7 @@ export function Navbar({ siteTitle, navLinks }: NavbarProps) {
 
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/85 backdrop-blur-3xl shadow-[0_20px_70px_-30px_rgba(15,12,10,0.15)] dark:border-white/10 dark:bg-zinc-950/80">
-      <div className="mx-auto container flex flex-wrap items-center justify-between gap-3 py-4">
+      <div className="mx-auto container flex flex-wrap items-center justify-between gap-3 py-3 sm:py-4">
         <Link href="/" className="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.32em] text-slate-900 transition dark:text-slate-100">
           <Image src="/rms-logo.jpeg" alt={siteTitle ? `${siteTitle} logo` : "Site logo"} width={150} height={52} priority className="h-10 w-auto rounded-xl object-contain" />
           {siteTitle ? <span className="text-base font-semibold tracking-[0.22em] text-slate-900 dark:text-slate-100">{siteTitle}</span> : null}
@@ -85,9 +85,9 @@ export function Navbar({ siteTitle, navLinks }: NavbarProps) {
 
       <div
         id="mobile-nav"
-        className={`border-t border-black/5 bg-[rgba(255,250,244,0.96)] px-4 pb-4 pt-3 shadow-[0_18px_40px_-28px_rgba(26,18,12,0.45)] backdrop-blur-xl transition-all duration-200 dark:border-white/10 dark:bg-black/90 md:hidden ${mobileMenuOpen ? "max-h-[520px] opacity-100" : "pointer-events-none max-h-0 overflow-hidden opacity-0"}`}
+        className={`border-t border-black/5 bg-[rgba(255,250,244,0.98)] px-4 pb-4 pt-3 shadow-[0_18px_40px_-28px_rgba(26,18,12,0.45)] backdrop-blur-xl transition-all duration-300 dark:border-white/10 dark:bg-black/90 md:hidden ${mobileMenuOpen ? "max-h-[560px] opacity-100 pointer-events-auto" : "pointer-events-none max-h-0 overflow-hidden opacity-0"}`}
       >
-        <div className="space-y-2">
+        <div className="space-y-3">
           {navItems.map((item) => {
             const active = pathname === item.href;
 
