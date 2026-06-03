@@ -74,11 +74,11 @@ export default async function Home() {
               {heroHeadline}
             </h1>
 
-            <p className="text-base leading-8 text-slate-900 sm:text-lg">
+            <p className="text-base leading-8 text-slate-950 sm:text-lg">
               {heroDescription}
             </p>
 
-            <p className="text-base leading-8 text-slate-900 sm:text-lg">
+            <p className="text-base leading-8 text-slate-950 sm:text-lg">
               {heroExtra}
             </p>
 
@@ -101,7 +101,7 @@ export default async function Home() {
               {heroStats.map((stat) => (
                 <div key={stat.value + stat.label} className="rounded-3xl border border-slate-200/80 bg-white p-5 text-center shadow-sm dark:border-slate-700/70 dark:bg-slate-900/80">
                   <p className="text-lg font-semibold text-slate-950 dark:text-white">{stat.value}</p>
-                  <p className="mt-1 text-sm text-slate-700 dark:text-slate-400">{stat.label}</p>
+                  <p className="mt-1 text-sm text-slate-800 dark:text-slate-400">{stat.label}</p>
                 </div>
               ))}
             </div>
@@ -111,7 +111,7 @@ export default async function Home() {
           <div className="hero-image-accent" />
           <Image src="/images/bridal-wear.jpeg" alt="Tailored garment" fill className="object-cover" priority />
           <div className="hero-image-copy absolute inset-x-0 bottom-0 p-6 backdrop-blur-sm bg-white/30 text-slate-900 dark:bg-slate-950/50 dark:text-white">
-            <p className="text-sm uppercase tracking-[0.3em] text-slate-700 dark:text-slate-300">Studio craftsmanship</p>
+            <p className="text-sm uppercase tracking-[0.3em] text-slate-800 dark:text-slate-300">Studio craftsmanship</p>
             <p className="mt-2 text-xl font-semibold">Refined finishes for every occasion</p>
           </div>
         </div>
@@ -120,16 +120,16 @@ export default async function Home() {
       <section className="mt-14 grid gap-6 lg:grid-cols-[1.6fr_1fr]">
         <Card className="feature-highlight rounded-[2rem] p-8 shadow-xl border border-slate-200/70 bg-white">
           <CardContent className="space-y-5">
-            <p className="text-sm uppercase tracking-[0.28em] text-slate-700">Signature services</p>
+            <p className="text-sm uppercase tracking-[0.28em] text-slate-800">Signature services</p>
             <h2 className="text-4xl font-semibold text-slate-950">{featureSectionTitle}</h2>
-            <p className="max-w-2xl text-base leading-8 text-slate-800">
+            <p className="max-w-2xl text-base leading-8 text-slate-950">
               {featureSectionSubtitle}
             </p>
             <div className="grid gap-4 sm:grid-cols-2">
               {featureCards.map((card) => (
                 <div key={card.title} className="rounded-3xl border border-slate-200/70 bg-white/95 text-slate-950 dark:bg-slate-950/80 dark:text-white p-5 text-sm shadow-sm">
                   <p className="font-semibold text-slate-950 dark:text-white">{card.title}</p>
-                  <p className="mt-2 text-slate-700 dark:text-slate-300">{card.description}</p>
+                  <p className="mt-2 text-slate-800 dark:text-slate-300">{card.description}</p>
                 </div>
               ))}
             </div>
@@ -142,18 +142,18 @@ export default async function Home() {
               <p className="text-sm uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">Why clients choose us</p>
               <h3 className="mt-3 text-3xl font-semibold">Tailored results with thoughtful service</h3>
             </div>
-            <div className="space-y-4 text-sm leading-7 text-slate-700 dark:text-slate-300">
+            <div className="space-y-4 text-sm leading-7 text-slate-900 dark:text-slate-300">
               <div className="rounded-3xl border border-slate-200/80 bg-white/95 p-5 shadow-sm dark:border-white/10 dark:bg-slate-900/85">
                 <p className="font-semibold">One-on-one fittings</p>
-                <p className="mt-2 text-slate-600 dark:text-slate-400">Expert measurements and styling guidance for every appointment.</p>
+                <p className="mt-2 text-slate-800 dark:text-slate-400">Expert measurements and styling guidance for every appointment.</p>
               </div>
               <div className="rounded-3xl border border-slate-200/80 bg-white/95 p-5 shadow-sm dark:border-white/10 dark:bg-slate-900/85">
                 <p className="font-semibold">Premium craftsmanship</p>
-                <p className="mt-2 text-slate-600 dark:text-slate-400">Luxury finishes, precise construction and time-honored tailoring techniques.</p>
+                <p className="mt-2 text-slate-800 dark:text-slate-400">Luxury finishes, precise construction and time-honored tailoring techniques.</p>
               </div>
               <div className="rounded-3xl border border-slate-200/80 bg-white/95 p-5 shadow-sm dark:border-white/10 dark:bg-slate-900/85">
                 <p className="font-semibold">Discreet studio experience</p>
-                <p className="mt-2 text-slate-600 dark:text-slate-400">A comfortable, private environment designed for personal wardrobe care.</p>
+                <p className="mt-2 text-slate-800 dark:text-slate-400">A comfortable, private environment designed for personal wardrobe care.</p>
               </div>
             </div>
             <div className="mt-2">
@@ -171,7 +171,7 @@ export default async function Home() {
             <Card className="fashion-card">
               <CardContent>
                 {homepage.pricingTitle && <h3 className="text-2xl">{homepage.pricingTitle}</h3>}
-                <div className="mt-4 space-y-3 text-sm text-slate-700">
+                <div className="mt-4 space-y-3 text-sm text-slate-800">
                   {homepage.pricingItems.map((item) => (
                     <p key={item.title}>{item.title}: {item.description}</p>
                   ))}
@@ -184,7 +184,7 @@ export default async function Home() {
             <Card className="fashion-card">
               <CardContent>
                 {homepage.testimonialsTitle && <h3 className="text-2xl">{homepage.testimonialsTitle}</h3>}
-                <div className="mt-4 space-y-4 text-sm text-slate-700">
+                <div className="mt-4 space-y-4 text-sm text-slate-800">
                   {homepage.testimonialsItems.map((item) => (
                     <p key={item.title}>&quot;{item.description}&quot; - {item.title}</p>
                   ))}
@@ -207,9 +207,9 @@ export default async function Home() {
 
       <section className="mt-14 rounded-[2rem] border border-black/10 bg-white/95 p-8 shadow-[0_24px_60px_-48px_rgba(15,12,10,0.35)] dark:border-white/10 dark:bg-zinc-950/90">
         <div className="mx-auto max-w-4xl">
-          <p className="text-sm uppercase tracking-[0.26em] text-slate-700">Contact details</p>
+          <p className="text-sm uppercase tracking-[0.26em] text-slate-800">Contact details</p>
           <h2 className="mt-3 text-4xl font-semibold text-slate-950">Ready to book your fitting?</h2>
-          <p className="mt-3 text-base leading-7 text-slate-800">
+          <p className="mt-3 text-base leading-7 text-slate-900">
             Reach out directly via phone, WhatsApp, location or Instagram for fast styling support and appointment help.
           </p>
 

@@ -52,7 +52,7 @@ body {
     radial-gradient(circle at top left, rgba(255, 250, 246, 0.82), transparent 30%),
     radial-gradient(circle at bottom right, rgba(190, 145, 85, 0.10), transparent 32%),
     linear-gradient(180deg, #fbf3eb 0%, #f4e9e1 42%, #eee2d8 100%);
-  color: var(--foreground);
+  color: rgba(var(--foreground-rgb), 0.94);
   font-family: var(--font-sans), system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   line-height: 1.7;
   letter-spacing: 0.015em;
@@ -73,7 +73,7 @@ dl,
 dd,
 blockquote {
   line-height: 1.82;
-  color: rgba(var(--foreground-rgb), 0.87);
+  color: rgba(var(--foreground-rgb), 0.9);
   margin-bottom: 1.4rem;
 }
 
@@ -249,7 +249,7 @@ select {
 .hero-grid .fashion-chip p,
 .hero-grid .text-foreground,
 .hero-grid .text-foreground\/72 {
-  color: rgba(var(--foreground-rgb), 0.97) !important;
+  color: rgba(var(--foreground-rgb), 0.98) !important;
 }
 
 .hero-grid p,
@@ -257,7 +257,7 @@ select {
 .hero-grid .text-foreground\/60,
 .hero-grid .text-foreground\/70,
 .hero-grid .text-foreground\/72 {
-  color: rgba(var(--foreground-rgb), 0.82) !important;
+  color: rgba(var(--foreground-rgb), 0.9) !important;
 }
 
 .hero-grid .fashion-chip {
