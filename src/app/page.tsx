@@ -11,15 +11,15 @@ function InstagramLogo(props: any) {
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
       <defs>
         <linearGradient id="instagram-gradient" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#f09433" />
-          <stop offset="0.3" stopColor="#e6683c" />
-          <stop offset="0.6" stopColor="#dc2743" />
-          <stop offset="1" stopColor="#cc2366" />
+          <stop stopColor="#f58529" />
+          <stop offset="0.3" stopColor="#dd2a7b" />
+          <stop offset="0.6" stopColor="#8134af" />
+          <stop offset="1" stopColor="#515bd4" />
         </linearGradient>
       </defs>
       <rect x="2" y="2" width="20" height="20" rx="6" fill="url(#instagram-gradient)" />
-      <path d="M12 7.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9Z" fill="none" stroke="#fff" strokeWidth="1.8" />
-      <circle cx="12" cy="12" r="2.3" fill="#fff" />
+      <rect x="7" y="7" width="10" height="10" rx="3" stroke="#fff" strokeWidth="1.8" />
+      <circle cx="12" cy="12" r="2.7" stroke="#fff" strokeWidth="1.8" />
       <circle cx="16.5" cy="7.5" r="1.1" fill="#fff" />
     </svg>
   );
@@ -30,7 +30,7 @@ function WhatsAppLogo(props: any) {
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
       <circle cx="12" cy="12" r="10" fill="#25D366" />
       <path
-        d="M16.5 15.6c-.2-.1-1.2-.6-1.4-.7-.2-.1-.4 0-.6.1-.2.1-.6.2-.9.3-.2.1-.4.1-.6-.2-.2-.3-.8-.9-1-1.1-.2-.2-.3-.4-.2-.6.1-.2.2-.4.3-.6.1-.2.1-.4 0-.7-.1-.2-.6-1.5-.8-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.6 0-.9 0-.3 0-.7.1-1 .4-.3.3-1.2 1.2-1.2 2.8 0 1.6 1.2 3.2 1.3 3.5.1.3 2.2 3.4 5.4 4.6.8.3 1.4.5 1.9.5.5 0 1.5-.2 2-1.1.5-.9.5-1.7.4-1.8-.1-.1-.3-.2-.5-.3Z"
+        d="M15.72 14.28c-.17-.09-1.08-.52-1.23-.58-.15-.06-.26-.07-.37.08-.11.14-.44.52-.54.62-.1.09-.2.1-.36.03-.16-.08-.7-.26-1.32-.82-.49-.44-.82-.98-.92-1.18-.1-.2-.01-.31.07-.4.08-.08.18-.2.27-.31.09-.11.12-.18.18-.29.06-.11.03-.2 0-.28-.03-.09-.28-.64-.39-.86-.13-.24-.26-.2-.36-.2h-.32c-.1 0-.28 0-.43.02-.15.02-.35.08-.53.3-.18.22-.68.76-.68 1.84 0 1.08.65 2.12.74 2.33.08.2 1.56 2.4 3.8 3.65.57.27 1.07.43 1.46.43.35 0 1.07-.16 1.45-.84.38-.68.39-1.3.32-1.44-.07-.14-.23-.22-.41-.31Z"
         fill="#fff"
       />
     </svg>
@@ -74,11 +74,11 @@ export default async function Home() {
               {heroHeadline}
             </h1>
 
-            <p className="text-base leading-8 text-foreground/90 sm:text-lg">
+            <p className="text-base leading-8 text-slate-900 sm:text-lg">
               {heroDescription}
             </p>
 
-            <p className="text-base leading-8 text-foreground/90 sm:text-lg">
+            <p className="text-base leading-8 text-slate-900 sm:text-lg">
               {heroExtra}
             </p>
 
@@ -99,9 +99,9 @@ export default async function Home() {
 
             <div className="grid gap-4 sm:grid-cols-3">
               {heroStats.map((stat) => (
-                <div key={stat.value + stat.label} className="rounded-3xl border border-slate-200/80 bg-slate-50 p-5 text-center shadow-sm dark:border-slate-700/70 dark:bg-slate-900/80">
-                  <p className="text-lg font-semibold text-foreground dark:text-white">{stat.value}</p>
-                  <p className="mt-1 text-sm text-foreground/70 dark:text-slate-400">{stat.label}</p>
+                <div key={stat.value + stat.label} className="rounded-3xl border border-slate-200/80 bg-white p-5 text-center shadow-sm dark:border-slate-700/70 dark:bg-slate-900/80">
+                  <p className="text-lg font-semibold text-slate-950 dark:text-white">{stat.value}</p>
+                  <p className="mt-1 text-sm text-slate-700 dark:text-slate-400">{stat.label}</p>
                 </div>
               ))}
             </div>
@@ -118,11 +118,11 @@ export default async function Home() {
       </section>
 
       <section className="mt-14 grid gap-6 lg:grid-cols-[1.6fr_1fr]">
-        <Card className="feature-highlight rounded-[2rem] p-8 shadow-xl border border-black/5">
+        <Card className="feature-highlight rounded-[2rem] p-8 shadow-xl border border-slate-200/70 bg-white">
           <CardContent className="space-y-5">
-            <p className="text-sm uppercase tracking-[0.28em] text-foreground/55">Signature services</p>
-            <h2 className="text-4xl font-semibold">{featureSectionTitle}</h2>
-            <p className="max-w-2xl text-base leading-8 text-foreground/80">
+            <p className="text-sm uppercase tracking-[0.28em] text-slate-700">Signature services</p>
+            <h2 className="text-4xl font-semibold text-slate-950">{featureSectionTitle}</h2>
+            <p className="max-w-2xl text-base leading-8 text-slate-800">
               {featureSectionSubtitle}
             </p>
             <div className="grid gap-4 sm:grid-cols-2">
@@ -171,7 +171,7 @@ export default async function Home() {
             <Card className="fashion-card">
               <CardContent>
                 {homepage.pricingTitle && <h3 className="text-2xl">{homepage.pricingTitle}</h3>}
-                <div className="mt-4 space-y-3 text-sm text-foreground/72">
+                <div className="mt-4 space-y-3 text-sm text-slate-700">
                   {homepage.pricingItems.map((item) => (
                     <p key={item.title}>{item.title}: {item.description}</p>
                   ))}
@@ -184,7 +184,7 @@ export default async function Home() {
             <Card className="fashion-card">
               <CardContent>
                 {homepage.testimonialsTitle && <h3 className="text-2xl">{homepage.testimonialsTitle}</h3>}
-                <div className="mt-4 space-y-4 text-sm text-foreground/72">
+                <div className="mt-4 space-y-4 text-sm text-slate-700">
                   {homepage.testimonialsItems.map((item) => (
                     <p key={item.title}>&quot;{item.description}&quot; - {item.title}</p>
                   ))}
@@ -197,8 +197,8 @@ export default async function Home() {
 
       {homepage?.ctaTitle || homepage?.ctaDescription || homepage?.ctaButton ? (
         <section className="mt-14 overflow-hidden rounded-[2rem] border border-white/15 bg-gradient-to-r from-amber-400/10 via-fuchsia-200/10 to-teal-200/10 p-8 text-center shadow-[0_40px_90px_-52px_rgba(209,155,84,0.8)] md:mt-16 md:p-10">
-          {homepage.ctaTitle && <h3 className="text-3xl font-semibold">{homepage.ctaTitle}</h3>}
-          {homepage.ctaDescription && <p className="mt-2 text-foreground/80">{homepage.ctaDescription}</p>}
+          {homepage.ctaTitle && <h3 className="text-3xl font-semibold text-slate-950">{homepage.ctaTitle}</h3>}
+          {homepage.ctaDescription && <p className="mt-2 text-slate-800">{homepage.ctaDescription}</p>}
           {homepage.ctaButton && (
             <div className="mt-6"><Link href="/book"><Button size="lg">{homepage.ctaButton}</Button></Link></div>
           )}
@@ -207,28 +207,28 @@ export default async function Home() {
 
       <section className="mt-14 rounded-[2rem] border border-black/10 bg-white/95 p-8 shadow-[0_24px_60px_-48px_rgba(15,12,10,0.35)] dark:border-white/10 dark:bg-zinc-950/90">
         <div className="mx-auto max-w-4xl">
-          <p className="text-sm uppercase tracking-[0.26em] text-foreground/55">Contact details</p>
-          <h2 className="mt-3 text-4xl font-semibold text-foreground">Ready to book your fitting?</h2>
-          <p className="mt-3 text-base leading-7 text-foreground/80">
+          <p className="text-sm uppercase tracking-[0.26em] text-slate-700">Contact details</p>
+          <h2 className="mt-3 text-4xl font-semibold text-slate-950">Ready to book your fitting?</h2>
+          <p className="mt-3 text-base leading-7 text-slate-800">
             Reach out directly via phone, WhatsApp, location or Instagram for fast styling support and appointment help.
           </p>
 
           <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            <div className="rounded-[1.75rem] border border-black/10 bg-slate-50 p-5 text-foreground shadow-sm transition hover:-translate-y-1 hover:shadow-[0_25px_60px_-40px_rgba(15,12,10,0.45)] dark:border-white/10 dark:bg-zinc-900 dark:text-white">
+            <div className="rounded-[1.75rem] border border-slate-200/80 bg-white p-6 text-slate-950 shadow-[0_28px_90px_-48px_rgba(15,12,10,0.16)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_36px_100px_-48px_rgba(15,12,10,0.2)] dark:border-white/10 dark:bg-zinc-900 dark:text-white">
               <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500/10 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300">
                 <PhoneCall className="h-5 w-5" />
               </div>
-              <p className="mt-5 text-sm font-semibold text-foreground">Call studio</p>
+              <p className="mt-5 text-sm font-semibold text-slate-950 dark:text-white">Call studio</p>
               <a href="tel:+918951432847" className="mt-3 block text-lg font-semibold text-slate-950 transition hover:text-amber-700 dark:text-white">
                 8951432847
               </a>
             </div>
 
-            <div className="rounded-[1.75rem] border border-black/10 bg-slate-50 p-5 text-foreground shadow-sm transition hover:-translate-y-1 hover:shadow-[0_25px_60px_-40px_rgba(15,12,10,0.45)] dark:border-white/10 dark:bg-zinc-900 dark:text-white">
+            <div className="rounded-[1.75rem] border border-slate-200/80 bg-white p-6 text-slate-950 shadow-[0_28px_90px_-48px_rgba(15,12,10,0.16)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_36px_100px_-48px_rgba(15,12,10,0.2)] dark:border-white/10 dark:bg-zinc-900 dark:text-white">
               <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
                 <WhatsAppLogo className="h-5 w-5" />
               </div>
-              <p className="mt-5 text-sm font-semibold text-foreground">WhatsApp</p>
+              <p className="mt-5 text-sm font-semibold text-slate-950 dark:text-white">WhatsApp</p>
               <a
                 href="https://wa.me/918951432847?text=Hey!%20I%20just%20visited%20your%20website%20and%20need%20more%20details."
                 target="_blank"
@@ -239,11 +239,11 @@ export default async function Home() {
               </a>
             </div>
 
-            <div className="rounded-[1.75rem] border border-black/10 bg-slate-50 p-5 text-foreground shadow-sm transition hover:-translate-y-1 hover:shadow-[0_25px_60px_-40px_rgba(15,12,10,0.45)] dark:border-white/10 dark:bg-zinc-900 dark:text-white">
+            <div className="rounded-[1.75rem] border border-slate-200/80 bg-white p-6 text-slate-950 shadow-[0_28px_90px_-48px_rgba(15,12,10,0.16)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_36px_100px_-48px_rgba(15,12,10,0.2)] dark:border-white/10 dark:bg-zinc-900 dark:text-white">
               <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-500/10 text-sky-700 dark:bg-sky-500/15 dark:text-sky-300">
                 <MapPin className="h-5 w-5" />
               </div>
-              <p className="mt-5 text-sm font-semibold text-foreground">Visit the studio</p>
+              <p className="mt-5 text-sm font-semibold text-slate-950 dark:text-white">Visit the studio</p>
               <a
                 href="https://maps.app.goo.gl/ouR5nVnGQCM6aPxK6?g_st=aw"
                 target="_blank"
@@ -254,11 +254,11 @@ export default async function Home() {
               </a>
             </div>
 
-            <div className="rounded-[1.75rem] border border-black/10 bg-slate-50 p-5 text-foreground shadow-sm transition hover:-translate-y-1 hover:shadow-[0_25px_60px_-40px_rgba(15,12,10,0.45)] dark:border-white/10 dark:bg-zinc-900 dark:text-white">
-              <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-pink-500/10 text-pink-700 dark:bg-pink-500/15 dark:text-pink-300">
+            <div className="rounded-[1.75rem] border border-slate-200/80 bg-white p-6 text-slate-950 shadow-[0_28px_90px_-48px_rgba(15,12,10,0.16)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_36px_100px_-48px_rgba(15,12,10,0.2)] dark:border-white/10 dark:bg-zinc-900 dark:text-white">
+              <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-tr from-pink-500 via-orange-400 to-yellow-300 text-white dark:bg-pink-500/15 dark:text-pink-200">
                 <InstagramLogo className="h-5 w-5" />
               </div>
-              <p className="mt-5 text-sm font-semibold text-foreground">Instagram</p>
+              <p className="mt-5 text-sm font-semibold text-slate-950 dark:text-white">Instagram</p>
               <a
                 href="https://www.instagram.com/rmsladiesboutique?igsh=M3gybDBzdmkyN2Y5"
                 target="_blank"
