@@ -62,5 +62,6 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: "Unable to delete availability rule" }, { status: 500 });
   }
 
-  return NextResponse.json({ ok: true });
+  const availability = await getAvailability();
+  return NextResponse.json({ ok: true, availability });
 }
