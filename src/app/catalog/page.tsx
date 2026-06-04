@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { getDesigns, getSettings } from "@/lib/services";
 import { formatCurrency } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -7,7 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 
 export const metadata: Metadata = {
   title: "Design Catalog | RMS LADIES BOUTIQUE",
-  description: "Browse premium tailoring styles and ready-to-customize design options.",
+  description: "Explore our premium tailoring collections and curated design stories.",
 };
 
 export default async function CatalogPage() {
@@ -17,76 +18,144 @@ export default async function CatalogPage() {
   const pageTitle = homepage?.catalogTitle ?? "Design Catalog";
   const pageDescription = homepage?.catalogDescription ?? "Explore statement styles, hand-selected fabrics, and runway-ready tailoring for your most memorable moments.";
 
-  const bySection = {
-    occasion: [] as typeof designs,
-    bridal: [] as typeof designs,
-    regular: [] as typeof designs,
-  };
+  const byCategory = designs.reduce(
+    (acc, design) => {
+      const categoryKey = design.category?.toLowerCase().includes("bridal")
+        ? "bridal"
+        : design.category?.toLowerCase().includes("occasion") || design.category?.toLowerCase().includes("occasional")
+        ? "occasion"
+        : "signature";
 
-  for (const d of designs) {
-    const c = (d.category || "").toLowerCase();
-    if (c.includes("bridal")) bySection.bridal.push(d);
-    else if (c.includes("occasion") || c.includes("occasional")) bySection.occasion.push(d);
-    else bySection.regular.push(d);
-  }
+      acc[categoryKey].push(design);
+      return acc;
+    },
+    {
+      occasion: [] as typeof designs,
+      bridal: [] as typeof designs,
+      signature: [] as typeof designs,
+    },
+  );
 
+  const heroImage = designs.find((design) => design.isFeatured)?.imageUrl || designs[0]?.imageUrl || "/images/bridal-wear.jpeg";
+  const latestDesigns = designs.slice(0, 4);
   const hasDesigns = designs.length > 0;
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-14 md:px-8">
-      <div className="glass-panel-strong rounded-[2.5rem] p-6 md:p-8 lg:p-10 text-foreground">
-        <p className="text-sm uppercase tracking-[0.28em] text-slate-600 dark:text-slate-400">Collection</p>
-        <h1 className="mt-2 text-4xl font-semibold tracking-tight text-slate-950 dark:text-white md:text-5xl">{pageTitle}</h1>
-        <p className="mt-3 max-w-2xl text-slate-700 dark:text-slate-300">{pageDescription}</p>
-
-        {!hasDesigns ? (
-          <div className="mt-10 rounded-[2rem] border border-amber-200/30 bg-amber-50/70 p-8 text-center text-sm text-amber-900 shadow-sm">
-            No designs are available yet. Upload your latest catalog pieces from the admin panel to populate this page.
+    <main className="relative overflow-hidden bg-[#fbf6f0] text-slate-950 dark:bg-slate-950 dark:text-slate-100">
+      <section className="relative overflow-hidden px-4 py-24 sm:px-6 lg:px-8">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,248,238,0.92),transparent_28%),radial-gradient(circle_at_bottom_right,_rgba(171,137,97,0.14),transparent_30%)]" />
+        <div className="relative mx-auto grid max-w-7xl gap-16 lg:grid-cols-[0.95fr_1.05fr]">
+          <div className="rounded-[2.5rem] border border-slate-200/80 bg-white/95 p-10 shadow-[0_30px_90px_-40px_rgba(15,12,10,0.18)] dark:border-white/10 dark:bg-slate-950/95">
+            <p className="text-xs uppercase tracking-[0.35em] text-slate-500 dark:text-slate-400">Collection</p>
+            <h1 className="mt-4 text-5xl font-semibold tracking-[-0.04em] text-slate-950 dark:text-white sm:text-6xl">{pageTitle}</h1>
+            <p className="mt-6 max-w-3xl text-lg leading-9 text-slate-700 dark:text-slate-300">{pageDescription}</p>
+            <div className="mt-10 grid gap-4 sm:grid-cols-2">
+              <div className="rounded-[2rem] border border-slate-200/70 bg-slate-50 p-6 shadow-sm dark:border-white/10 dark:bg-slate-900/85">
+                <p className="text-sm uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">Featured edit</p>
+                <p className="mt-3 text-xl font-semibold text-slate-950 dark:text-white">A select edit of our latest atelier pieces.</p>
+              </div>
+              <div className="rounded-[2rem] border border-slate-200/70 bg-slate-50 p-6 shadow-sm dark:border-white/10 dark:bg-slate-900/85">
+                <p className="text-sm uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">Curated service</p>
+                <p className="mt-3 text-xl font-semibold text-slate-950 dark:text-white">Personal styling and private fittings by appointment.</p>
+              </div>
+            </div>
           </div>
-        ) : (
-            <section className="mt-10 space-y-10">
-            {[
-            { key: "occasion", title: "Occasion Wear", items: bySection.occasion },
-            { key: "bridal", title: "Bridal Wear", items: bySection.bridal },
-            { key: "regular", title: "Simple Regular Wear", items: bySection.regular },
-          ].map((section) => (
-            <div key={section.key}>
-              <h3 className="text-2xl font-semibold text-slate-950 dark:text-white">{section.title}</h3>
-              {section.items.length === 0 ? (
-                <p className="mt-2 text-sm text-slate-700 dark:text-slate-300">No items in this section.</p>
-              ) : (
-                <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                  {section.items.map((design) => (
-                    <Card
-                      key={design.id}
-                      className="relative overflow-hidden border-white/20 bg-slate-950/95 text-white transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_40px_100px_-45px_rgba(209,155,84,0.5)]"
-                    >
-                      <div className="relative h-56 w-full overflow-hidden rounded-[1.75rem] border border-white/10">
-                        <Image src={design.imageUrl} alt={design.title} fill className="object-cover" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
-                      </div>
-                      <CardContent className="space-y-3 pt-4 text-white">
-                        <div className="flex items-center justify-between gap-2">
-                          <div>
-                            <h2 className="text-xl font-semibold text-white">{design.title}</h2>
-                            <p className="text-sm text-amber-100/90">{design.category}</p>
-                          </div>
-                          <Badge className={design.available ? "border-amber-300 bg-amber-500/10 text-amber-200" : "border-zinc-600 bg-zinc-700/50 text-zinc-200"}>
-                            {design.available ? "Available" : "Unavailable"}
-                          </Badge>
+
+          <div className="relative overflow-hidden rounded-[2.5rem] border border-slate-200/70 bg-slate-950/95 shadow-[0_60px_120px_-72px_rgba(15,12,10,0.35)] dark:border-white/10">
+            <Image src={heroImage} alt="Editorial fashion collection" fill className="object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
+              <p className="text-xs uppercase tracking-[0.28em] text-white/75">Designed for quiet luxury</p>
+              <p className="mt-3 text-3xl font-semibold tracking-tight">The boutique’s signature story.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="px-4 pb-24 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl space-y-16">
+          {hasDesigns ? (
+            Object.entries(byCategory).map(([key, items]) => {
+              const label = key === "bridal" ? "Bridal Collection" : key === "occasion" ? "Occasion Wear" : "Signature Pieces";
+              const description =
+                key === "bridal"
+                  ? "Soft silhouettes, elevated details, and refined dressmaking for meaningful moments."
+                  : key === "occasion"
+                  ? "Fashion-forward tailoring designed for gatherings, celebrations, and evenings out."
+                  : "Daily luxury with polished shapes, premium textures, and effortless style.";
+
+              return (
+                <div key={key} className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+                  <div className="space-y-4">
+                    <p className="text-xs uppercase tracking-[0.32em] text-slate-500 dark:text-slate-400">{label}</p>
+                    <h2 className="text-3xl font-semibold text-slate-950 dark:text-white">{label}</h2>
+                    <p className="max-w-2xl text-base leading-8 text-slate-700 dark:text-slate-300">{description}</p>
+                  </div>
+                  <div className="grid gap-6">
+                    {items.slice(0, 3).map((design) => (
+                      <Link key={design.id} href={`/catalog/${design.id}`} className="group overflow-hidden rounded-[2rem] border border-slate-200/70 bg-white shadow-[0_24px_70px_-40px_rgba(15,12,10,0.15)] transition hover:-translate-y-1 hover:shadow-[0_30px_90px_-45px_rgba(15,12,10,0.25)] dark:border-white/10 dark:bg-slate-950/95">
+                        <div className="relative h-80 w-full overflow-hidden">
+                          <Image src={design.imageUrl} alt={design.title} fill className="object-cover transition duration-500 group-hover:scale-105" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
                         </div>
-                        <p className="text-sm text-white/80 leading-7">{design.description}</p>
-                        <p className="text-lg font-semibold text-amber-200">{formatCurrency(design.price)}</p>
-                      </CardContent>
-                    </Card>
+                        <CardContent className="space-y-3 p-7 text-slate-950 dark:text-white">
+                          <div className="flex items-center justify-between gap-4">
+                            <div>
+                              <p className="text-sm uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">{design.category}</p>
+                              <h3 className="mt-3 text-2xl font-semibold">{design.title}</h3>
+                            </div>
+                            <Badge className={design.available ? "border-amber-300 bg-amber-500/10 text-amber-200" : "border-zinc-600 bg-zinc-700/50 text-zinc-200"}>
+                              {design.available ? "Available" : "Unavailable"}
+                            </Badge>
+                          </div>
+                          <p className="text-sm leading-7 text-slate-700 dark:text-slate-300 line-clamp-3">{design.description}</p>
+                          <div className="flex items-center justify-between gap-4 text-amber-700 dark:text-amber-300">
+                            <span className="text-lg font-semibold">{formatCurrency(design.price)}</span>
+                            <span className="text-xs uppercase tracking-[0.32em]">View details</span>
+                          </div>
+                        </CardContent>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <div className="rounded-[2rem] border border-amber-200/30 bg-amber-50/70 p-10 text-center text-amber-900 shadow-sm">
+              <p className="text-xl font-semibold">No catalog pieces are available yet.</p>
+              <p className="mt-3 text-sm">Add more designs through the admin panel to bring the boutique collection to life.</p>
+            </div>
+          )}
+
+          {hasDesigns ? (
+            <div className="rounded-[2.5rem] border border-slate-200/80 bg-slate-950/95 p-10 text-white shadow-[0_40px_100px_-64px_rgba(15,12,10,0.35)] dark:border-white/10">
+              <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+                <div className="space-y-6">
+                  <p className="text-xs uppercase tracking-[0.32em] text-amber-300/80">The boutique edit</p>
+                  <h2 className="text-4xl font-semibold tracking-tight text-white">More than a catalog — a personal fashion story.</h2>
+                  <p className="max-w-3xl text-base leading-8 text-slate-200/80">
+                    Each design is selected with thoughtful proportions, premium finishes, and a sense of occasion. Book your consultation and let us tailor the collection to your needs.
+                  </p>
+                </div>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {latestDesigns.slice(0, 4).map((design) => (
+                    <div key={design.id} className="rounded-[2rem] overflow-hidden border border-white/10 bg-white/10 p-4">
+                      <div className="relative h-44 overflow-hidden rounded-[1.5rem] bg-slate-900">
+                        <Image src={design.imageUrl} alt={design.title} fill className="object-cover" />
+                      </div>
+                      <div className="mt-4">
+                        <p className="text-sm uppercase tracking-[0.28em] text-slate-300">{design.category}</p>
+                        <h3 className="mt-2 text-lg font-semibold text-white">{design.title}</h3>
+                        <p className="mt-2 text-sm text-slate-300">{formatCurrency(design.price)}</p>
+                      </div>
+                    </div>
                   ))}
                 </div>
-              )}
+              </div>
             </div>
-          ))}
-        </section>
-        )}
-      </div>
+          ) : null}
+        </div>
+      </section>
     </main>
   );
 }

@@ -33,6 +33,25 @@ export async function getDesigns(): Promise<DesignItem[]> {
   }));
 }
 
+export async function getDesignById(id: string): Promise<DesignItem | null> {
+  const supabase = createServiceRoleClient();
+  if (!supabase) return null;
+
+  const { data, error } = await supabase.from("designs").select("*").eq("id", id).maybeSingle();
+  if (error || !data) return null;
+
+  return {
+    id: data.id,
+    title: data.title,
+    category: data.category,
+    description: data.description,
+    price: data.price,
+    imageUrl: data.image_url,
+    available: data.available,
+    isFeatured: data.is_featured ?? false,
+  };
+}
+
 export async function getFeaturedDesigns(limit = 4): Promise<DesignItem[]> {
   const supabase = createServiceRoleClient();
   if (!supabase) return [];

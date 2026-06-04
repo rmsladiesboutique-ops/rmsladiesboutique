@@ -17,30 +17,28 @@ export function Footer({ siteTitle, tagline, phone, email }: FooterProps) {
   }
 
   return (
-    <footer className="mt-24 border-t border-slate-200/70 bg-gradient-to-b from-white/95 via-amber-50/80 to-slate-100 text-slate-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.65)] dark:border-white/10 dark:bg-[#080706] dark:text-slate-200">
-      <div className="mx-auto flex max-w-7xl flex-col gap-12 px-4 py-16 md:flex-row md:items-start md:justify-between md:px-8">
-        <div className="max-w-2xl">
-          <p className="text-3xl font-semibold uppercase tracking-[0.24em] text-foreground dark:text-slate-100">{siteTitle ?? "RMS LADIES BOUTIQUE"}</p>
-          <p className="mt-3 max-w-md text-sm uppercase tracking-[0.28em] text-foreground/65 dark:text-slate-400">{tagline ?? "Expert tailoring and personalised womenswear appointments."}</p>
+    <footer className="border-t border-slate-200/70 bg-[#f8f3ec] text-slate-950 dark:border-white/10 dark:bg-slate-950 dark:text-slate-100">
+      <div className="mx-auto max-w-7xl px-4 py-16 md:px-8">
+        <div className="grid gap-12 lg:grid-cols-[1.5fr_1fr_1fr]">
+          <div className="space-y-4">
+            <p className="text-xs uppercase tracking-[0.32em] text-slate-500 dark:text-slate-400">RMS Ladies Boutique</p>
+            <p className="text-2xl font-semibold tracking-[-0.02em] text-slate-950 dark:text-white">{siteTitle ?? "RMS LADIES BOUTIQUE"}</p>
+            <p className="max-w-xl text-sm leading-7 text-slate-600 dark:text-slate-400">{tagline ?? "A discreet couture atelier crafting tailored womenswear with timeless elegance and personalized service."}</p>
+          </div>
+          <div className="space-y-3">
+            <p className="text-xs uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">Contact</p>
+            {phone ? <p className="text-sm font-semibold text-slate-950 dark:text-white">{phone}</p> : null}
+            {email ? <p className="text-sm text-slate-600 dark:text-slate-400">{email}</p> : null}
+          </div>
+          <div className="space-y-3">
+            <p className="text-xs uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">Explore</p>
+            <a href="/book" className="text-sm font-semibold text-slate-950 transition hover:text-amber-700 dark:text-slate-100">Book a consultation</a>
+            <a href="https://www.instagram.com/rmsladiesboutique" target="_blank" rel="noreferrer" className="text-sm font-semibold text-slate-950 transition hover:text-amber-700 dark:text-slate-100">Instagram</a>
+          </div>
         </div>
-
-        <div className="grid gap-4 sm:grid-cols-2">
-          {phone ? (
-            <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">Studio phone</p>
-              <p className="mt-2 font-semibold text-foreground dark:text-white">{phone}</p>
-            </div>
-          ) : null}
-          {email ? (
-            <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">Email</p>
-              <p className="mt-2 font-semibold text-foreground dark:text-white">{email}</p>
-            </div>
-          ) : null}
+        <div className="mt-12 border-t border-slate-200/50 pt-6 text-center text-xs uppercase tracking-[0.24em] text-slate-500 dark:border-white/10 dark:text-slate-400">
+          An exclusive bespoke fashion experience designed for exceptional women.
         </div>
-      </div>
-      <div className="border-t border-slate-200/50 dark:border-white/5 mt-8 pt-6 px-4 md:px-8">
-        <p className="text-xs tracking-[0.22em] text-center uppercase text-foreground/40 dark:text-slate-500">Designed and managed for a boutique couture experience.</p>
       </div>
     </footer>
   );
