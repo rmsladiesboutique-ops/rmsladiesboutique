@@ -29,6 +29,56 @@ export async function getDesigns(): Promise<DesignItem[]> {
     price: d.price,
     imageUrl: d.image_url,
     available: d.available,
+    isFeatured: d.is_featured ?? false,
+  }));
+}
+
+export async function getFeaturedDesigns(limit = 4): Promise<DesignItem[]> {
+  const supabase = createServiceRoleClient();
+  if (!supabase) return [];
+
+  const { data, error } = await supabase
+    .from("designs")
+    .select("*")
+    .eq("available", true)
+    .eq("is_featured", true)
+    .order("created_at", { ascending: false })
+    .limit(limit);
+  if (error || !data) return [];
+
+  return data.map((d) => ({
+    id: d.id,
+    title: d.title,
+    category: d.category,
+    description: d.description,
+    price: d.price,
+    imageUrl: d.image_url,
+    available: d.available,
+    isFeatured: d.is_featured ?? false,
+  }));
+}
+
+export async function getNewArrivals(limit = 6): Promise<DesignItem[]> {
+  const supabase = createServiceRoleClient();
+  if (!supabase) return [];
+
+  const { data, error } = await supabase
+    .from("designs")
+    .select("*")
+    .eq("available", true)
+    .order("created_at", { ascending: false })
+    .limit(limit);
+  if (error || !data) return [];
+
+  return data.map((d) => ({
+    id: d.id,
+    title: d.title,
+    category: d.category,
+    description: d.description,
+    price: d.price,
+    imageUrl: d.image_url,
+    available: d.available,
+    isFeatured: d.is_featured ?? false,
   }));
 }
 

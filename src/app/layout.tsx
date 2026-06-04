@@ -23,7 +23,7 @@ const sans = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "Atelier Noir | Women’s Couture Tailoring",
+  title: "RMS LADIES BOUTIQUE | Women’s Couture Tailoring",
   description: "Luxury women-only tailoring with curated appointments, design catalog access, and order tracking.",
 };
 

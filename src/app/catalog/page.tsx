@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 
 export const metadata: Metadata = {
-  title: "Design Catalog | Atelier Noir",
+  title: "Design Catalog | RMS LADIES BOUTIQUE",
   description: "Browse premium tailoring styles and ready-to-customize design options.",
 };
 

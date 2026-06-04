@@ -10,6 +10,7 @@ export const mockDesigns: DesignItem[] = [
     price: 900,
     imageUrl: "https://images.unsplash.com/photo-1593032465171-8bd0f9af6f2e?auto=format&fit=crop&w=1200&q=80",
     available: true,
+    isFeatured: true,
   },
   {
     id: "d2",
@@ -19,6 +20,7 @@ export const mockDesigns: DesignItem[] = [
     price: 1200,
     imageUrl: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=1200&q=80",
     available: true,
+    isFeatured: false,
   },
   {
     id: "d3",
@@ -28,6 +30,7 @@ export const mockDesigns: DesignItem[] = [
     price: 750,
     imageUrl: "https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?auto=format&fit=crop&w=1200&q=80",
     available: false,
+    isFeatured: false,
   },
 ];
 

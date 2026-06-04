@@ -12,6 +12,7 @@ export type Database = {
           price: number;
           image_url: string;
           available: boolean;
+          is_featured: boolean;
           created_at: string;
           updated_at: string;
         };
@@ -23,6 +24,7 @@ export type Database = {
           price: number;
           image_url: string;
           available?: boolean;
+          is_featured?: boolean;
           created_at?: string;
           updated_at?: string;
         };

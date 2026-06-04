@@ -15,6 +15,7 @@ export default function AdminDesignsPage() {
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [isFeatured, setIsFeatured] = useState(false);
 
   const router = useRouter();
 
@@ -79,6 +80,7 @@ export default function AdminDesignsPage() {
       price: Number(price),
       imageUrl,
       available: true,
+      isFeatured,
     };
 
     const res = await fetch("/api/admin/designs", {
@@ -102,6 +104,7 @@ export default function AdminDesignsPage() {
           price: Number(price),
           imageUrl,
           available: true,
+          isFeatured,
         },
         ...prev,
       ]);
@@ -110,6 +113,7 @@ export default function AdminDesignsPage() {
       setDescription("");
       setPrice("");
       setImageUrl("");
+      setIsFeatured(false);
     }
   };
 
@@ -132,6 +136,26 @@ export default function AdminDesignsPage() {
       return;
     }
     setRows((prev) => prev.map((r) => (r.id === id ? { ...r, available: next } : r)));
+  };
+
+  const updateFeatured = async (id: string, nextFeatured: boolean) => {
+    const target = rows.find((r) => r.id === id);
+    if (!target) return;
+    try {
+      const res = await fetch("/api/admin/designs", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...target, id, isFeatured: nextFeatured }),
+      });
+      if (!res.ok) {
+        if (res.status === 401) router.push("/admin/login");
+        return;
+      }
+    } catch (err) {
+      console.error(err);
+      return;
+    }
+    setRows((prev) => prev.map((r) => (r.id === id ? { ...r, isFeatured: nextFeatured } : r)));
   };
 
   const updatePrice = async (id: string, nextPrice: number) => {
@@ -224,6 +248,10 @@ export default function AdminDesignsPage() {
             </label>
             <Input placeholder="Price" value={price} onChange={(e) => setPrice(e.target.value)} />
             <Input placeholder="Image URL" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} />
+            <label className="flex items-center gap-3 rounded-2xl border border-zinc-700 bg-zinc-950 px-4 py-3 text-sm text-zinc-100">
+              <input type="checkbox" checked={isFeatured} onChange={(e) => setIsFeatured(e.target.checked)} className="h-4 w-4 rounded border-slate-400 bg-slate-900 text-amber-500" />
+              Mark this design as featured on the homepage
+            </label>
             <Textarea className="md:col-span-2" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
             <div className="md:col-span-2 flex items-center gap-3">
               <input
@@ -244,13 +272,17 @@ export default function AdminDesignsPage() {
               <div key={r.id} className="flex flex-wrap items-center justify-between gap-3 rounded-md border border-zinc-800 p-3">
                 <div>
                   <p className="font-medium">{r.title}</p>
-                  <div className="mt-1 flex items-center gap-3">
+                  <div className="mt-1 flex flex-wrap items-center gap-3">
                     <select className="rounded-md border border-zinc-700 bg-zinc-950 px-2 py-1 text-sm text-zinc-100 outline-none" value={r.category} onChange={(e) => updateCategory(r.id, e.target.value)}>
                       <option>Occasion Wear</option>
                       <option>Bridal Wear</option>
                       <option>Simple Regular Wear</option>
                     </select>
                     <p className="text-sm text-zinc-400">| ${r.price.toFixed(2)}</p>
+                    <label className="flex items-center gap-2 rounded-full border border-zinc-700 bg-zinc-950 px-2 py-1 text-xs text-zinc-100">
+                      <input type="checkbox" checked={r.isFeatured} onChange={(e) => updateFeatured(r.id, e.target.checked)} className="h-4 w-4 rounded border-slate-400 bg-slate-900 text-amber-500" />
+                      Featured
+                    </label>
                   </div>
                 </div>
                 <div className="flex gap-2">

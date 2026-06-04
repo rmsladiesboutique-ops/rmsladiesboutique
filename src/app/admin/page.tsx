@@ -8,7 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { STATUS_STAGES } from "@/types/domain";
 
 export const metadata: Metadata = {
-  title: "Admin Dashboard | Atelier Noir",
+  title: "Admin Dashboard | RMS LADIES BOUTIQUE",
   description: "Manage appointments, statuses, designs, and availability.",
 };
 

@@ -18,6 +18,7 @@ create table if not exists public.designs (
 	price numeric(10,2) not null,
 	image_url text not null,
 	available boolean not null default true,
+	is_featured boolean not null default false,
 	created_at timestamptz not null default now(),
 	updated_at timestamptz not null default now()
 );

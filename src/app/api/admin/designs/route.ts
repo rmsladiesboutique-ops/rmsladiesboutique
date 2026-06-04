@@ -10,6 +10,7 @@ const schema = z.object({
   price: z.number().nonnegative(),
   imageUrl: z.string().url(),
   available: z.boolean(),
+  isFeatured: z.boolean().optional(),
 });
 
 export async function GET(request: Request) {
@@ -37,6 +38,7 @@ export async function GET(request: Request) {
       price: design.price,
       imageUrl: design.image_url,
       available: design.available,
+      isFeatured: design.is_featured ?? false,
     })),
   );
 }
@@ -63,6 +65,7 @@ export async function POST(request: Request) {
       price: parsed.data.price,
       image_url: parsed.data.imageUrl,
       available: parsed.data.available,
+      is_featured: parsed.data.isFeatured ?? false,
     });
   }
 
@@ -93,6 +96,7 @@ export async function PATCH(request: Request) {
         price: body.price,
         image_url: body.imageUrl,
         available: body.available,
+        is_featured: body.isFeatured,
       })
       .eq("id", id);
   }

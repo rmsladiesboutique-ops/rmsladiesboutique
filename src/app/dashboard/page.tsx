@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { getSettings } from "@/lib/services";
 
 export const metadata: Metadata = {
-  title: "Customer Dashboard | Atelier Noir",
+  title: "Customer Dashboard | RMS LADIES BOUTIQUE",
   description: "Track tailoring appointments and progress using phone number and customer code.",
 };
 

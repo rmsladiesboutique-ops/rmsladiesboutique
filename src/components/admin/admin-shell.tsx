@@ -40,7 +40,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-amber-700 dark:text-amber-200"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
             </button>
             <div>
-              <Link href="/admin" className="text-lg font-semibold text-foreground">Atelier Noir</Link>
+              <Link href="/admin" className="text-lg font-semibold text-foreground">RMS LADIES BOUTIQUE</Link>
               <p className="text-xs text-foreground/50">Boutique operations workspace</p>
             </div>
           </div>

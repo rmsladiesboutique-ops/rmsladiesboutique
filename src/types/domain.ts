@@ -17,6 +17,7 @@ export type DesignItem = {
   price: number;
   imageUrl: string;
   available: boolean;
+  isFeatured: boolean;
 };
 
 export type StatusHistoryEntry = {

@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 export const metadata = {
-  title: "Admin Login | Atelier Noir",
+  title: "Admin Login | RMS LADIES BOUTIQUE",
 };
 
 export default function AdminLoginLayout({ children }: { children: ReactNode }) {

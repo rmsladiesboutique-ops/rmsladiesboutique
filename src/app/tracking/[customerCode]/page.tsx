@@ -4,7 +4,7 @@ import { TrackingPanel } from "@/components/shared/tracking-panel";
 import { findAppointmentByCode, getSettings } from "@/lib/services";
 
 export const metadata: Metadata = {
-  title: "Status Tracking | Atelier Noir",
+  title: "Status Tracking | RMS LADIES BOUTIQUE",
   description: "Visual timeline of your tailoring journey from appointment to pickup.",
 };
 
