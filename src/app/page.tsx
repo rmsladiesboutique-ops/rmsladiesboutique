@@ -64,55 +64,56 @@ export default async function Home() {
       ];
   return (
     <main className="mx-auto max-w-7xl px-4 pb-20 pt-10 md:px-8 md:pt-14">
-      <section className="hero-grid hero-spotlight grid gap-10 lg:grid-cols-[1.25fr_0.95fr] overflow-hidden rounded-[2.5rem] p-8 sm:p-10 shadow-[0_30px_60px_-40px_rgba(15,12,10,0.12)]">
-        <div className="space-y-8 mx-auto max-w-3xl">
-            <div className="flex flex-wrap items-center gap-3">
+      <section className="hero-grid hero-spotlight relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-rose-50 via-amber-50 to-cyan-50 p-6 shadow-[0_40px_120px_-60px_rgba(15,12,10,0.18)] dark:bg-slate-950/90 dark:shadow-[0_40px_120px_-60px_rgba(0,0,0,0.55)] sm:p-8 lg:p-10">
+        <div className="absolute inset-x-0 top-0 h-64 bg-[radial-gradient(circle_at_top_right,_rgba(255,214,179,0.35),_transparent_45%)]" aria-hidden="true" />
+        <div className="absolute left-[-7rem] top-16 h-64 w-64 rounded-full bg-amber-200/40 blur-3xl mix-blend-screen" aria-hidden="true" />
+        <div className="grid gap-10 lg:grid-cols-[1.25fr_0.95fr]">
+          <div className="relative z-10 mx-auto max-w-3xl rounded-[2rem] border border-slate-200/70 bg-white/95 p-6 shadow-[0_30px_70px_-26px_rgba(15,12,10,0.12)] dark:border-white/10 dark:bg-slate-950/95 dark:text-white sm:p-8 lg:p-10 text-center sm:text-left">
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-start">
               <Badge className="fashion-chip">{heroBadge}</Badge>
             </div>
 
-            <h1 className="text-5xl font-semibold leading-[1.02] tracking-[-0.03em] text-foreground sm:text-6xl md:text-7xl">
+            <h1 className="mt-6 text-4xl font-semibold leading-[1.02] tracking-[-0.03em] text-foreground sm:text-5xl md:text-6xl lg:text-7xl dark:text-white">
               {heroHeadline}
             </h1>
 
-            <p className="text-base leading-8 text-slate-900 sm:text-lg">
+            <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-slate-700 sm:text-lg dark:text-slate-300">
               {heroDescription}
             </p>
 
-            <p className="text-base leading-8 text-slate-900 sm:text-lg">
+            <p className="mx-auto mt-4 max-w-2xl text-base leading-8 text-slate-700 sm:text-lg dark:text-slate-300">
               {heroExtra}
             </p>
 
-            <div className="grid gap-4 sm:grid-cols-[1fr_auto] items-center">
-              <div className="inline-flex items-center gap-2 rounded-full border border-amber-300/40 bg-amber-100/90 px-4 py-2 text-sm font-semibold text-amber-900 shadow-sm shadow-amber-200/20">
-                <span className="rounded-full bg-amber-500 px-2 py-1 text-xs uppercase tracking-[0.2em] text-black">Free delivery</span>
-                <span>within 5km range</span>
-              </div>
-              <p className="text-sm font-medium uppercase tracking-[0.24em] text-amber-700 sm:text-base">
-                {deliveryNote}
-              </p>
+            <div className="mt-8 grid gap-3 rounded-[1.75rem] border border-amber-200/60 bg-amber-50/90 p-4 text-sm font-semibold uppercase tracking-[0.24em] text-amber-900 shadow-sm shadow-amber-200/20 dark:border-amber-300/20 dark:bg-amber-500/10 dark:text-amber-100 sm:grid-cols-[1fr_auto] sm:items-center">
+              <span>Free delivery within 5km range</span>
+              <span className="text-right text-[0.75rem] uppercase tracking-[0.32em]">{deliveryNote}</span>
             </div>
 
-            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start">
               <Link href="/book" className="w-full sm:w-auto"><Button size="lg" className="w-full sm:w-auto">{heroPrimaryCta}</Button></Link>
               <Link href="/catalog" className="w-full sm:w-auto"><Button size="lg" variant="outline" className="w-full sm:w-auto">{heroSecondaryCta}</Button></Link>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-3">
+            <div className="mt-10 grid gap-4 sm:grid-cols-3">
               {heroStats.map((stat) => (
-                <div key={stat.value + stat.label} className="rounded-3xl border border-slate-200/80 bg-white p-5 text-center shadow-sm dark:border-slate-700/70 dark:bg-slate-900/80">
+                <div key={stat.value + stat.label} className="group rounded-[1.75rem] border border-slate-200/70 bg-slate-50 p-5 text-center transition hover:-translate-y-1 hover:border-amber-200 hover:bg-amber-50 dark:border-white/10 dark:bg-slate-900/85 dark:text-white">
                   <p className="text-lg font-semibold text-slate-950 dark:text-white">{stat.value}</p>
-                  <p className="mt-1 text-sm text-slate-700 dark:text-slate-400">{stat.label}</p>
+                  <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">{stat.label}</p>
                 </div>
               ))}
             </div>
-        </div>
+          </div>
 
-        <div className="hero-image-panel relative hidden overflow-hidden rounded-[2rem] border border-slate-200/80 bg-slate-50 shadow-[0_30px_80px_-50px_rgba(15,12,10,0.12)] dark:border-slate-700/70 dark:bg-slate-900/80 lg:block">
-          <div className="hero-image-accent" />
-          <Image src="/images/bridal-wear.jpeg" alt="Tailored garment" fill className="object-cover" priority />
-          <div className="hero-image-copy absolute inset-x-0 bottom-0 p-6 backdrop-blur-sm bg-slate-950/70 text-white">
-            <p className="text-sm uppercase tracking-[0.3em] text-white/70">Studio craftsmanship</p>
-            <p className="mt-2 text-xl font-semibold text-white">Refined finishes for every occasion</p>
+          <div className="relative">
+            <div className="hero-image-panel relative overflow-hidden rounded-[2rem] border border-slate-200/70 bg-slate-50 shadow-[0_40px_110px_-60px_rgba(15,12,10,0.18)] dark:border-white/10 dark:bg-slate-900/80">
+              <Image src="/images/bridal-wear.jpeg" alt="Tailored garment" fill className="object-cover" priority />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 p-6">
+                <p className="text-sm uppercase tracking-[0.3em] text-white/75">Studio craftsmanship</p>
+                <p className="mt-2 text-xl font-semibold text-white">Refined finishes for every occasion</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -205,17 +206,19 @@ export default async function Home() {
         </section>
       ) : null}
 
-      <section className="mt-14 rounded-[2rem] border border-black/10 bg-white/95 p-8 shadow-[0_24px_60px_-48px_rgba(15,12,10,0.35)] dark:border-white/10 dark:bg-zinc-950/90">
-        <div className="mx-auto max-w-4xl">
-          <p className="text-sm uppercase tracking-[0.26em] text-slate-700">Contact details</p>
-          <h2 className="mt-3 text-4xl font-semibold text-slate-950">Ready to book your fitting?</h2>
-          <p className="mt-3 text-base leading-7 text-slate-800">
-            Reach out directly via phone, WhatsApp, location or Instagram for fast styling support and appointment help.
-          </p>
+      <section className="mt-14 rounded-[2.5rem] border border-slate-200/80 bg-white/95 p-8 shadow-[0_30px_80px_-40px_rgba(15,12,10,0.18)] dark:border-white/10 dark:bg-slate-950/95 dark:ring-1 dark:ring-white/10 sm:p-10">
+        <div className="mx-auto max-w-4xl rounded-[2rem] border border-slate-200/70 bg-slate-50/95 p-8 shadow-[0_30px_70px_-30px_rgba(15,12,10,0.12)] dark:border-white/10 dark:bg-slate-900/85">
+          <div className="text-center">
+            <p className="text-sm uppercase tracking-[0.26em] text-slate-500 dark:text-slate-400">Contact details</p>
+            <h2 className="mt-3 text-4xl font-semibold text-slate-950 dark:text-white">Ready to book your fitting?</h2>
+            <p className="mx-auto mt-3 max-w-2xl text-base leading-7 text-slate-700 dark:text-slate-300">
+              Reach out directly via phone, WhatsApp, location or Instagram for fast styling support and appointment help.
+            </p>
+          </div>
 
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            <div className="rounded-[1.75rem] border border-slate-200/70 bg-white p-5 text-slate-950 shadow-sm transition hover:-translate-y-1 hover:shadow-[0_25px_60px_-40px_rgba(15,12,10,0.45)] dark:border-white/10 dark:bg-zinc-900 dark:text-white">
-              <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500/10 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300">
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <div className="rounded-[2rem] border border-slate-200/70 bg-white p-6 text-slate-950 shadow-sm transition hover:-translate-y-1 hover:shadow-[0_24px_60px_-40px_rgba(15,12,10,0.18)] dark:border-white/10 dark:bg-zinc-900 dark:text-white">
+              <div className="inline-flex h-14 w-14 items-center justify-center rounded-3xl bg-amber-500/10 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300">
                 <PhoneCall className="h-5 w-5" />
               </div>
               <p className="mt-5 text-sm font-semibold text-slate-950 dark:text-white">Call studio</p>
@@ -224,8 +227,8 @@ export default async function Home() {
               </a>
             </div>
 
-            <div className="rounded-[1.75rem] border border-slate-200/70 bg-white p-5 text-slate-950 shadow-sm transition hover:-translate-y-1 hover:shadow-[0_25px_60px_-40px_rgba(15,12,10,0.45)] dark:border-white/10 dark:bg-zinc-900 dark:text-white">
-              <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
+            <div className="rounded-[2rem] border border-slate-200/70 bg-white p-6 text-slate-950 shadow-sm transition hover:-translate-y-1 hover:shadow-[0_24px_60px_-40px_rgba(15,12,10,0.18)] dark:border-white/10 dark:bg-zinc-900 dark:text-white">
+              <div className="inline-flex h-14 w-14 items-center justify-center rounded-3xl bg-emerald-500/10 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
                 <WhatsAppLogo className="h-5 w-5" />
               </div>
               <p className="mt-5 text-sm font-semibold text-slate-950 dark:text-white">WhatsApp</p>
@@ -239,8 +242,8 @@ export default async function Home() {
               </a>
             </div>
 
-            <div className="rounded-[1.75rem] border border-slate-200/70 bg-white p-5 text-slate-950 shadow-sm transition hover:-translate-y-1 hover:shadow-[0_25px_60px_-40px_rgba(15,12,10,0.45)] dark:border-white/10 dark:bg-zinc-900 dark:text-white">
-              <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-500/10 text-sky-700 dark:bg-sky-500/15 dark:text-sky-300">
+            <div className="rounded-[2rem] border border-slate-200/70 bg-white p-6 text-slate-950 shadow-sm transition hover:-translate-y-1 hover:shadow-[0_24px_60px_-40px_rgba(15,12,10,0.18)] dark:border-white/10 dark:bg-zinc-900 dark:text-white">
+              <div className="inline-flex h-14 w-14 items-center justify-center rounded-3xl bg-sky-500/10 text-sky-700 dark:bg-sky-500/15 dark:text-sky-300">
                 <MapPin className="h-5 w-5" />
               </div>
               <p className="mt-5 text-sm font-semibold text-slate-950 dark:text-white">Visit the studio</p>
@@ -254,8 +257,8 @@ export default async function Home() {
               </a>
             </div>
 
-            <div className="rounded-[1.75rem] border border-slate-200/70 bg-white p-5 text-slate-950 shadow-sm transition hover:-translate-y-1 hover:shadow-[0_25px_60px_-40px_rgba(15,12,10,0.45)] dark:border-white/10 dark:bg-zinc-900 dark:text-white">
-              <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-tr from-pink-500 via-orange-400 to-yellow-300 text-white dark:bg-pink-500/15 dark:text-pink-200">
+            <div className="rounded-[2rem] border border-slate-200/70 bg-white p-6 text-slate-950 shadow-sm transition hover:-translate-y-1 hover:shadow-[0_24px_60px_-40px_rgba(15,12,10,0.18)] dark:border-white/10 dark:bg-zinc-900 dark:text-white">
+              <div className="inline-flex h-14 w-14 items-center justify-center rounded-3xl bg-gradient-to-tr from-pink-500 via-orange-400 to-yellow-300 text-white dark:bg-pink-500/15 dark:text-pink-200">
                 <InstagramLogo className="h-5 w-5" />
               </div>
               <p className="mt-5 text-sm font-semibold text-slate-950 dark:text-white">Instagram</p>

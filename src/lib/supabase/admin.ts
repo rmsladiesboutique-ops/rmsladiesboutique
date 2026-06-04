@@ -5,14 +5,14 @@ export function createServiceRoleClient() {
   const url = process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL;
   let serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-  // Fallbacks: sometimes environment keys are named differently in local setups.
+  // Fallback to the public service role env name only. Never use an anon key for admin operations.
   if (!serviceKey) {
-    serviceKey = process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    serviceKey = process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY;
   }
 
   if (!url || !serviceKey) {
     console.error(
-      "Supabase admin client not initialized: set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY (or NEXT_PUBLIC_SUPABASE_ANON_KEY for fallback) in your environment",
+      "Supabase admin client not initialized: set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY (or NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY) in your environment",
     );
     return null;
   }

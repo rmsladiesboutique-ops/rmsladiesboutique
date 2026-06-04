@@ -91,6 +91,7 @@ export type HomepageContent = {
   featuredCollectionTitle?: string;
   featuredCollectionItems?: HomepageCard[];
   deliveryNote?: string;
+  heroExtra?: string;
   catalogTitle?: string;
   catalogDescription?: string;
   bookPageTitle?: string;

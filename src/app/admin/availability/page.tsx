@@ -28,10 +28,11 @@ export default function AdminAvailabilityPage() {
 
   useEffect(() => {
     setLoading(true);
-    fetch("/api/admin/availability")
+
+    fetch("/api/admin/availability", { credentials: "include", cache: "no-store" })
       .then(async (res) => {
         if (!res.ok) {
-          const data = await res.json();
+          const data = await res.json().catch(() => null);
           throw new Error(data?.error || "Failed to load availability");
         }
         return res.json();
@@ -96,26 +97,39 @@ export default function AdminAvailabilityPage() {
   };
 
   const saveAvailabilityState = async (nextAvailability: AvailabilityPayload) => {
+    const previousAvailability = availability;
     setAvailability(nextAvailability);
     setSaving(true);
     setError(null);
 
-    const res = await fetch("/api/admin/availability", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(nextAvailability),
-    });
+    try {
+      const res = await fetch("/api/admin/availability", {
+        method: "PATCH",
+        credentials: "include",
+        cache: "no-store",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(nextAvailability),
+      });
 
-    if (!res.ok) {
-      const data = await res.json();
-      setError(data?.error || "Unable to save availability");
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        setAvailability(previousAvailability);
+        setError(data?.error || "Unable to save availability");
+        return;
+      }
+
+      const data = await res.json().catch(() => null);
+      if (data?.availability) {
+        setAvailability(data.availability);
+      } else if (data) {
+        setAvailability(data);
+      }
+    } catch (err) {
+      setAvailability(previousAvailability);
+      setError((err as Error)?.message || "Unable to save availability");
+    } finally {
       setSaving(false);
-      return;
     }
-
-    const data = await res.json();
-    setAvailability(data);
-    setSaving(false);
   };
 
   const handleSave = async () => {
@@ -132,37 +146,41 @@ export default function AdminAvailabilityPage() {
     setSaving(true);
     setError(null);
 
-    const res = await fetch(`/api/admin/availability?id=${encodeURIComponent(id)}`, {
-      method: "DELETE",
-      credentials: "include",
-    });
+    try {
+      const res = await fetch(`/api/admin/availability?id=${encodeURIComponent(id)}`, {
+        method: "DELETE",
+        credentials: "include",
+        cache: "no-store",
+      });
 
-    const data = await res.json().catch(() => null);
-    if (!res.ok) {
-      if (res.status === 401) {
-        router.push("/admin/login");
+      const data = await res.json().catch(() => null);
+      if (!res.ok) {
+        if (res.status === 401) {
+          router.push("/admin/login");
+          return;
+        }
+
+        setError(data?.error || "Unable to delete availability rule");
         return;
       }
 
-      setError(data?.error || "Unable to delete availability rule");
+      if (data?.availability) {
+        setAvailability(data.availability);
+      } else {
+        setAvailability((prev) =>
+          prev
+            ? {
+                ...prev,
+                rules: prev.rules.filter((rule) => rule.id !== id),
+              }
+            : prev,
+        );
+      }
+    } catch (err) {
+      setError((err as Error)?.message || "Unable to delete availability rule");
+    } finally {
       setSaving(false);
-      return;
     }
-
-    if (data?.availability) {
-      setAvailability(data.availability);
-    } else {
-      setAvailability((prev) =>
-        prev
-          ? {
-              ...prev,
-              rules: prev.rules.filter((rule) => rule.id !== id),
-            }
-          : prev,
-      );
-    }
-
-    setSaving(false);
   };
 
   return (
@@ -211,10 +229,16 @@ export default function AdminAvailabilityPage() {
                         <p className="text-sm text-zinc-400">{rule.slots.length ? rule.slots.join(", ") : "No slots"}</p>
                       </div>
                       <div className="flex flex-wrap items-center gap-2">
-                        <Button size="sm" variant="outline" onClick={() => handleToggleRule(rule.id)}>
+                        <Button type="button" size="sm" variant="outline" onClick={() => handleToggleRule(rule.id)}>
                           {rule.isBlocked ? "Unblock" : "Block"}
                         </Button>
-                        <Button size="sm" variant="outline" className="border-red-500/40 text-red-200 hover:border-red-400/60 hover:bg-red-500/10" onClick={() => handleDeleteRule(rule.id)}>
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant="outline"
+                          className="border-red-500/40 text-red-200 hover:border-red-400/60 hover:bg-red-500/10"
+                          onClick={() => handleDeleteRule(rule.id)}
+                        >
                           Delete
                         </Button>
                       </div>
