@@ -4,7 +4,7 @@ import { ArrowRight, MapPin, PhoneCall, Sparkles, Star, Heart } from "lucide-rea
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { getDesigns, getSettings } from "@/lib/services";
+import { getDesigns, getFeaturedDesigns, getNewArrivals, getSettings } from "@/lib/services";
 import { formatCurrency } from "@/lib/utils";
 
 function InstagramLogo(props: any) {
@@ -27,7 +27,12 @@ function InstagramLogo(props: any) {
 }
 
 export default async function Home() {
-  const [designs, settings] = await Promise.all([getDesigns(), getSettings()]);
+  const [designs, settings, latestArrivals, featuredArrivals] = await Promise.all([
+    getDesigns(),
+    getSettings(),
+    getNewArrivals(12),
+    getFeaturedDesigns(6),
+  ]);
   const homepage = settings?.homepageContent;
   const heroBadge = homepage?.heroBadge ?? "RMS LADIES BOUTIQUE";
   const heroHeadline = homepage?.heroHeadline ?? "Luxury women’s tailoring designed for modern confidence.";
@@ -42,7 +47,20 @@ export default async function Home() {
         { value: "4.9/5", label: "Client satisfaction" },
         { value: "72h", label: "Studio response time" },
       ];
-  const heroImageUrl = homepage?.heroImageUrl || designs.find((d) => d.isFeatured)?.imageUrl || designs[0]?.imageUrl || "/images/bridal-wear.jpeg";
+
+  const latestDesigns = latestArrivals.length ? latestArrivals : designs.slice(0, 12);
+  const featuredDesigns = featuredArrivals.length ? featuredArrivals : latestDesigns.slice(0, 6);
+  const bridalDesigns = designs.filter((design) => (design.category ?? "").toLowerCase().includes("bridal")).slice(0, 4);
+  const sareeDesigns = designs.filter((design) => (design.category ?? "").toLowerCase().includes("saree")).slice(0, 4);
+  const occasionDesigns = designs.filter((design) => {
+    const category = (design.category ?? "").toLowerCase();
+    return category.includes("occasion") || category.includes("occasional");
+  }).slice(0, 4);
+  const trendingDesigns = featuredDesigns.length ? featuredDesigns.slice(0, 4) : latestDesigns.slice(0, 4);
+  const latestGallery = latestDesigns.slice(0, 8);
+  const showcaseDesign = featuredDesigns[0] || bridalDesigns[0] || sareeDesigns[0] || latestGallery[0];
+  const heroImageUrl = homepage?.heroImageUrl || showcaseDesign?.imageUrl || "/images/bridal-wear.jpeg";
+  const newArrivals = latestDesigns.slice(0, 8);
   const deliveryNote = homepage?.deliveryNote ?? "Designed and finished in our women-only boutique studio.";
   const featureSectionTitle = homepage?.featureSectionTitle ?? "Refined collections, custom service.";
   const featureSectionSubtitle = homepage?.featureSectionSubtitle ?? "Our boutique wardrobe pieces balance polished craftsmanship with elevated everyday ease.";
@@ -54,14 +72,11 @@ export default async function Home() {
         { title: "Calm boutique experience", description: "Private appointments with attentive styling support." },
       ];
 
-  const featuredDesigns = designs.filter((design) => design.available && design.isFeatured).slice(0, 4);
-  const newArrivals = designs.filter((design) => design.available).slice(0, 8);
-  const bridalDesigns = designs.filter((design) => design.available && design.category.toLowerCase().includes("bridal")).slice(0, 4);
-  const occasionDesigns = designs.filter((design) => design.available && design.category.toLowerCase().includes("occasion")).slice(0, 4);
-  const showcaseDesign = featuredDesigns[0] || bridalDesigns[0] || newArrivals[0];
   const contactPhone = settings?.phoneNumber ?? "8951432847";
   const whatsappNumber = contactPhone.replace(/\D/g, "") || "918951432847";
-  const whatsappLink = homepage?.heroPrimaryCta ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Hello RMS Ladies Boutique, I would like to book an appointment.")}` : `https://wa.me/${whatsappNumber}`;
+  const whatsappLink = homepage?.heroPrimaryCta
+    ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Hello RMS Ladies Boutique, I would like to book an appointment.")}`
+    : `https://wa.me/${whatsappNumber}`;
 
   return (
     <main className="mx-auto max-w-7xl px-4 pb-20 pt-10 md:px-8 md:pt-14">
@@ -112,6 +127,59 @@ export default async function Home() {
         </div>
       </section>
 
+      <section className="mt-14">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-sm uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">Latest designs</p>
+            <h2 className="mt-2 text-4xl font-semibold text-slate-950 dark:text-white">New work from the boutique, refreshed daily.</h2>
+          </div>
+          <Link href="/catalog" className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-amber-700 transition hover:text-amber-600">
+            Explore the full collection <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+        <div className="mt-8 grid gap-4 auto-rows-[18rem] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {latestGallery.map((design, index) => {
+            const spanClasses =
+              index === 0
+                ? "sm:col-span-2 sm:row-span-2"
+                : index === 2
+                ? "lg:col-span-2"
+                : index === 5
+                ? "sm:col-span-2"
+                : "";
+
+            return (
+              <Link
+                key={design.id}
+                href={`/catalog/${design.id}`}
+                className={`group relative flex h-full flex-col overflow-hidden rounded-[2rem] border border-slate-200/70 bg-slate-950/95 text-white transition duration-500 hover:-translate-y-1 hover:shadow-[0_30px_60px_-24px_rgba(15,12,10,0.32)] ${spanClasses}`}
+              >
+                <div className="absolute inset-0">
+                  <Image
+                    src={design.imageUrl}
+                    alt={design.title}
+                    fill
+                    className="object-cover transition duration-500 group-hover:scale-105"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent" />
+                </div>
+                <div className="relative z-10 mt-auto p-6">
+                  <p className="text-xs uppercase tracking-[0.28em] text-slate-200/80">{design.category}</p>
+                  <h3 className="mt-3 text-2xl font-semibold text-white">{design.title}</h3>
+                  <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-200/80">{design.description}</p>
+                  <div className="mt-4 flex items-center justify-between gap-4 text-sm text-amber-200">
+                    <span>{formatCurrency(design.price)}</span>
+                    <span className="rounded-full border border-amber-200/30 bg-amber-200/10 px-3 py-1">View</span>
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      </section>
+
       {featuredDesigns.length > 0 ? (
         <section className="mt-14">
           <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
@@ -127,7 +195,7 @@ export default async function Home() {
             {featuredDesigns.map((design) => (
               <Card key={design.id} className="overflow-hidden rounded-[2rem] border border-slate-200/70 bg-slate-950 text-white shadow-[0_24px_80px_-40px_rgba(0,0,0,0.35)] transition hover:-translate-y-1 hover:shadow-[0_36px_120px_-60px_rgba(0,0,0,0.35)]">
                 <div className="relative h-72 w-full overflow-hidden">
-                  <Image src={design.imageUrl} alt={design.title} fill className="object-cover" />
+                  <Image src={design.imageUrl} alt={design.title} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 33vw" loading="lazy" />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent" />
                 </div>
                 <CardContent className="space-y-3 p-6 text-white">
@@ -198,19 +266,99 @@ export default async function Home() {
                 <p className="text-sm uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">Crafted for everyday elegance</p>
                 <h3 className="mt-3 text-3xl font-semibold text-slate-950 dark:text-white">Shop timeless silhouettes.</h3>
               </div>
-              {occasionDesigns.map((design) => (
-                <div key={design.id} className="rounded-[1.75rem] border border-slate-200/70 bg-slate-50 p-5 dark:border-white/10 dark:bg-slate-900/85">
-                  <div className="flex items-center justify-between gap-4">
-                    <div>
-                      <p className="text-sm font-semibold text-slate-950 dark:text-white">{design.title}</p>
-                      <p className="mt-1 text-sm text-slate-700 dark:text-slate-300 line-clamp-2">{design.description}</p>
+              {occasionDesigns.length > 0 ? (
+                occasionDesigns.map((design) => (
+                  <div key={design.id} className="rounded-[1.75rem] border border-slate-200/70 bg-slate-50 p-5 dark:border-white/10 dark:bg-slate-900/85">
+                    <div className="flex items-center justify-between gap-4">
+                      <div>
+                        <p className="text-sm font-semibold text-slate-950 dark:text-white">{design.title}</p>
+                        <p className="mt-1 text-sm text-slate-700 dark:text-slate-300 line-clamp-2">{design.description}</p>
+                      </div>
+                      <span className="text-sm font-semibold text-amber-700 dark:text-amber-300">{formatCurrency(design.price)}</span>
                     </div>
-                    <span className="text-sm font-semibold text-amber-700 dark:text-amber-300">{formatCurrency(design.price)}</span>
                   </div>
+                ))
+              ) : (
+                <div className="rounded-[1.75rem] border border-slate-200/70 bg-slate-50 p-6 text-sm text-slate-600 dark:border-white/10 dark:bg-slate-900/85 dark:text-slate-300">
+                  Browse the full catalog to discover elegant saree and occasion favorites.
                 </div>
-              ))}
+              )}
             </CardContent>
           </Card>
+        </div>
+      </section>
+
+      <section className="mt-14">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-sm uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">Trending designs</p>
+            <h2 className="mt-2 text-4xl font-semibold text-slate-950 dark:text-white">The current boutique edit.</h2>
+          </div>
+          <Link href="/catalog" className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-amber-700 transition hover:text-amber-600">
+            Discover more <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {trendingDesigns.map((design) => (
+            <Link
+              key={design.id}
+              href={`/catalog/${design.id}`}
+              className="group overflow-hidden rounded-[2rem] border border-slate-200/70 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-[0_24px_60px_-32px_rgba(15,12,10,0.16)] dark:border-white/10 dark:bg-slate-950/95"
+            >
+              <div className="relative h-72 w-full overflow-hidden rounded-t-[2rem]">
+                <Image src={design.imageUrl} alt={design.title} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 33vw" loading="lazy" />
+              </div>
+              <div className="space-y-3 p-6 text-slate-950 dark:text-white">
+                <p className="text-xs uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">{design.category}</p>
+                <h3 className="text-xl font-semibold">{design.title}</h3>
+                <p className="text-sm leading-7 text-slate-700 dark:text-slate-300 line-clamp-2">{design.description}</p>
+                <div className="flex items-center justify-between gap-4 text-amber-700 dark:text-amber-300">
+                  <span className="font-semibold">{formatCurrency(design.price)}</span>
+                  <span className="text-xs uppercase tracking-[0.28em]">View</span>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-14">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-sm uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">Saree collection</p>
+            <h2 className="mt-2 text-4xl font-semibold text-slate-950 dark:text-white">Timeless drapes with modern polish.</h2>
+          </div>
+          <Link href="/catalog" className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-amber-700 transition hover:text-amber-600">
+            Browse saree styles <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {sareeDesigns.length > 0 ? (
+            sareeDesigns.map((design) => (
+              <Link
+                key={design.id}
+                href={`/catalog/${design.id}`}
+                className="group overflow-hidden rounded-[2rem] border border-slate-200/70 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-[0_24px_60px_-32px_rgba(15,12,10,0.16)] dark:border-white/10 dark:bg-slate-950/95"
+              >
+                <div className="relative h-72 w-full overflow-hidden rounded-t-[2rem]">
+                  <Image src={design.imageUrl} alt={design.title} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 33vw" loading="lazy" />
+                </div>
+                <div className="space-y-3 p-6 text-slate-950 dark:text-white">
+                  <p className="text-xs uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">{design.category}</p>
+                  <h3 className="text-xl font-semibold">{design.title}</h3>
+                  <p className="text-sm leading-7 text-slate-700 dark:text-slate-300 line-clamp-2">{design.description}</p>
+                  <div className="flex items-center justify-between gap-4 text-amber-700 dark:text-amber-300">
+                    <span className="font-semibold">{formatCurrency(design.price)}</span>
+                    <span className="text-xs uppercase tracking-[0.28em]">View</span>
+                  </div>
+                </div>
+              </Link>
+            ))
+          ) : (
+            <div className="rounded-[2rem] border border-slate-200/70 bg-slate-50 p-6 text-sm text-slate-600 dark:border-white/10 dark:bg-slate-900/85 dark:text-slate-300">
+              No saree designs are available yet. Add saree uploads in the admin dashboard to feature them here automatically.
+            </div>
+          )}
         </div>
       </section>
 

@@ -33,7 +33,7 @@ export default async function ConfirmationPage({ params }: { params: { id: strin
             <>
               <div className="space-y-3 rounded-3xl border border-amber-300/20 bg-amber-300/10 p-6">
                 <p className="text-sm uppercase tracking-[0.24em] text-amber-200/80">Appointment Submitted</p>
-                <div className="rounded-2xl bg-slate-950/95 p-5 text-center text-white shadow-sm shadow-amber-500/10">
+                <div className="rounded-2xl bg-slate-950/95 p-6 text-center text-white shadow-sm shadow-amber-500/10">
                   <p className="text-sm uppercase tracking-[0.22em] text-amber-200/80">Your 6-digit booking code</p>
                   <p className="mt-3 text-5xl font-semibold tracking-[0.28em] text-amber-300 font-mono">{booking.customerCode}</p>
                   <p className="mt-3 text-sm text-zinc-400">Your team will contact you shortly with confirmation details.</p>
@@ -66,11 +66,11 @@ export default async function ConfirmationPage({ params }: { params: { id: strin
             <p className="text-zinc-300">{confirmationDescription}</p>
           )}
 
-          <div className="pt-4 flex flex-col gap-3 sm:flex-row">
-            <Link href="/dashboard" className="flex-1">
+          <div className="pt-4 grid gap-3 sm:grid-cols-2">
+            <Link href="/dashboard" className="w-full">
               <Button className="w-full">Open Customer Dashboard</Button>
             </Link>
-            <Link href="/" className="flex-1">
+            <Link href="/" className="w-full">
               <Button variant="outline" className="w-full">Return to Home</Button>
             </Link>
           </div>

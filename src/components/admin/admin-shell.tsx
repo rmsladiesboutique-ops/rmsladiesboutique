@@ -36,16 +36,16 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
       <header className="sticky top-0 z-40 w-full border-b border-black/5 bg-[rgba(248,242,235,0.72)] backdrop-blur-xl dark:border-white/10 dark:bg-black/55">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 md:px-8">
           <div className="flex items-center gap-3">
-            <button aria-label="Toggle menu" className="rounded-full border border-black/10 bg-white/70 p-2 md:hidden dark:border-white/10 dark:bg-white/5" onClick={() => setOpen((s) => !s)}>
+            <button aria-label="Toggle menu" aria-expanded={open} className="rounded-full border border-black/10 bg-white/70 p-2 md:hidden dark:border-white/10 dark:bg-white/5" onClick={() => setOpen((s) => !s)}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-amber-700 dark:text-amber-200"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
             </button>
             <div>
               <Link href="/admin" className="text-lg font-semibold text-foreground">RMS LADIES BOUTIQUE</Link>
-              <p className="text-xs text-foreground/50">Boutique operations workspace</p>
+              <p className="text-xs text-foreground/60">Boutique operations workspace</p>
             </div>
           </div>
 
-          <nav className="hidden items-center gap-2 rounded-full border border-black/5 bg-white/70 px-2 py-2 md:flex dark:border-white/10 dark:bg-white/5">
+          <nav aria-label="Admin navigation" className="hidden items-center gap-2 rounded-full border border-black/5 bg-white/70 px-2 py-2 md:flex dark:border-white/10 dark:bg-white/5">
             {links.map((l) => (
               <Link
                 key={l.href}
@@ -86,7 +86,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
 
       <div className="min-h-[calc(100vh-64px)] pb-24">{children}</div>
 
-      <footer className="fixed bottom-4 left-1/2 z-50 w-[min(640px,90%)] -translate-x-1/2 rounded-full border border-black/5 bg-white/80 px-4 py-2 shadow-[0_18px_50px_-32px_rgba(36,24,14,0.85)] backdrop-blur-xl dark:border-white/10 dark:bg-black/65 md:hidden">
+      <footer aria-label="Mobile admin navigation" className="fixed bottom-4 left-1/2 z-50 w-[min(640px,90%)] -translate-x-1/2 rounded-full border border-black/5 bg-white/80 px-4 py-2 shadow-[0_18px_50px_-32px_rgba(36,24,14,0.85)] backdrop-blur-xl dark:border-white/10 dark:bg-black/65 md:hidden">
         <div className="flex items-center justify-between">
           {links.slice(0, 5).map((l) => (
             <Link key={l.href} href={l.href} className={`flex flex-col items-center rounded-xl px-2 py-1 text-xs transition ${isActive(l.href) ? "text-amber-700 dark:text-amber-200" : "text-foreground/65"}`}>

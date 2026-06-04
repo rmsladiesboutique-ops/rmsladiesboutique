@@ -240,20 +240,21 @@ export default function AdminDesignsPage() {
           <div className="grid gap-3 md:grid-cols-2">
             <Input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
             <label className="flex flex-col">
-              <select className="rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 outline-none" value={category} onChange={(e) => setCategory(e.target.value)}>
+              <span className="mb-2 text-sm text-zinc-400">Category</span>
+              <select className="rounded-xl border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 outline-none" value={category} onChange={(e) => setCategory(e.target.value)}>
                 <option>Occasion Wear</option>
                 <option>Bridal Wear</option>
                 <option>Simple Regular Wear</option>
               </select>
             </label>
-            <Input placeholder="Price" value={price} onChange={(e) => setPrice(e.target.value)} />
+            <Input type="number" min="0" step="0.01" inputMode="decimal" placeholder="Price" value={price} onChange={(e) => setPrice(e.target.value)} />
             <Input placeholder="Image URL" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} />
-            <label className="flex items-center gap-3 rounded-2xl border border-zinc-700 bg-zinc-950 px-4 py-3 text-sm text-zinc-100">
+            <label className="flex items-center gap-3 rounded-2xl border border-zinc-700 bg-zinc-950 px-4 py-3 text-sm text-zinc-100 cursor-pointer">
               <input type="checkbox" checked={isFeatured} onChange={(e) => setIsFeatured(e.target.checked)} className="h-4 w-4 rounded border-slate-400 bg-slate-900 text-amber-500" />
-              Mark this design as featured on the homepage
+              <span>Mark this design as featured on the homepage</span>
             </label>
             <Textarea className="md:col-span-2" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
-            <div className="md:col-span-2 flex items-center gap-3">
+            <div className="md:col-span-2 flex flex-col gap-3 sm:flex-row sm:items-end">
               <input
                 type="file"
                 accept="image/*"

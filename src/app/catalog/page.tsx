@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { getDesigns, getSettings } from "@/lib/services";
+import { ArrowRight } from "lucide-react";
+import { getDesigns, getNewArrivals, getSettings } from "@/lib/services";
 import { formatCurrency } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -12,8 +13,11 @@ export const metadata: Metadata = {
 };
 
 export default async function CatalogPage() {
-  const designs = await getDesigns();
-  const settings = await getSettings();
+  const [designs, latestDesigns, settings] = await Promise.all([
+    getDesigns(),
+    getNewArrivals(10),
+    getSettings(),
+  ]);
   const homepage = settings?.homepageContent;
   const pageTitle = homepage?.catalogTitle ?? "Design Catalog";
   const pageDescription = homepage?.catalogDescription ?? "Explore statement styles, hand-selected fabrics, and runway-ready tailoring for your most memorable moments.";
@@ -36,8 +40,7 @@ export default async function CatalogPage() {
     },
   );
 
-  const heroImage = designs.find((design) => design.isFeatured)?.imageUrl || designs[0]?.imageUrl || "/images/bridal-wear.jpeg";
-  const latestDesigns = designs.slice(0, 4);
+  const heroImage = designs.find((design) => design.isFeatured)?.imageUrl || latestDesigns[0]?.imageUrl || designs[0]?.imageUrl || "/images/bridal-wear.jpeg";
   const hasDesigns = designs.length > 0;
 
   return (
@@ -74,6 +77,49 @@ export default async function CatalogPage() {
 
       <section className="px-4 pb-24 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl space-y-16">
+          {latestDesigns.length > 0 ? (
+            <section className="rounded-[2.5rem] border border-slate-200/80 bg-white/95 p-6 shadow-[0_30px_80px_-40px_rgba(15,12,10,0.18)] dark:border-white/10 dark:bg-slate-950/95 sm:p-8">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <p className="text-sm uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">Latest designs</p>
+                  <h2 className="mt-2 text-4xl font-semibold text-slate-950 dark:text-white">Newest boutique pieces at a glance.</h2>
+                </div>
+                <Link href="/catalog" className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-amber-700 transition hover:text-amber-600">
+                  Browse full catalog <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+              <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+                {latestDesigns.map((design) => (
+                  <Link
+                    key={design.id}
+                    href={`/catalog/${design.id}`}
+                    className="group overflow-hidden rounded-[2rem] border border-slate-200/70 bg-slate-950/95 text-white transition hover:-translate-y-1 hover:shadow-[0_24px_60px_-32px_rgba(15,12,10,0.18)] dark:border-white/10"
+                  >
+                    <div className="relative aspect-[4/5] w-full overflow-hidden">
+                      <Image
+                        src={design.imageUrl}
+                        alt={design.title}
+                        fill
+                        className="object-cover transition duration-500 group-hover:scale-105"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                        loading="lazy"
+                      />
+                    </div>
+                    <CardContent className="space-y-3 p-5 text-white">
+                      <p className="text-xs uppercase tracking-[0.28em] text-slate-200/80">{design.category}</p>
+                      <h3 className="text-xl font-semibold">{design.title}</h3>
+                      <p className="text-sm leading-6 text-slate-200/80 line-clamp-2">{design.description}</p>
+                      <div className="flex items-center justify-between gap-4 text-amber-200">
+                        <span className="font-semibold">{formatCurrency(design.price)}</span>
+                        <span className="text-xs uppercase tracking-[0.28em]">View</span>
+                      </div>
+                    </CardContent>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          ) : null}
+
           {hasDesigns ? (
             Object.entries(byCategory).map(([key, items]) => {
               const label = key === "bridal" ? "Bridal Collection" : key === "occasion" ? "Occasion Wear" : "Signature Pieces";
@@ -128,7 +174,7 @@ export default async function CatalogPage() {
           )}
 
           {hasDesigns ? (
-            <div className="rounded-[2.5rem] border border-slate-200/80 bg-slate-950/95 p-10 text-white shadow-[0_40px_100px_-64px_rgba(15,12,10,0.35)] dark:border-white/10">
+            <div className="rounded-[2.5rem] border border-slate-200/80 bg-slate-950/95 p-8 text-white shadow-[0_40px_100px_-64px_rgba(15,12,10,0.35)] dark:border-white/10 sm:p-10">
               <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
                 <div className="space-y-6">
                   <p className="text-xs uppercase tracking-[0.32em] text-amber-300/80">The boutique edit</p>
@@ -140,8 +186,8 @@ export default async function CatalogPage() {
                 <div className="grid gap-4 sm:grid-cols-2">
                   {latestDesigns.slice(0, 4).map((design) => (
                     <div key={design.id} className="rounded-[2rem] overflow-hidden border border-white/10 bg-white/10 p-4">
-                      <div className="relative h-44 overflow-hidden rounded-[1.5rem] bg-slate-900">
-                        <Image src={design.imageUrl} alt={design.title} fill className="object-cover" />
+                      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[1.5rem] bg-slate-900">
+                        <Image src={design.imageUrl} alt={design.title} fill className="object-cover" sizes="(max-width: 640px) 100vw, 50vw" loading="lazy" />
                       </div>
                       <div className="mt-4">
                         <p className="text-sm uppercase tracking-[0.28em] text-slate-300">{design.category}</p>

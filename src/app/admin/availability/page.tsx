@@ -192,7 +192,7 @@ export default function AdminAvailabilityPage() {
               <h1 className="text-2xl font-semibold">Availability Management</h1>
               <p className="text-sm text-zinc-400">Customers only see open slots from this configuration.</p>
             </div>
-            <div className="flex flex-col gap-3 sm:flex-row">
+            <div className="grid gap-3 sm:flex sm:items-center sm:justify-end">
               <Button variant="outline" onClick={handleToggleHoliday} disabled={loading || !availability}>
                 {holidayMode ? "Disable" : "Enable"} Holiday Mode
               </Button>

@@ -80,7 +80,7 @@ export function CustomerLookup() {
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       submit();
     }
@@ -133,10 +133,13 @@ export function CustomerLookup() {
                   Phone Number
                 </label>
                 <Input 
+                  type="tel"
+                  inputMode="tel"
+                  autoComplete="tel"
                   placeholder="e.g., +1 555 123 4567" 
                   value={phoneNumber} 
                   onChange={(e) => setPhoneNumber(e.target.value)}
-                  onKeyPress={handleKeyPress}
+                  onKeyDown={handleKeyDown}
                   disabled={loading}
                   className="text-base"
                 />
@@ -146,10 +149,13 @@ export function CustomerLookup() {
                   6-Digit Code
                 </label>
                 <Input 
+                  type="text"
+                  inputMode="numeric"
+                  autoComplete="one-time-code"
                   placeholder="e.g., 123456" 
                   value={customerCode} 
                   onChange={(e) => setCustomerCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                  onKeyPress={handleKeyPress}
+                  onKeyDown={handleKeyDown}
                   disabled={loading}
                   maxLength={6}
                   className="text-base tracking-widest"
@@ -243,24 +249,24 @@ export function CustomerLookup() {
 
             <StatusTimeline statusIndex={record.statusIndex} />
 
-            <div className="flex flex-wrap gap-2 pt-3">
+            <div className="grid gap-3 pt-3 sm:grid-cols-3">
               <Button 
                 variant="outline" 
                 onClick={() => router.push(`/tracking/${record.customerCode}`)}
-                className="flex-1 min-w-[140px]"
+                className="w-full"
               >
                 View Timeline
               </Button>
               <Button 
                 variant="outline" 
                 onClick={generateQr}
-                className="flex-1 min-w-[140px]"
+                className="w-full"
               >
                 Download QR Code
               </Button>
               <Button 
                 onClick={downloadInvoice}
-                className="flex-1 min-w-[140px]"
+                className="w-full"
               >
                 Download Receipt
               </Button>

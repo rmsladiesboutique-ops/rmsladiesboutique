@@ -177,8 +177,8 @@ export function BookingForm({ availableDates, availableDateSlots }: Props) {
       <div className="space-y-1.5">
         <Input placeholder="Clothing type" {...register("clothingType")} />
       </div>
-      <label className="flex items-center gap-3 rounded-[1.5rem] border border-white/10 bg-white/10 px-4 py-4 text-sm text-foreground/80 shadow-sm">
-        <input type="checkbox" {...register("customDesign")} className="h-4 w-4 rounded border-gray-300 text-amber-500 focus:ring-amber-400" />
+      <label htmlFor="customDesign" className="flex items-center gap-3 rounded-[1.5rem] border border-white/10 bg-white/10 px-4 py-4 text-sm text-foreground/80 shadow-sm">
+        <input id="customDesign" type="checkbox" {...register("customDesign")} className="h-4 w-4 rounded border-gray-300 text-amber-500 focus:ring-amber-400" />
         <span>Request custom design</span>
       </label>
       <div className="md:col-span-2 space-y-1.5">
@@ -186,20 +186,26 @@ export function BookingForm({ availableDates, availableDateSlots }: Props) {
       </div>
 
       {customDesign && (
-        <>
+        <div className="md:col-span-2 space-y-5 rounded-[2rem] border border-white/10 bg-white/10 p-5">
           <div className="space-y-1.5">
-            <Input placeholder="Fabric type" {...register("fabricType")} />
+            <p className="text-sm font-semibold">Custom design details</p>
+            <p className="text-sm text-foreground/60">Provide any specialty fabric, color, or measurement requests for your tailor-made piece.</p>
+          </div>
+          <div className="grid gap-5 md:grid-cols-2">
+            <div className="space-y-1.5">
+              <Input placeholder="Fabric type" {...register("fabricType")} />
+            </div>
+            <div className="space-y-1.5">
+              <Input placeholder="Color" {...register("color")} />
+            </div>
           </div>
           <div className="space-y-1.5">
-            <Input placeholder="Color" {...register("color")} />
-          </div>
-          <div className="md:col-span-2 space-y-1.5">
             <Textarea placeholder="Special instructions" {...register("specialInstructions")} />
           </div>
-          <div className="md:col-span-2 space-y-1.5">
+          <div className="space-y-1.5">
             <Textarea placeholder="Design preferences" {...register("designPreferences")} />
           </div>
-        </>
+        </div>
       )}
 
       {errorMessage ? (

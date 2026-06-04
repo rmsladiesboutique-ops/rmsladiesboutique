@@ -83,8 +83,14 @@ export function Navbar({ siteTitle, navLinks }: NavbarProps) {
       </div>
 
       <div
+        className={`fixed inset-0 z-40 bg-slate-950/30 transition-opacity duration-300 ${mobileMenuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
+        aria-hidden={!mobileMenuOpen}
+        onClick={() => setMobileMenuOpen(false)}
+      />
+      <div
         id="mobile-nav"
-        className={`fixed inset-x-4 top-20 z-40 rounded-3xl border border-slate-200/70 bg-white/95 p-6 shadow-2xl backdrop-blur-2xl transition-all duration-300 dark:border-white/10 dark:bg-slate-950/95 md:hidden ${mobileMenuOpen ? "opacity-100" : "pointer-events-none opacity-0"}`}
+        className={`fixed right-4 top-24 z-50 w-[min(92vw,24rem)] max-h-[calc(100vh-6rem)] overflow-y-auto rounded-[2.5rem] border border-slate-200/70 bg-white/95 p-6 shadow-2xl backdrop-blur-2xl transition duration-300 dark:border-white/10 dark:bg-slate-950/95 md:hidden ${mobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}`}
+        aria-hidden={!mobileMenuOpen}
       >
         <div className="space-y-4">
           {navItems.map((item) => {
@@ -94,7 +100,7 @@ export function Navbar({ siteTitle, navLinks }: NavbarProps) {
                 key={item.href}
                 href={item.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`block rounded-3xl border px-5 py-4 text-sm font-semibold uppercase tracking-[0.22em] transition ${active ? "border-slate-900/10 bg-slate-950/95 text-white" : "border-slate-200/80 bg-white text-slate-900 hover:bg-slate-50 dark:border-white/10 dark:bg-slate-900/80 dark:text-slate-100 dark:hover:bg-slate-800"}`}
+                className={`block rounded-[1.75rem] border px-5 py-4 text-sm font-semibold uppercase tracking-[0.22em] transition ${active ? "border-slate-900/10 bg-slate-950/95 text-white" : "border-slate-200/80 bg-white text-slate-900 hover:bg-slate-50 dark:border-white/10 dark:bg-slate-900/80 dark:text-slate-100 dark:hover:bg-slate-800"}`}
               >
                 {item.label}
               </Link>

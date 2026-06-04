@@ -29,10 +29,10 @@ export default async function DesignDetailPage({ params }: { params: { designId:
 
   return (
     <main className="bg-[#fbf6f0] text-slate-950 dark:bg-slate-950 dark:text-slate-100">
-      <section className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8">
+      <section className="relative overflow-hidden px-4 py-16 sm:px-6 lg:px-8">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,248,238,0.92),transparent_28%),radial-gradient(circle_at_bottom_right,_rgba(171,137,97,0.12),transparent_30%)]" />
-        <div className="relative mx-auto grid max-w-7xl gap-16 lg:grid-cols-[0.95fr_1.05fr] items-center">
-          <div className="space-y-6 rounded-[2.5rem] border border-slate-200/80 bg-white/95 p-10 shadow-[0_30px_90px_-40px_rgba(15,12,10,0.18)] backdrop-blur-sm dark:border-white/10 dark:bg-slate-950/95">
+        <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.95fr_1.05fr] items-start">
+          <div className="space-y-6 rounded-[2.5rem] border border-slate-200/80 bg-white/95 p-8 shadow-[0_30px_90px_-40px_rgba(15,12,10,0.18)] backdrop-blur-sm dark:border-white/10 dark:bg-slate-950/95 sm:p-10">
             <div className="flex flex-wrap items-center gap-3">
               <Badge className="fashion-chip">{design.category}</Badge>
               {design.available ? <span className="rounded-full border border-emerald-300/20 bg-emerald-50 px-3 py-1 text-xs uppercase tracking-[0.28em] text-emerald-700 dark:border-emerald-400/20 dark:bg-emerald-500/10 dark:text-emerald-100">Available</span> : <span className="rounded-full border border-slate-400/20 bg-slate-100 px-3 py-1 text-xs uppercase tracking-[0.28em] text-slate-700 dark:border-white/10 dark:bg-slate-900/70 dark:text-slate-300">Unavailable</span>}
@@ -53,23 +53,23 @@ export default async function DesignDetailPage({ params }: { params: { designId:
                 <p className="mt-3 text-sm leading-7 text-slate-700 dark:text-slate-300">Private appointments, curated gatherings, and refined wardrobe capsules.</p>
               </div>
             </div>
-            <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap">
-              <Link href="/book" className="inline-flex min-w-[220px] items-center justify-center rounded-full bg-slate-950 px-8 py-3 text-sm font-semibold uppercase tracking-[0.24em] text-white transition hover:bg-slate-800">
+            <div className="grid gap-3 sm:grid-cols-2">
+              <Link href="/book" className="inline-flex w-full items-center justify-center rounded-full bg-slate-950 px-8 py-3 text-sm font-semibold uppercase tracking-[0.24em] text-white transition hover:bg-slate-800">
                 Book a consultation
               </Link>
-              <Link href="/catalog" className="inline-flex min-w-[220px] items-center justify-center rounded-full border border-slate-900/10 bg-white px-8 py-3 text-sm font-semibold uppercase tracking-[0.24em] text-slate-950 transition hover:bg-slate-50">
+              <Link href="/catalog" className="inline-flex w-full items-center justify-center rounded-full border border-slate-900/10 bg-white px-8 py-3 text-sm font-semibold uppercase tracking-[0.24em] text-slate-950 transition hover:bg-slate-50">
                 Back to catalog
               </Link>
             </div>
           </div>
 
           <div className="overflow-hidden rounded-[2.5rem] border border-slate-200/70 bg-slate-950/95 shadow-[0_60px_120px_-72px_rgba(15,12,10,0.35)] dark:border-white/10">
-            <div className="relative h-[640px] w-full">
-              <Image src={design.imageUrl} alt={design.title} fill className="object-cover" />
+            <div className="relative h-80 w-full overflow-hidden rounded-[2.5rem] sm:h-[28rem] md:h-[34rem] lg:h-[42rem]">
+              <Image src={design.imageUrl} alt={design.title} fill className="object-cover" sizes="100vw" />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
+              <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 text-white">
                 <p className="text-xs uppercase tracking-[0.28em] text-white/75">Made with intention</p>
-                <p className="mt-3 text-2xl font-semibold">A statement piece for moments that matter.</p>
+                <p className="mt-3 text-xl font-semibold sm:text-2xl">A statement piece for moments that matter.</p>
               </div>
             </div>
           </div>
@@ -117,11 +117,11 @@ export default async function DesignDetailPage({ params }: { params: { designId:
                 Back to catalog <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
-            <div className="mt-8 grid gap-6 md:grid-cols-3">
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 md:grid-cols-3">
               {relatedDesigns.map((item) => (
                 <Link key={item.id} href={`/catalog/${item.id}`} className="group overflow-hidden rounded-[2rem] border border-slate-200/70 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-[0_28px_80px_-40px_rgba(15,12,10,0.25)] dark:border-white/10 dark:bg-slate-900/85">
-                  <div className="relative h-72 w-full overflow-hidden">
-                    <Image src={item.imageUrl} alt={item.title} fill className="object-cover transition duration-500 group-hover:scale-105" />
+                  <div className="relative aspect-[4/5] w-full overflow-hidden">
+                    <Image src={item.imageUrl} alt={item.title} fill className="object-cover transition duration-500 group-hover:scale-105" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" loading="lazy" />
                   </div>
                   <CardContent className="space-y-3 p-6 text-slate-950 dark:text-white">
                     <p className="text-xs uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">{item.category}</p>

@@ -23,7 +23,7 @@ export default async function AdminPage() {
   return (
     <main className="mx-auto max-w-7xl px-4 py-12 md:px-8">
       <section className="glass-panel overflow-hidden rounded-[2.5rem] border border-amber-200/20 p-6 md:p-8 lg:p-10">
-        <div className="flex flex-col gap-8 xl:flex-row xl:items-start xl:justify-between">
+        <div className="grid gap-8 xl:grid-cols-[1.4fr_1fr] xl:items-start">
           <div className="space-y-4">
             <Badge className="px-4 py-2">Control Center</Badge>
             <h1 className="text-4xl font-semibold md:text-5xl">Admin Dashboard</h1>
@@ -48,7 +48,7 @@ export default async function AdminPage() {
           </div>
         </div>
 
-        <section className="mt-10 grid gap-4 md:grid-cols-4">
+        <section className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {[
             { label: "Total Appointments", value: total, icon: ClipboardList },
             { label: "Pending Orders", value: pending, icon: TrendingUp },

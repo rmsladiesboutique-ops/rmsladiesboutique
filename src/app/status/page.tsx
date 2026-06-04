@@ -61,10 +61,20 @@ export default function PublicStatusPage() {
         </div>
 
         <div className="mt-8 grid gap-3 sm:grid-cols-[1fr_auto]">
-          <Input placeholder="Enter code" value={code} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCode(e.target.value)} />
+          <Input
+            type="text"
+            inputMode="numeric"
+            maxLength={6}
+            autoComplete="one-time-code"
+            placeholder="Enter code"
+            value={code}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCode(e.target.value)}
+          />
           <Button className="w-full sm:w-auto" onClick={lookup} disabled={loading || !code}>{loading ? "Looking up…" : "Check Status"}</Button>
         </div>
+        <p className="mt-3 text-sm text-foreground/60">Use the 6-digit booking code from your confirmation message to view progress and delivery updates.</p>
 
+        <p className="mt-3 text-sm text-foreground/60">Use the 6-digit booking code from your confirmation message to view progress and delivery updates.</p>
         {error ? <div className="mt-4 rounded-[1.5rem] border border-rose-300/25 bg-rose-50/60 p-4 text-sm text-rose-500">{error}</div> : null}
 
         {record ? (

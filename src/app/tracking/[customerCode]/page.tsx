@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { TrackingPanel } from "@/components/shared/tracking-panel";
@@ -41,6 +42,15 @@ export default async function TrackingPage({ params }: { params: Promise<{ custo
 
           <div className="rounded-[2rem] border border-white/10 bg-white/10 p-6 shadow-[0_26px_85px_-52px_rgba(209,155,84,0.3)]">
             <TrackingPanel initial={record} />
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-2">
+            <Link href="/dashboard" className="rounded-[1.75rem] border border-white/10 bg-black/5 px-5 py-4 text-center text-sm font-semibold text-foreground transition hover:bg-black/10">
+              Visit Customer Dashboard
+            </Link>
+            <Link href="/status" className="rounded-[1.75rem] border border-white/10 bg-white/10 px-5 py-4 text-center text-sm font-semibold text-foreground transition hover:bg-white/20">
+              Lookup another status code
+            </Link>
           </div>
         </div>
       </div>

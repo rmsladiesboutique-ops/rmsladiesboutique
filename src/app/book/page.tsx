@@ -21,9 +21,9 @@ export default async function BookPage() {
   const pageDescription = homepage?.bookPageSubtitle ?? "Select an available slot, share your measurements, and describe your custom design preferences. Our atelier crafts every appointment for the modern woman.";
 
   return (
-    <main className="mx-auto max-w-5xl px-4 py-14 md:px-8">
+    <main className="mx-auto max-w-6xl px-4 py-14 md:px-8">
       <section className="glass-panel rounded-[2.5rem] border border-amber-200/20 p-6 md:p-8 lg:p-10">
-        <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">
+        <div className="grid gap-8 lg:grid-cols-[1.08fr_minmax(320px,420px)]">
           <div className="space-y-6">
             <p className="text-sm uppercase tracking-[0.28em] text-foreground/55">Appointments</p>
             <h1 className="text-4xl font-semibold tracking-tight md:text-5xl">{pageTitle}</h1>

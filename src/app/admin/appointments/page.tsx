@@ -158,15 +158,17 @@ export default function AdminAppointmentsPage() {
   return (
     <main className="mx-auto max-w-7xl px-4 py-16 md:px-8">
       <Card>
-        <CardContent className="space-y-4">
-          <div className="flex items-center justify-between gap-3">
-            <h1 className="text-2xl font-semibold">Appointments</h1>
-            <Input placeholder="Search customer or phone" className="max-w-xs" value={query} onChange={(e) => setQuery(e.target.value)} />
+        <CardContent className="space-y-6">
+          <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
+            <div>
+              <h1 className="text-2xl font-semibold">Appointments</h1>
+              <p className="text-sm text-zinc-400">Search, update status, and manage bookings with one tap.</p>
+            </div>
+            <Input placeholder="Search customer or phone" className="w-full max-w-xs" value={query} onChange={(e) => setQuery(e.target.value)} />
           </div>
 
-                  {/* Desktop table (hidden on small screens) */}
-                  <div className="hidden sm:block overflow-x-auto">
-                    <table className="w-full text-left text-sm">
+          <div className="hidden sm:block overflow-x-auto rounded-3xl border border-zinc-800 bg-zinc-950/60 p-3">
+            <table className="w-full min-w-[720px] text-left text-sm">
               <thead className="text-zinc-400">
                 <tr>
                   <th className="p-2">Customer</th><th className="p-2">Phone</th><th className="p-2">Type</th><th className="p-2">Date</th><th className="p-2">Status</th><th className="p-2">Admin Note</th><th className="p-2">Actions</th>
@@ -256,16 +258,16 @@ export default function AdminAppointmentsPage() {
           {/* Mobile card list */}
           <div className="block sm:hidden space-y-3">
             {filtered.map((r) => (
-              <div key={r.id} className="rounded-md border border-zinc-800 bg-zinc-950 p-3">
+              <div key={r.id} className="rounded-3xl border border-zinc-800 bg-zinc-950/90 p-4 shadow-sm shadow-black/20">
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <div className="font-medium">{r.customerName}</div>
                     <div className="text-sm text-zinc-400">{r.phoneNumber} • {r.preferredDate}</div>
-                    <div className="mt-2 text-sm">{r.clothingType}</div>
+                    <div className="mt-2 text-sm text-zinc-200">{r.clothingType}</div>
                   </div>
                 </div>
 
-                <div className="mt-3 space-y-2">
+                <div className="mt-3 space-y-3">
                   <div>
                     <select
                       className="w-full rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 outline-none transition focus:border-amber-500"
