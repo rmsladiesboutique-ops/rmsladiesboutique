@@ -16,25 +16,27 @@ export default function AdminDesignsPage() {
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [isFeatured, setIsFeatured] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
 
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const res = await fetch("/api/admin/designs");
-        if (!res.ok) {
-          if (res.status === 401) router.push("/admin/login");
-          return;
-        }
-        const data = await res.json();
-        setRows(data);
-      } catch (err) {
-        console.error(err);
+  const loadDesigns = async () => {
+    try {
+      const res = await fetch("/api/admin/designs");
+      if (!res.ok) {
+        if (res.status === 401) router.push("/admin/login");
+        return;
       }
-    };
+      const data = await res.json();
+      setRows(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-    load();
+  useEffect(() => {
+    loadDesigns();
   }, [router]);
 
   const cleanupUnuploaded = async () => {
@@ -55,6 +57,7 @@ export default function AdminDesignsPage() {
   };
 
   const uploadToStorage = async (file: File) => {
+    setErrorMessage(null);
     const formData = new FormData();
     formData.append("file", file);
 
@@ -64,7 +67,9 @@ export default function AdminDesignsPage() {
     });
 
     if (!res.ok) {
-      console.error("Upload failed", await res.text());
+      const text = await res.text();
+      setErrorMessage(`Image upload failed: ${text}`);
+      console.error("Upload failed", text);
       return null;
     }
 
@@ -73,47 +78,55 @@ export default function AdminDesignsPage() {
   };
 
   const add = async () => {
-    const payload = {
-      title,
-      category,
-      description,
-      price: Number(price),
-      imageUrl,
-      available: true,
-      isFeatured,
-    };
+    setErrorMessage(null);
+    const priceValue = Number(price);
 
-    const res = await fetch("/api/admin/designs", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-
-    if (!res.ok) {
-      if (res.status === 401) router.push("/admin/login");
+    if (!title.trim() || !description.trim() || !imageUrl.trim() || Number.isNaN(priceValue) || priceValue <= 0) {
+      setErrorMessage("Please provide a title, description, valid price, and an image before adding the design.");
       return;
     }
 
-    if (res.ok) {
-      setRows((prev) => [
-        {
-          id: crypto.randomUUID(),
-          title,
-          category,
-          description,
-          price: Number(price),
-          imageUrl,
-          available: true,
-          isFeatured,
-        },
-        ...prev,
-      ]);
+    setIsLoading(true);
+
+    try {
+      const payload = {
+        title: title.trim(),
+        category,
+        description: description.trim(),
+        price: priceValue,
+        imageUrl: imageUrl.trim(),
+        available: true,
+        isFeatured,
+      };
+
+      const res = await fetch("/api/admin/designs", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        if (res.status === 401) {
+          router.push("/admin/login");
+          return;
+        }
+        const data = await res.json();
+        setErrorMessage(data?.error ?? "Unable to add design. Please try again.");
+        return;
+      }
+
+      await loadDesigns();
       setTitle("");
-      setCategory("");
+      setCategory("Occasion Wear");
       setDescription("");
       setPrice("");
       setImageUrl("");
       setIsFeatured(false);
+    } catch (err) {
+      console.error(err);
+      setErrorMessage("Unable to add design. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -214,12 +227,21 @@ export default function AdminDesignsPage() {
   return (
     <main className="mx-auto max-w-7xl px-4 py-16 md:px-8">
       <Card>
-        <CardContent className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-semibold">Design Management</h1>
-            <div className="flex items-center gap-2">
-                <Button size="sm" variant="ghost" onClick={cleanupUnuploaded}>Remove unuploaded</Button>
-                <Button size="sm" variant="ghost" onClick={async () => {
+        <CardContent className="space-y-8">
+          <div className="grid gap-4 xl:grid-cols-[1.2fr_0.8fr] xl:items-start">
+            <div className="space-y-3">
+              <p className="text-sm uppercase tracking-[0.24em] text-amber-400">Catalog control</p>
+              <h1 className="text-3xl font-semibold">Design Management</h1>
+              <p className="max-w-2xl text-sm text-zinc-400">
+                Add new studio pieces, update pricing, mark featured designs, and keep the customer catalog polished.
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center justify-end gap-3">
+              <Button size="sm" variant="outline" onClick={cleanupUnuploaded}>Remove unuploaded</Button>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={async () => {
                   try {
                     const res = await fetch(`/api/admin/designs/normalize`, { method: "POST" });
                     if (!res.ok) {
@@ -233,67 +255,163 @@ export default function AdminDesignsPage() {
                   } catch (err) {
                     console.error(err);
                   }
-                }}>Normalize categories</Button>
-            </div>
-          </div>
-          <p className="text-sm text-zinc-400">Create, update prices, enable or disable availability, and remove outdated designs.</p>
-          <div className="grid gap-3 md:grid-cols-2">
-            <Input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
-            <label className="flex flex-col">
-              <span className="mb-2 text-sm text-zinc-400">Category</span>
-              <select className="rounded-xl border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 outline-none" value={category} onChange={(e) => setCategory(e.target.value)}>
-                <option>Occasion Wear</option>
-                <option>Bridal Wear</option>
-                <option>Simple Regular Wear</option>
-              </select>
-            </label>
-            <Input type="number" min="0" step="0.01" inputMode="decimal" placeholder="Price" value={price} onChange={(e) => setPrice(e.target.value)} />
-            <Input placeholder="Image URL" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} />
-            <label className="flex items-center gap-3 rounded-2xl border border-zinc-700 bg-zinc-950 px-4 py-3 text-sm text-zinc-100 cursor-pointer">
-              <input type="checkbox" checked={isFeatured} onChange={(e) => setIsFeatured(e.target.checked)} className="h-4 w-4 rounded border-slate-400 bg-slate-900 text-amber-500" />
-              <span>Mark this design as featured on the homepage</span>
-            </label>
-            <Textarea className="md:col-span-2" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
-            <div className="md:col-span-2 flex flex-col gap-3 sm:flex-row sm:items-end">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={async (e) => {
-                  const file = e.target.files?.[0];
-                  if (!file) return;
-                  const publicUrl = await uploadToStorage(file);
-                  if (publicUrl) setImageUrl(publicUrl);
                 }}
-              />
-              <Button onClick={add}>Add Design</Button>
+              >
+                Normalize categories
+              </Button>
             </div>
           </div>
-          <div className="space-y-2">
+
+          <div className="grid gap-6 xl:grid-cols-[1.25fr_0.75fr]">
+            <div className="space-y-5 rounded-[2rem] border border-zinc-800 bg-zinc-950/70 p-6 shadow-[0_30px_70px_-48px_rgba(0,0,0,0.6)]">
+              {errorMessage ? (
+                <div className="rounded-3xl border border-red-400/20 bg-red-500/10 p-4 text-sm text-red-200">
+                  {errorMessage}
+                </div>
+              ) : null}
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
+                <label className="flex flex-col gap-2 text-sm text-zinc-400">
+                  <span>Category</span>
+                  <select
+                    className="rounded-xl border border-zinc-700 bg-zinc-950 px-3 py-3 text-sm text-zinc-100 outline-none"
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                  >
+                    <option>Occasion Wear</option>
+                    <option>Bridal Wear</option>
+                    <option>Simple Regular Wear</option>
+                  </select>
+                </label>
+                <Input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  inputMode="decimal"
+                  placeholder="Price"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                />
+                <Input placeholder="Image URL" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} />
+              </div>
+
+              <div className="grid gap-4">
+                <label className="flex items-center gap-3 rounded-2xl border border-zinc-700 bg-zinc-950 px-4 py-3 text-sm text-zinc-100 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={isFeatured}
+                    onChange={(e) => setIsFeatured(e.target.checked)}
+                    className="h-4 w-4 rounded border-slate-400 bg-slate-900 text-amber-500"
+                  />
+                  <span>Mark this design as featured on the homepage</span>
+                </label>
+                <Textarea placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
+                <div className="grid gap-4 sm:grid-cols-[1.2fr_0.8fr]">
+                  <div className="space-y-2">
+                    <label className="text-sm text-zinc-400">Upload image</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="w-full rounded-2xl border border-zinc-700 bg-zinc-950 px-3 py-3 text-sm text-zinc-100 outline-none file:cursor-pointer file:rounded-full file:border-0 file:bg-amber-500/10 file:px-4 file:py-2 file:text-sm file:text-amber-100"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+                        const publicUrl = await uploadToStorage(file);
+                        if (publicUrl) setImageUrl(publicUrl);
+                      }}
+                    />
+                  </div>
+                  <Button onClick={add} disabled={isLoading} className="h-fit w-full">
+                    {isLoading ? "Adding…" : "Add Design"}
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-[2rem] border border-zinc-800 bg-zinc-950/70 p-6 shadow-[0_30px_70px_-48px_rgba(0,0,0,0.6)]">
+              <h2 className="text-xl font-semibold">Image preview</h2>
+              <p className="mt-2 text-sm text-zinc-400">Paste a public image URL or upload a file to preview the design image before publishing.</p>
+              <div className="mt-5 rounded-3xl border border-zinc-800 bg-zinc-900 p-4">
+                {imageUrl ? (
+                  <img src={imageUrl} alt="Design preview" className="h-72 w-full rounded-3xl object-cover" />
+                ) : (
+                  <div className="grid h-72 place-items-center rounded-3xl border border-dashed border-zinc-700 bg-zinc-950 text-sm text-zinc-500">
+                    Image preview will appear here
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h2 className="text-xl font-semibold">Current catalog</h2>
+              <p className="text-sm text-zinc-400">Manage existing designs in the studio catalog.</p>
+            </div>
+            <div className="rounded-full bg-amber-500/10 px-4 py-2 text-sm font-semibold uppercase tracking-[0.22em] text-amber-300">
+              {rows.length} items
+            </div>
+          </div>
+          <div className="space-y-4">
             {rows.map((r) => (
-              <div key={r.id} className="flex flex-wrap items-center justify-between gap-3 rounded-md border border-zinc-800 p-3">
-                <div>
-                  <p className="font-medium">{r.title}</p>
-                  <div className="mt-1 flex flex-wrap items-center gap-3">
-                    <select className="rounded-md border border-zinc-700 bg-zinc-950 px-2 py-1 text-sm text-zinc-100 outline-none" value={r.category} onChange={(e) => updateCategory(r.id, e.target.value)}>
-                      <option>Occasion Wear</option>
-                      <option>Bridal Wear</option>
-                      <option>Simple Regular Wear</option>
-                    </select>
-                    <p className="text-sm text-zinc-400">| ${r.price.toFixed(2)}</p>
-                    <label className="flex items-center gap-2 rounded-full border border-zinc-700 bg-zinc-950 px-2 py-1 text-xs text-zinc-100">
-                      <input type="checkbox" checked={r.isFeatured} onChange={(e) => updateFeatured(r.id, e.target.checked)} className="h-4 w-4 rounded border-slate-400 bg-slate-900 text-amber-500" />
-                      Featured
+              <div key={r.id} className="grid gap-4 rounded-[2rem] border border-zinc-800 bg-zinc-950/70 p-4 shadow-[0_20px_60px_-40px_rgba(0,0,0,0.7)] sm:grid-cols-[160px_minmax(0,1fr)]">
+                <div className="overflow-hidden rounded-[1.5rem] border border-zinc-800 bg-zinc-900">
+                  <img src={r.imageUrl} alt={r.title} className="h-40 w-full object-cover" />
+                </div>
+                <div className="grid gap-3">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <div>
+                      <p className="text-lg font-semibold">{r.title}</p>
+                      <p className="text-sm text-zinc-400">{r.category}</p>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className={`rounded-full px-3 py-1 text-xs font-semibold ${r.available ? "bg-emerald-500/10 text-emerald-200" : "bg-red-500/10 text-red-200"}`}>
+                        {r.available ? "Available" : "Hidden"}
+                      </span>
+                      {r.isFeatured ? (
+                        <span className="rounded-full bg-amber-500/10 px-3 py-1 text-xs font-semibold text-amber-200">Featured</span>
+                      ) : null}
+                    </div>
+                  </div>
+
+                  <p className="text-sm leading-6 text-zinc-400">{r.description}</p>
+
+                  <div className="grid gap-3 sm:grid-cols-[1fr_1fr]">
+                    <div className="space-y-2">
+                      <label className="text-xs uppercase tracking-[0.2em] text-zinc-500">Price</label>
+                      <Input
+                        className="w-full"
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        value={String(r.price)}
+                        onChange={(e) => updatePrice(r.id, Number(e.target.value || 0))}
+                      />
+                    </div>
+                    <label className="space-y-2 text-sm text-zinc-400">
+                      Category
+                      <select
+                        className="w-full rounded-xl border border-zinc-700 bg-zinc-950 px-3 py-3 text-sm text-zinc-100 outline-none"
+                        value={r.category}
+                        onChange={(e) => updateCategory(r.id, e.target.value)}
+                      >
+                        <option>Occasion Wear</option>
+                        <option>Bridal Wear</option>
+                        <option>Simple Regular Wear</option>
+                      </select>
                     </label>
                   </div>
-                </div>
-                <div className="flex gap-2">
-                  <Input
-                    className="w-24"
-                    value={String(r.price)}
-                    onChange={(e) => updatePrice(r.id, Number(e.target.value || 0))}
-                  />
-                  <Button size="sm" variant="outline" onClick={() => toggle(r.id)}>{r.available ? "Disable" : "Enable"}</Button>
-                  <Button size="sm" variant="ghost" onClick={() => remove(r.id)}>Remove</Button>
+
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Button size="sm" variant="outline" onClick={() => toggle(r.id)}>{r.available ? "Hide" : "Publish"}</Button>
+                    <Button size="sm" variant="outline" onClick={() => updateFeatured(r.id, !r.isFeatured)}>
+                      {r.isFeatured ? "Unfeature" : "Feature"}
+                    </Button>
+                    <Button size="sm" variant="ghost" className="border border-red-500/30 text-red-200 hover:bg-red-500/10" onClick={() => remove(r.id)}>
+                      Remove
+                    </Button>
+                  </div>
                 </div>
               </div>
             ))}

@@ -26,22 +26,27 @@ export default function AdminAvailabilityPage() {
   const [newDate, setNewDate] = useState("");
   const [newSlots, setNewSlots] = useState("");
 
-  useEffect(() => {
+  const loadAvailability = async () => {
     setLoading(true);
+    setError(null);
 
-    fetch("/api/admin/availability", { credentials: "include", cache: "no-store" })
-      .then(async (res) => {
-        if (!res.ok) {
-          const data = await res.json().catch(() => null);
-          throw new Error(data?.error || "Failed to load availability");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setAvailability(data);
-      })
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
+    try {
+      const res = await fetch("/api/admin/availability", { credentials: "include", cache: "no-store" });
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(data?.error || "Failed to load availability");
+      }
+      const data = await res.json();
+      setAvailability(data);
+    } catch (err) {
+      setError((err as Error)?.message || "Failed to load availability");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadAvailability();
   }, []);
 
   const rules = availability?.rules ?? [];
@@ -167,14 +172,7 @@ export default function AdminAvailabilityPage() {
       if (data?.availability) {
         setAvailability(data.availability);
       } else {
-        setAvailability((prev) =>
-          prev
-            ? {
-                ...prev,
-                rules: prev.rules.filter((rule) => rule.id !== id),
-              }
-            : prev,
-        );
+        await loadAvailability();
       }
     } catch (err) {
       setError((err as Error)?.message || "Unable to delete availability rule");
@@ -214,7 +212,7 @@ export default function AdminAvailabilityPage() {
                 </div>
                 <div className="rounded-xl border border-zinc-800 bg-zinc-950/40 p-4">
                   <p className="text-sm font-medium">Rule count</p>
-                  <p className="mt-2 text-sm text-zinc-400">{rules.length} available date{rules.length === 1 ? "" : "s"} configured.</p>
+                  <p className="mt-2 text-sm text-zinc-400">{rules.length} date{rules.length === 1 ? "" : "s"} configured.</p>
                 </div>
               </div>
 
@@ -225,8 +223,13 @@ export default function AdminAvailabilityPage() {
                   rules.map((rule) => (
                     <div key={rule.id} className="flex flex-col gap-3 rounded-md border border-zinc-800 p-4 sm:flex-row sm:items-center sm:justify-between">
                       <div>
-                        <p className="font-medium">{rule.date}</p>
-                        <p className="text-sm text-zinc-400">{rule.slots.length ? rule.slots.join(", ") : "No slots"}</p>
+                        <div className="flex flex-wrap items-center gap-2">
+                          <p className="font-medium">{rule.date}</p>
+                          <span className={`rounded-full px-2 py-1 text-xs font-semibold ${rule.isBlocked ? "bg-red-500/10 text-red-200" : "bg-emerald-500/10 text-emerald-200"}`}>
+                            {rule.isBlocked ? "Blocked" : "Open"}
+                          </span>
+                        </div>
+                        <p className="mt-1 text-sm text-zinc-400">{rule.slots.length ? rule.slots.join(", ") : "No slots configured"}</p>
                       </div>
                       <div className="flex flex-wrap items-center gap-2">
                         <Button type="button" size="sm" variant="outline" onClick={() => handleToggleRule(rule.id)}>
@@ -235,8 +238,8 @@ export default function AdminAvailabilityPage() {
                         <Button
                           type="button"
                           size="sm"
-                          variant="outline"
-                          className="border-red-500/40 text-red-200 hover:border-red-400/60 hover:bg-red-500/10"
+                          variant="ghost"
+                          className="border border-red-500/40 text-red-200 hover:border-red-400/60 hover:bg-red-500/10"
                           onClick={() => handleDeleteRule(rule.id)}
                         >
                           Delete

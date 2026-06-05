@@ -235,7 +235,11 @@ export default async function Home() {
             ))}
           </div>
           <div className="mt-8 text-center">
-            <Link href="/catalog" className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 dark:border-white/10 dark:bg-slate-100 dark:text-slate-950">
+            <Link
+              href="/catalog"
+              aria-label="Explore all designs"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 dark:border-white/10 dark:bg-slate-100 dark:text-slate-950"
+            >
               Explore all designs <ArrowRight className="h-4 w-4" />
             </Link>
           </div>

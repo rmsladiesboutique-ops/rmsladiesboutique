@@ -42,30 +42,30 @@ export default function AdminAppointmentsPage() {
 
   const router = useRouter();
 
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const res = await fetch("/api/admin/appointments");
-        if (!res.ok) {
-          if (res.status === 401) router.push("/admin/login");
-          return;
-        }
-        const data = (await res.json()) as AppointmentRecord[];
-        setRows(data);
-        setStatusDrafts(
-          Object.fromEntries(
-            data.map((row) => {
-              const matchesPreset = STATUS_STAGES.includes(row.status as (typeof STATUS_STAGES)[number]);
-              return [row.id, { value: matchesPreset ? row.status : CUSTOM_STATUS_VALUE, customValue: matchesPreset ? "" : row.status }];
-            }),
-          ),
-        );
-      } catch (err) {
-        console.error(err);
+  const loadAppointments = async () => {
+    try {
+      const res = await fetch("/api/admin/appointments");
+      if (!res.ok) {
+        if (res.status === 401) router.push("/admin/login");
+        return;
       }
-    };
+      const data = (await res.json()) as AppointmentRecord[];
+      setRows(data);
+      setStatusDrafts(
+        Object.fromEntries(
+          data.map((row) => {
+            const matchesPreset = STATUS_STAGES.includes(row.status as (typeof STATUS_STAGES)[number]);
+            return [row.id, { value: matchesPreset ? row.status : CUSTOM_STATUS_VALUE, customValue: matchesPreset ? "" : row.status }];
+          }),
+        ),
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-    load();
+  useEffect(() => {
+    loadAppointments();
   }, [router]);
 
   const filtered = useMemo(() => rows.filter((r) => r.customerName.toLowerCase().includes(query.toLowerCase()) || r.phoneNumber.includes(query)), [rows, query]);
@@ -123,12 +123,12 @@ export default function AdminAppointmentsPage() {
 
   const remove = async (id: string) => {
     try {
-      const res = await fetch(`/api/admin/appointments/${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/admin/appointments/${encodeURIComponent(id)}`, { method: "DELETE" });
       if (!res.ok) {
         if (res.status === 401) router.push("/admin/login");
         return;
       }
-      setRows((prev) => prev.filter((r) => r.id !== id));
+      await loadAppointments();
     } catch (err) {
       console.error(err);
     }
@@ -159,9 +159,14 @@ export default function AdminAppointmentsPage() {
     <main className="mx-auto max-w-7xl px-4 py-16 md:px-8">
       <Card>
         <CardContent className="space-y-6">
-          <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
-            <div>
-              <h1 className="text-2xl font-semibold">Appointments</h1>
+          <div className="grid gap-4 xl:grid-cols-[1fr_auto] xl:items-center">
+            <div className="space-y-3">
+              <p className="text-sm uppercase tracking-[0.24em] text-amber-400">Appointments</p>
+              <div className="flex flex-wrap items-center gap-3">
+                <h1 className="text-3xl font-semibold">Customer bookings</h1>
+                <span className="rounded-full bg-zinc-900 px-3 py-1 text-sm text-zinc-300">{filtered.length} matching</span>
+                <span className="rounded-full bg-zinc-900 px-3 py-1 text-sm text-zinc-300">{rows.length} total</span>
+              </div>
               <p className="text-sm text-zinc-400">Search, update status, and manage bookings with one tap.</p>
             </div>
             <Input placeholder="Search customer or phone" className="w-full max-w-xs" value={query} onChange={(e) => setQuery(e.target.value)} />
@@ -253,10 +258,18 @@ export default function AdminAppointmentsPage() {
                 ))}
               </tbody>
             </table>
+            {filtered.length === 0 ? (
+              <div className="mt-4 rounded-3xl border border-dashed border-zinc-700 bg-black/10 p-6 text-center text-sm text-zinc-400">No appointments match your search. Adjust the query or refresh the page.</div>
+            ) : null}
           </div>
 
           {/* Mobile card list */}
           <div className="block sm:hidden space-y-3">
+            {filtered.length === 0 ? (
+              <div className="rounded-3xl border border-dashed border-zinc-700 bg-black/10 p-6 text-center text-sm text-zinc-400">
+                No appointments available. Try another search or add bookings through the public form.
+              </div>
+            ) : null}
             {filtered.map((r) => (
               <div key={r.id} className="rounded-3xl border border-zinc-800 bg-zinc-950/90 p-4 shadow-sm shadow-black/20">
                 <div className="flex items-start justify-between gap-3">

@@ -47,6 +47,8 @@ export async function POST(request: Request) {
     return NextResponse.json(appointment);
   } catch (error) {
     console.error("Create appointment failed:", error);
-    return NextResponse.json({ error: "Unable to save appointment. Please try again later." }, { status: 500 });
+    const message = error instanceof Error ? error.message : "Unable to save appointment. Please try again later.";
+    const status = /paused|unavailable/i.test(message) ? 400 : 500;
+    return NextResponse.json({ error: message }, { status });
   }
 }

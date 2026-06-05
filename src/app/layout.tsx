@@ -46,6 +46,9 @@ export default async function RootLayout({
             phone={settings?.homepageContent?.footerPhone ?? settings?.phoneNumber}
             email={settings?.homepageContent?.footerEmail ?? settings?.contactEmail}
           />
+          <div className="bg-background text-center py-4 text-[0.72rem] uppercase tracking-[0.24em] text-slate-500/80 dark:text-slate-400/80">
+            This website was professionally developed by EGB Developers.
+          </div>
           <Toaster richColors position="top-right" />
         </ThemeProvider>
       </body>

@@ -102,6 +102,20 @@ export async function getNewArrivals(limit = 6): Promise<DesignItem[]> {
 }
 
 export async function createAppointment(payload: AppointmentPayload): Promise<AppointmentRecord> {
+  const availability = await getAvailability();
+  if (availability.holidayMode) {
+    throw new Error("Booking is paused while holiday mode is active.");
+  }
+
+  const rule = availability.rules.find((r) => r.date === payload.preferredDate);
+  if (!rule || rule.isBlocked || rule.slots.length === 0) {
+    throw new Error("Selected booking date is unavailable. Please choose another date.");
+  }
+
+  if (!rule.slots.includes(payload.preferredTime)) {
+    throw new Error("Selected time slot is unavailable. Please choose another available time.");
+  }
+
   const code = generateCustomerCode();
   const estimatedCompletionDate = format(addDays(new Date(payload.preferredDate), 14), "yyyy-MM-dd");
   const record: AppointmentRecord = {

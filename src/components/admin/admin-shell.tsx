@@ -96,6 +96,9 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
           ))}
         </div>
       </footer>
+      <div className="mt-24 pb-8 text-center text-[0.72rem] uppercase tracking-[0.24em] text-foreground/60">
+        This website was professionally developed by EGB Developers.
+      </div>
     </div>
   );
 }

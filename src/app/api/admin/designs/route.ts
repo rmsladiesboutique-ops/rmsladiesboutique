@@ -57,19 +57,34 @@ export async function POST(request: Request) {
   }
 
   const supabase = createServiceRoleClient();
-  if (supabase) {
-    await supabase.from("designs").insert({
-      title: parsed.data.title,
-      category: parsed.data.category,
-      description: parsed.data.description,
-      price: parsed.data.price,
-      image_url: parsed.data.imageUrl,
-      available: parsed.data.available,
-      is_featured: parsed.data.isFeatured ?? false,
-    });
+  if (!supabase) {
+    return NextResponse.json({ error: "Supabase client unavailable" }, { status: 500 });
   }
 
-  return NextResponse.json({ ok: true });
+  const { data, error } = await supabase.from("designs").insert({
+    title: parsed.data.title,
+    category: parsed.data.category,
+    description: parsed.data.description,
+    price: parsed.data.price,
+    image_url: parsed.data.imageUrl,
+    available: parsed.data.available,
+    is_featured: parsed.data.isFeatured ?? false,
+  }).select().single();
+
+  if (error || !data) {
+    return NextResponse.json({ error: error?.message ?? "Unable to store design" }, { status: 500 });
+  }
+
+  return NextResponse.json({ design: {
+    id: data.id,
+    title: data.title,
+    category: data.category,
+    description: data.description,
+    price: data.price,
+    imageUrl: data.image_url,
+    available: data.available,
+    isFeatured: data.is_featured ?? false,
+  }});
 }
 
 export async function PATCH(request: Request) {
