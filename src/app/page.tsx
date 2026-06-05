@@ -38,6 +38,7 @@ export default async function Home() {
   const heroHeadline = homepage?.heroHeadline ?? "Luxury women’s tailoring designed for modern confidence.";
   const heroDescription = homepage?.heroDescription ?? "Book a private fitting, explore elevated collections, and experience couture-level finishes made for real life.";
   const heroExtra = homepage?.heroExtra ?? "Studio appointments, expert measurements, and polished wardrobe edits delivered with care.";
+  const catalogPath = "/catalog";
   const heroPrimaryCta = homepage?.heroPrimaryCta ?? "Book your appointment";
   const heroSecondaryCta = homepage?.heroSecondaryCta ?? "View our collection";
   const heroStats = homepage?.heroStats?.length
@@ -52,16 +53,15 @@ export default async function Home() {
   const featuredDesigns = featuredArrivals.length ? featuredArrivals : latestDesigns.slice(0, 6);
   const bridalDesigns = designs.filter((design) => (design.category ?? "").toLowerCase().includes("bridal")).slice(0, 4);
   const latestGallery = latestDesigns.slice(0, 6);
-  const sareeDesigns = designs.filter((design) => (design.category ?? "").toLowerCase().includes("saree")).slice(0, 4);
   const occasionDesigns = designs.filter((design) => {
     const category = (design.category ?? "").toLowerCase();
     return category.includes("occasion") || category.includes("occasional");
   }).slice(0, 4);
   const trendingDesigns = featuredDesigns.length ? featuredDesigns.slice(0, 4) : latestDesigns.slice(0, 4);
-  const showcaseDesign = featuredDesigns[0] || bridalDesigns[0] || sareeDesigns[0] || latestGallery[0];
+  const showcaseDesign = featuredDesigns[0] || bridalDesigns[0] || latestGallery[0];
   const heroImageUrl = homepage?.heroImageUrl || showcaseDesign?.imageUrl || "/images/bridal-wear.jpeg";
   const newArrivals = latestDesigns.slice(0, 8);
-  const deliveryNote = homepage?.deliveryNote ?? "Designed and finished in our women-only boutique studio.";
+  const deliveryNote = homepage?.deliveryNote ?? "Finished in our women-only boutique studio with attentive tailoring and premium local delivery.";
   const featureSectionTitle = homepage?.featureSectionTitle ?? "Refined collections, custom service.";
   const featureSectionSubtitle = homepage?.featureSectionSubtitle ?? "Our boutique wardrobe pieces balance polished craftsmanship with elevated everyday ease.";
   const featureCards = homepage?.featureCards?.length
@@ -98,12 +98,12 @@ export default async function Home() {
               {heroExtra}
             </p>
             <div className="mt-8 grid gap-3 rounded-[1.75rem] border border-amber-200/60 bg-amber-50/90 p-4 text-sm font-semibold uppercase tracking-[0.24em] text-amber-900 shadow-sm shadow-amber-200/20 dark:border-amber-300/20 dark:bg-amber-500/10 dark:text-amber-100 sm:grid-cols-[1fr_auto] sm:items-center">
-              <span>Complimentary styling advice included</span>
+              <span>Free delivery within 5km range</span>
               <span className="text-right text-[0.75rem] uppercase tracking-[0.32em]">{deliveryNote}</span>
             </div>
             <div className="mt-8 grid gap-4 grid-cols-1 sm:grid-cols-2">
               <Link href="/book" className="w-full"><Button size="lg" className="w-full">{heroPrimaryCta}</Button></Link>
-              <Link href="/catalog" className="w-full"><Button size="lg" variant="outline" className="w-full">{heroSecondaryCta}</Button></Link>
+              <Link href={catalogPath} className="w-full"><Button size="lg" variant="outline" className="w-full">{heroSecondaryCta}</Button></Link>
             </div>
             <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
               {heroStats.map((stat) => (
@@ -133,7 +133,7 @@ export default async function Home() {
             <p className="text-sm uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">Latest designs</p>
             <h2 className="mt-2 text-4xl font-semibold text-slate-950 dark:text-white">New work from the boutique, refreshed daily.</h2>
           </div>
-          <Link href="/catalog" className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-amber-700 transition hover:text-amber-600">
+          <Link href={catalogPath} className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-amber-700 transition hover:text-amber-600">
             Explore the full collection <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
@@ -187,7 +187,7 @@ export default async function Home() {
               <p className="text-sm uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">Featured collection</p>
               <h2 className="mt-2 text-4xl font-semibold text-slate-950 dark:text-white">Highlighted designs from the boutique.</h2>
             </div>
-            <Link href="/catalog" className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-amber-700 transition hover:text-amber-600">
+            <Link href={catalogPath} className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-amber-700 transition hover:text-amber-600">
               View catalog <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
@@ -284,7 +284,7 @@ export default async function Home() {
                 ))
               ) : (
                 <div className="rounded-[1.75rem] border border-slate-200/70 bg-slate-50 p-6 text-sm text-slate-600 dark:border-white/10 dark:bg-slate-900/85 dark:text-slate-300">
-                  Browse the full catalog to discover elegant saree and occasion favorites.
+                  Browse the full catalog to discover elegant occasion favorites.
                 </div>
               )}
             </CardContent>
@@ -323,46 +323,6 @@ export default async function Home() {
               </div>
             </Link>
           ))}
-        </div>
-      </section>
-
-      <section className="mt-14">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="text-sm uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">Saree collection</p>
-            <h2 className="mt-2 text-4xl font-semibold text-slate-950 dark:text-white">Timeless drapes with modern polish.</h2>
-          </div>
-          <Link href="/catalog" className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-amber-700 transition hover:text-amber-600">
-            Browse saree styles <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {sareeDesigns.length > 0 ? (
-            sareeDesigns.map((design) => (
-              <Link
-                key={design.id}
-                href={`/catalog/${design.id}`}
-                className="group overflow-hidden rounded-[2rem] border border-slate-200/70 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-[0_24px_60px_-32px_rgba(15,12,10,0.16)] dark:border-white/10 dark:bg-slate-950/95"
-              >
-                <div className="relative h-72 w-full overflow-hidden rounded-t-[2rem]">
-                  <Image src={design.imageUrl} alt={design.title} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 33vw" loading="lazy" />
-                </div>
-                <div className="space-y-3 p-6 text-slate-950 dark:text-white">
-                  <p className="text-xs uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">{design.category}</p>
-                  <h3 className="text-xl font-semibold">{design.title}</h3>
-                  <p className="text-sm leading-7 text-slate-700 dark:text-slate-300 line-clamp-2">{design.description}</p>
-                  <div className="flex items-center justify-between gap-4 text-amber-700 dark:text-amber-300">
-                    <span className="font-semibold">{formatCurrency(design.price)}</span>
-                    <span className="text-xs uppercase tracking-[0.28em]">View</span>
-                  </div>
-                </div>
-              </Link>
-            ))
-          ) : (
-            <div className="rounded-[2rem] border border-slate-200/70 bg-slate-50 p-6 text-sm text-slate-600 dark:border-white/10 dark:bg-slate-900/85 dark:text-slate-300">
-              No saree designs are available yet. Add saree uploads in the admin dashboard to feature them here automatically.
-            </div>
-          )}
         </div>
       </section>
 
