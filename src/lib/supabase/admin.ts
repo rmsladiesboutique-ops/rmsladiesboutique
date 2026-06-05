@@ -5,7 +5,8 @@ export function createServiceRoleClient() {
   const url = process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL;
   let serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-  // Fallback to the public service role env name only. Never use an anon key for admin operations.
+  // Fallback to the public service role env name only for local testing.
+  // This is not recommended in production because the service role key must remain secret.
   if (!serviceKey) {
     serviceKey = process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY;
   }
