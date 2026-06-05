@@ -37,7 +37,13 @@ export async function POST(request: Request) {
 
   try {
     const appointment = await createAppointment(parsed.data);
-    await sendBookingEmailNotification(appointment);
+
+    try {
+      await sendBookingEmailNotification(appointment);
+    } catch (notificationError) {
+      console.error("Booking email notification failed:", notificationError);
+    }
+
     return NextResponse.json(appointment);
   } catch (error) {
     console.error("Create appointment failed:", error);
