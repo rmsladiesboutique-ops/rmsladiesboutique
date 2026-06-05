@@ -51,13 +51,13 @@ export default async function Home() {
   const latestDesigns = latestArrivals.length ? latestArrivals : designs.slice(0, 12);
   const featuredDesigns = featuredArrivals.length ? featuredArrivals : latestDesigns.slice(0, 6);
   const bridalDesigns = designs.filter((design) => (design.category ?? "").toLowerCase().includes("bridal")).slice(0, 4);
+  const latestGallery = latestDesigns.slice(0, 6);
   const sareeDesigns = designs.filter((design) => (design.category ?? "").toLowerCase().includes("saree")).slice(0, 4);
   const occasionDesigns = designs.filter((design) => {
     const category = (design.category ?? "").toLowerCase();
     return category.includes("occasion") || category.includes("occasional");
   }).slice(0, 4);
   const trendingDesigns = featuredDesigns.length ? featuredDesigns.slice(0, 4) : latestDesigns.slice(0, 4);
-  const latestGallery = latestDesigns.slice(0, 8);
   const showcaseDesign = featuredDesigns[0] || bridalDesigns[0] || sareeDesigns[0] || latestGallery[0];
   const heroImageUrl = homepage?.heroImageUrl || showcaseDesign?.imageUrl || "/images/bridal-wear.jpeg";
   const newArrivals = latestDesigns.slice(0, 8);
@@ -84,7 +84,7 @@ export default async function Home() {
         <div className="absolute inset-x-0 top-0 h-64 bg-[radial-gradient(circle_at_top_right,_rgba(255,214,179,0.35),_transparent_45%)]" aria-hidden="true" />
         <div className="absolute -left-24 top-16 h-64 w-64 rounded-full bg-amber-200/40 blur-3xl mix-blend-screen" aria-hidden="true" />
         <div className="grid gap-10 lg:grid-cols-[1.3fr_0.9fr]">
-          <div className="relative z-10 mx-auto max-w-3xl rounded-[2rem] border border-slate-200/70 bg-white/95 p-6 shadow-[0_30px_70px_-26px_rgba(15,12,10,0.12)] dark:border-white/10 dark:bg-slate-950/95 dark:text-white sm:p-8 lg:p-10 text-center sm:text-left">
+          <div className="relative z-10 mx-auto w-full max-w-xl rounded-[2rem] border border-slate-200/70 bg-white/95 p-6 shadow-[0_30px_70px_-26px_rgba(15,12,10,0.12)] dark:border-white/10 dark:bg-slate-950/95 dark:text-white sm:max-w-none sm:p-8 lg:p-10 text-center sm:text-left">
             <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-start">
               <Badge className="fashion-chip">{heroBadge}</Badge>
             </div>
@@ -101,13 +101,13 @@ export default async function Home() {
               <span>Complimentary styling advice included</span>
               <span className="text-right text-[0.75rem] uppercase tracking-[0.32em]">{deliveryNote}</span>
             </div>
-            <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start">
-              <Link href="/book" className="w-full sm:w-auto"><Button size="lg" className="w-full sm:w-auto">{heroPrimaryCta}</Button></Link>
-              <Link href="/catalog" className="w-full sm:w-auto"><Button size="lg" variant="outline" className="w-full sm:w-auto">{heroSecondaryCta}</Button></Link>
+            <div className="mt-8 grid gap-4 grid-cols-1 sm:grid-cols-2">
+              <Link href="/book" className="w-full"><Button size="lg" className="w-full">{heroPrimaryCta}</Button></Link>
+              <Link href="/catalog" className="w-full"><Button size="lg" variant="outline" className="w-full">{heroSecondaryCta}</Button></Link>
             </div>
-            <div className="mt-10 grid gap-4 sm:grid-cols-3">
+            <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
               {heroStats.map((stat) => (
-                <div key={stat.value + stat.label} className="group rounded-[1.75rem] border border-slate-200/70 bg-slate-50 p-5 text-center transition hover:-translate-y-1 hover:border-amber-200 hover:bg-amber-50 dark:border-white/10 dark:bg-slate-900/85 dark:text-white">
+                <div key={stat.value + stat.label} className="group min-h-[14rem] rounded-[1.75rem] border border-slate-200/70 bg-slate-50 p-5 text-center transition hover:-translate-y-1 hover:border-amber-200 hover:bg-amber-50 dark:border-white/10 dark:bg-slate-900/85 dark:text-white">
                   <p className="text-lg font-semibold text-slate-950 dark:text-white">{stat.value}</p>
                   <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">{stat.label}</p>
                 </div>
@@ -137,7 +137,7 @@ export default async function Home() {
             Explore the full collection <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-        <div className="mt-8 grid gap-4 auto-rows-[18rem] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="mt-8 grid gap-4 auto-rows-min sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {latestGallery.map((design, index) => {
             const spanClasses =
               index === 0
@@ -152,7 +152,7 @@ export default async function Home() {
               <Link
                 key={design.id}
                 href={`/catalog/${design.id}`}
-                className={`group relative flex h-full flex-col overflow-hidden rounded-[2rem] border border-slate-200/70 bg-slate-950/95 text-white transition duration-500 hover:-translate-y-1 hover:shadow-[0_30px_60px_-24px_rgba(15,12,10,0.32)] ${spanClasses}`}
+                className={`group relative flex min-h-[20rem] flex-col overflow-hidden rounded-[2rem] border border-slate-200/70 bg-slate-950/95 text-white transition duration-500 hover:-translate-y-1 hover:shadow-[0_30px_60px_-24px_rgba(15,12,10,0.32)] ${spanClasses}`}
               >
                 <div className="absolute inset-0">
                   <Image

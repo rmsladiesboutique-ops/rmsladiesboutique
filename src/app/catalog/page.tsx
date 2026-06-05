@@ -47,8 +47,8 @@ export default async function CatalogPage() {
     <main className="relative overflow-hidden bg-[#fbf6f0] text-slate-950 dark:bg-slate-950 dark:text-slate-100">
       <section className="relative overflow-hidden px-4 py-24 sm:px-6 lg:px-8">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,248,238,0.92),transparent_28%),radial-gradient(circle_at_bottom_right,_rgba(171,137,97,0.14),transparent_30%)]" />
-        <div className="relative mx-auto grid max-w-7xl gap-16 lg:grid-cols-[0.95fr_1.05fr]">
-          <div className="rounded-[2.5rem] border border-slate-200/80 bg-white/95 p-10 shadow-[0_30px_90px_-40px_rgba(15,12,10,0.18)] dark:border-white/10 dark:bg-slate-950/95">
+        <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.95fr_1.05fr]">
+          <div className="max-w-3xl rounded-[2.5rem] border border-slate-200/80 bg-white/95 p-6 shadow-[0_30px_90px_-40px_rgba(15,12,10,0.18)] dark:border-white/10 dark:bg-slate-950/95 sm:p-8 lg:p-10">
             <p className="text-xs uppercase tracking-[0.35em] text-slate-500 dark:text-slate-400">Collection</p>
             <h1 className="mt-4 text-5xl font-semibold tracking-[-0.04em] text-slate-950 dark:text-white sm:text-6xl">{pageTitle}</h1>
             <p className="mt-6 max-w-3xl text-lg leading-9 text-slate-700 dark:text-slate-300">{pageDescription}</p>
@@ -65,7 +65,9 @@ export default async function CatalogPage() {
           </div>
 
           <div className="relative overflow-hidden rounded-[2.5rem] border border-slate-200/70 bg-slate-950/95 shadow-[0_60px_120px_-72px_rgba(15,12,10,0.35)] dark:border-white/10">
-            <Image src={heroImage} alt="Editorial fashion collection" fill className="object-cover" />
+            <div className="min-h-[260px] sm:min-h-[340px] relative overflow-hidden">
+              <Image src={heroImage} alt="Editorial fashion collection" fill className="object-cover" />
+            </div>
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
               <p className="text-xs uppercase tracking-[0.28em] text-white/75">Designed for quiet luxury</p>
@@ -88,7 +90,7 @@ export default async function CatalogPage() {
                   Browse full catalog <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
-              <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+              <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
                 {latestDesigns.map((design) => (
                   <Link
                     key={design.id}
@@ -140,7 +142,7 @@ export default async function CatalogPage() {
                   <div className="grid gap-6">
                     {items.slice(0, 3).map((design) => (
                       <Link key={design.id} href={`/catalog/${design.id}`} className="group overflow-hidden rounded-[2rem] border border-slate-200/70 bg-white shadow-[0_24px_70px_-40px_rgba(15,12,10,0.15)] transition hover:-translate-y-1 hover:shadow-[0_30px_90px_-45px_rgba(15,12,10,0.25)] dark:border-white/10 dark:bg-slate-950/95">
-                        <div className="relative h-80 w-full overflow-hidden">
+                        <div className="relative h-64 w-full overflow-hidden sm:h-72">
                           <Image src={design.imageUrl} alt={design.title} fill className="object-cover transition duration-500 group-hover:scale-105" />
                           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
                         </div>
