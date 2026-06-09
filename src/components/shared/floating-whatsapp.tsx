@@ -11,7 +11,7 @@ export function FloatingWhatsApp({ phoneNumber }: FloatingWhatsAppProps) {
   const handleClick = () => {
     const digits = phoneNumber.replace(/\D/g, '');
     const url = `https://wa.me/${digits}`;
-    window.open(url, '_blank');
+    window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   return (

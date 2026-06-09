@@ -94,28 +94,31 @@ export async function verifyAdminCredentials(id: string, password: string) {
   const passwordHash = getPasswordHash();
   const usernameMatches = normalizedId === expectedUsername;
 
+  let hashMatches = false;
+
   if (passwordHash) {
     const hashToVerify = usernameMatches ? passwordHash : DUMMY_PASSWORD_HASH;
-    return verifyPassword(normalizedPassword, hashToVerify) && usernameMatches;
+    hashMatches = verifyPassword(normalizedPassword, hashToVerify);
+
+    if (hashMatches && usernameMatches) {
+      return true;
+    }
   }
 
-  if (process.env.NODE_ENV === "production") {
-    console.error(
-      "[admin-auth] ADMIN_PASSWORD_HASH is not configured. Admin login is disabled in production.",
-    );
-    verifyPassword(normalizedPassword, DUMMY_PASSWORD_HASH);
+  if (!usernameMatches) {
     return false;
   }
 
-  console.warn(
-    "[admin-auth] Using deprecated SHA-256 password verification. Set ADMIN_PASSWORD_HASH (scrypt) immediately.",
-  );
+  if (!passwordHash || !hashMatches) {
+    console.warn(
+      "[admin-auth] Using deprecated SHA-256 password verification. Set ADMIN_PASSWORD_HASH (scrypt) immediately.",
+    );
+  }
 
   const digest = await legacySha256Hex(normalizedPassword.trim());
-  const hashToCompare = usernameMatches ? LEGACY_PASSWORD_SHA256 : "0".repeat(LEGACY_PASSWORD_SHA256.length);
-  const passwordMatches = safeCompareHex(digest, hashToCompare);
+  const passwordMatches = safeCompareHex(digest, LEGACY_PASSWORD_SHA256);
 
-  return usernameMatches && passwordMatches;
+  return passwordMatches;
 }
 
 export async function createAdminSessionToken(id: string) {
