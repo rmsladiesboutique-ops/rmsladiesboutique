@@ -136,29 +136,29 @@ export default async function CatalogPage() {
               return (
                 <div key={key} className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
                   <div className="space-y-4">
-                    <p className="text-xs uppercase tracking-[0.32em] text-slate-900 dark:text-slate-200">{label}</p>
-                    <h2 className="text-3xl font-semibold text-slate-950 dark:text-white">{label}</h2>
-                    <p className="max-w-2xl text-base leading-8 text-slate-950 dark:text-slate-100">{description}</p>
+                    <p className="text-xs uppercase tracking-[0.32em] text-[#6B7280]">{label}</p>
+                    <h2 className="text-3xl font-semibold text-[#111827]">{label}</h2>
+                    <p className="max-w-2xl text-base leading-8 text-[#111827]">{description}</p>
                   </div>
                   <div className="grid gap-6">
                     {items.slice(0, 3).map((design) => (
-                      <Link key={design.id} href={`/catalog/${design.id}`} className="group overflow-hidden rounded-[2rem] border border-slate-200/70 bg-white shadow-[0_24px_70px_-40px_rgba(15,12,10,0.15)] transition hover:-translate-y-1 hover:shadow-[0_30px_90px_-45px_rgba(15,12,10,0.25)] dark:border-white/10 dark:bg-slate-950/95">
+                      <Link key={design.id} href={`/catalog/${design.id}`} className="group overflow-hidden rounded-[2rem] border border-slate-200/70 bg-white shadow-[0_24px_70px_-40px_rgba(15,12,10,0.15)] transition hover:-translate-y-1 hover:shadow-[0_30px_90px_-45px_rgba(15,12,10,0.25)]">
                         <div className="relative h-64 w-full overflow-hidden sm:h-72">
                           <Image src={design.imageUrl} alt={design.title} fill className="object-cover transition duration-500 group-hover:scale-105" />
                           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
                         </div>
-                        <CardContent className="space-y-3 p-7 text-slate-950 dark:text-white">
+                        <CardContent className="space-y-3 p-7 text-[#111827]">
                           <div className="flex items-center justify-between gap-4">
                             <div>
-                              <p className="text-sm uppercase tracking-[0.28em] text-slate-900 dark:text-slate-200">{design.category}</p>
+                              <p className="text-sm uppercase tracking-[0.28em] text-[#6B7280]">{design.category}</p>
                               <h3 className="mt-3 text-2xl font-semibold">{design.title}</h3>
                             </div>
                             <Badge className={design.available ? "border-[#B8864A]/30 bg-[#FAF7F2] text-[#9a6f3a]" : "border-[#6B7280]/30 bg-[#FAF7F2] text-[#6B7280]"}>
                               {design.available ? "Available" : "Unavailable"}
                             </Badge>
                           </div>
-                          <p className="text-sm leading-7 text-slate-950 dark:text-slate-100 line-clamp-3">{design.description}</p>
-                          <div className="flex items-center justify-between gap-4 text-amber-700 dark:text-amber-300">
+                          <p className="text-sm leading-7 text-[#111827] line-clamp-3">{design.description}</p>
+                          <div className="flex items-center justify-between gap-4 text-[#B8864A]">
                             <span className="text-lg font-semibold">{formatCurrency(design.price)}</span>
                             <span className="text-xs uppercase tracking-[0.32em]">View details</span>
                           </div>
