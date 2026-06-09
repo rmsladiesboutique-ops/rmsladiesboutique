@@ -124,7 +124,7 @@ dl,
 dd,
 blockquote {
   line-height: 1.82;
-  color: rgba(var(--foreground-rgb), 0.87);
+  color: rgba(var(--foreground-rgb), 0.94);
   margin-bottom: 1.4rem;
 }
 
@@ -334,7 +334,7 @@ select:focus {
 .hero-grid .text-foreground\/60,
 .hero-grid .text-foreground\/70,
 .hero-grid .text-foreground\/72 {
-  color: rgba(var(--foreground-rgb), 0.82) !important;
+  color: rgba(var(--foreground-rgb), 0.92) !important;
 }
 
 .hero-grid .fashion-chip {
@@ -426,7 +426,7 @@ select:focus {
 
   .hero-grid p,
   .hero-grid .fashion-chip {
-    color: rgba(var(--foreground-rgb), 0.78) !important;
+    color: rgba(var(--foreground-rgb), 0.92) !important;
   }
 
   .hero-grid .hero-image-panel {

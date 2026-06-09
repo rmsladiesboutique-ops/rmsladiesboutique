@@ -76,10 +76,10 @@ export default async function Home() {
             <h1 className="mt-6 text-4xl font-semibold leading-[1.02] tracking-[-0.03em] text-foreground sm:text-5xl md:text-6xl lg:text-7xl dark:text-white">
               {heroHeadline}
             </h1>
-            <p className="mt-6 max-w-2xl text-[1.02rem] leading-8 text-slate-700 sm:text-lg dark:text-slate-300">
+            <p className="mt-6 max-w-2xl text-[1.02rem] leading-8 text-slate-900 sm:text-lg dark:text-slate-100">
               {heroDescription}
             </p>
-            <p className="mt-4 max-w-2xl text-[1.02rem] leading-8 text-slate-700 sm:text-lg dark:text-slate-300">
+            <p className="mt-4 max-w-2xl text-[1.02rem] leading-8 text-slate-900 sm:text-lg dark:text-slate-100">
               {heroExtra}
             </p>
             <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-amber-200/80 bg-white/90 px-4 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.32em] text-amber-800 shadow-[0_16px_40px_-24px_rgba(145,111,79,0.45)]">
@@ -91,7 +91,7 @@ export default async function Home() {
                 <MapPin className="h-3.5 w-3.5" />
                 Free delivery within 5 km
               </span>
-              <p className="text-sm leading-6 text-slate-700 dark:text-slate-300">{deliveryNote}</p>
+              <p className="text-sm leading-6 text-slate-900 dark:text-slate-100">{deliveryNote}</p>
             </div>
             <div className="mt-8 grid gap-3 grid-cols-1 sm:grid-cols-2">
               <Link href="/book" className="w-full"><Button size="lg" className="w-full rounded-full">{heroPrimaryCta}</Button></Link>
@@ -101,7 +101,7 @@ export default async function Home() {
           </div>
           <div className="relative">
             <LuxuryHeroSlider />
-            <div className="mt-4 rounded-[1.75rem] border border-[#efe4d8] bg-white/90 p-4 text-sm text-slate-800 shadow-[0_18px_45px_-32px_rgba(15,12,10,0.35)] backdrop-blur-xl">
+            <div className="mt-4 rounded-[1.75rem] border border-[#efe4d8] bg-white/90 p-4 text-sm text-slate-900 shadow-[0_18px_45px_-32px_rgba(15,12,10,0.35)] backdrop-blur-xl">
               <p className="text-[0.68rem] uppercase tracking-[0.32em] text-amber-800">Studio promise</p>
               <p className="mt-2 leading-7">Private fittings, premium finishes, and calm styling guidance from first consultation to final delivery.</p>
             </div>
@@ -112,7 +112,7 @@ export default async function Home() {
       <LuxuryReveal className="mt-14">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-sm uppercase tracking-[0.28em] text-slate-800 dark:text-slate-600">Latest designs</p>
+            <p className="text-sm uppercase tracking-[0.28em] text-slate-900 dark:text-slate-200">Latest designs</p>
             <h2 className="mt-2 text-4xl font-semibold text-slate-950 dark:text-white">New work from the boutique, refreshed daily.</h2>
           </div>
           <Link href={catalogPath} className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-amber-700 transition hover:text-amber-600">
@@ -148,9 +148,9 @@ export default async function Home() {
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent" />
                 </div>
                 <div className="relative z-10 mt-auto p-6">
-                  <p className="text-xs uppercase tracking-[0.28em] text-slate-700/80">{design.category}</p>
+                  <p className="text-xs uppercase tracking-[0.28em] text-slate-100/95">{design.category}</p>
                   <h3 className="mt-3 text-2xl font-semibold text-white">{design.title}</h3>
-                  <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-700/80">{design.description}</p>
+                  <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-100/95">{design.description}</p>
                   <div className="mt-4 flex items-center justify-between gap-4 text-sm text-amber-200">
                     <span>{formatCurrency(design.price)}</span>
                     <span className="rounded-full border border-amber-200/30 bg-amber-200/10 px-3 py-1">View</span>
@@ -166,7 +166,7 @@ export default async function Home() {
         <LuxuryReveal className="mt-14">
           <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="text-sm uppercase tracking-[0.28em] text-slate-800 dark:text-slate-600">Featured collection</p>
+              <p className="text-sm uppercase tracking-[0.28em] text-slate-900 dark:text-slate-200">Featured collection</p>
               <h2 className="mt-2 text-4xl font-semibold text-slate-950 dark:text-white">Highlighted designs from the boutique.</h2>
             </div>
             <Link href={catalogPath} className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-amber-700 transition hover:text-amber-600">
@@ -183,7 +183,7 @@ export default async function Home() {
                 <CardContent className="space-y-3 p-6 text-white">
                   <Badge className="fashion-chip">{design.category}</Badge>
                   <h3 className="text-2xl font-semibold">{design.title}</h3>
-                  <p className="text-sm text-slate-700/90 line-clamp-3">{design.description}</p>
+                  <p className="text-sm text-slate-100/95 line-clamp-3">{design.description}</p>
                   <div className="flex items-center justify-between gap-3 text-sm text-amber-200">
                     <span>{formatCurrency(design.price)}</span>
                     <span className="rounded-full border border-amber-200/30 bg-amber-200/10 px-3 py-1">Featured</span>
@@ -197,9 +197,9 @@ export default async function Home() {
 
       <section className="mt-14 grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="rounded-[2.5rem] border border-slate-200/80 bg-white/95 p-8 shadow-[0_30px_80px_-40px_rgba(15,12,10,0.18)] dark:border-white/10 dark:bg-slate-950/95 dark:text-white sm:p-10">
-          <p className="text-sm uppercase tracking-[0.28em] text-slate-800 dark:text-slate-600">New arrivals</p>
+          <p className="text-sm uppercase tracking-[0.28em] text-slate-900 dark:text-slate-200">New arrivals</p>
           <h2 className="mt-3 text-4xl font-semibold text-slate-950 dark:text-white">Fresh wardrobe moments, ready to inspire.</h2>
-          <p className="mt-4 max-w-2xl text-base leading-8 text-slate-800 dark:text-slate-700">
+          <p className="mt-4 max-w-2xl text-base leading-8 text-slate-900 dark:text-slate-200">
             Discover the latest tailoring options and curated pieces that can be personalized for your next appointment.
           </p>
           <div className="mt-8 space-y-4">
@@ -207,9 +207,9 @@ export default async function Home() {
               <div key={design.id} className="rounded-[2rem] border border-slate-200/70 bg-slate-50 p-5 dark:border-white/10 dark:bg-slate-900/85">
                 <div className="flex items-start justify-between gap-6">
                   <div>
-                    <p className="text-sm uppercase tracking-[0.28em] text-slate-800 dark:text-slate-600">{design.category}</p>
+                    <p className="text-sm uppercase tracking-[0.28em] text-slate-900 dark:text-slate-200">{design.category}</p>
                     <h3 className="mt-2 text-xl font-semibold text-slate-950 dark:text-white">{design.title}</h3>
-                    <p className="mt-2 text-sm leading-7 text-slate-800 dark:text-slate-700 line-clamp-2">{design.description}</p>
+                    <p className="mt-2 text-sm leading-7 text-slate-900 dark:text-slate-200 line-clamp-2">{design.description}</p>
                   </div>
                   <p className="text-lg font-semibold text-amber-700 dark:text-amber-300">{formatCurrency(design.price)}</p>
                 </div>
@@ -231,15 +231,15 @@ export default async function Home() {
           <Card className="rounded-[2rem] border border-slate-200/80 bg-slate-50 p-8 shadow-[0_30px_80px_-40px_rgba(15,12,10,0.18)] dark:border-white/10 dark:bg-slate-950/95 dark:text-white">
             <CardContent className="space-y-6">
               <div>
-                <p className="text-sm uppercase tracking-[0.28em] text-slate-800 dark:text-slate-600">Bridal and occasion</p>
+                <p className="text-sm uppercase tracking-[0.28em] text-slate-900 dark:text-slate-200">Bridal and occasion</p>
                 <h3 className="mt-3 text-3xl font-semibold text-slate-950 dark:text-white">Showcase styling for your special day.</h3>
               </div>
               <div className="grid gap-4">
                 {bridalDesigns.map((design) => (
                   <div key={design.id} className="rounded-[1.75rem] border border-slate-200/70 bg-white p-5 dark:border-white/10 dark:bg-slate-900/85">
-                    <p className="text-sm uppercase tracking-[0.28em] text-slate-800 dark:text-slate-600">{design.category}</p>
+                    <p className="text-sm uppercase tracking-[0.28em] text-slate-900 dark:text-slate-200">{design.category}</p>
                     <h4 className="mt-2 text-xl font-semibold text-slate-950 dark:text-white">{design.title}</h4>
-                    <p className="mt-2 text-sm leading-7 text-slate-800 dark:text-slate-700 line-clamp-2">{design.description}</p>
+                    <p className="mt-2 text-sm leading-7 text-slate-900 dark:text-slate-200 line-clamp-2">{design.description}</p>
                   </div>
                 ))}
               </div>
@@ -249,7 +249,7 @@ export default async function Home() {
           <Card className="rounded-[2rem] border border-slate-200/80 bg-white p-8 shadow-[0_30px_80px_-40px_rgba(15,12,10,0.18)] dark:border-white/10 dark:bg-slate-950/95 dark:text-white">
             <CardContent className="space-y-6">
               <div>
-                <p className="text-sm uppercase tracking-[0.28em] text-slate-800 dark:text-slate-600">Crafted for everyday elegance</p>
+                <p className="text-sm uppercase tracking-[0.28em] text-slate-900 dark:text-slate-200">Crafted for everyday elegance</p>
                 <h3 className="mt-3 text-3xl font-semibold text-slate-950 dark:text-white">Shop timeless silhouettes.</h3>
               </div>
               {occasionDesigns.length > 0 ? (
@@ -258,14 +258,14 @@ export default async function Home() {
                     <div className="flex items-center justify-between gap-4">
                       <div>
                         <p className="text-sm font-semibold text-slate-950 dark:text-white">{design.title}</p>
-                        <p className="mt-1 text-sm text-slate-800 dark:text-slate-700 line-clamp-2">{design.description}</p>
+                        <p className="mt-1 text-sm text-slate-900 dark:text-slate-200 line-clamp-2">{design.description}</p>
                       </div>
                       <span className="text-sm font-semibold text-amber-700 dark:text-amber-300">{formatCurrency(design.price)}</span>
                     </div>
                   </div>
                 ))
               ) : (
-                <div className="rounded-[1.75rem] border border-slate-200/70 bg-slate-50 p-6 text-sm text-slate-800 dark:border-white/10 dark:bg-slate-900/85 dark:text-slate-700">
+                <div className="rounded-[1.75rem] border border-slate-200/70 bg-slate-50 p-6 text-sm text-slate-900 dark:border-white/10 dark:bg-slate-900/85 dark:text-slate-200">
                   Browse the full catalog to discover elegant occasion favorites.
                 </div>
               )}
@@ -277,7 +277,7 @@ export default async function Home() {
       <section className="mt-14">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-sm uppercase tracking-[0.28em] text-slate-800 dark:text-slate-600">Trending designs</p>
+            <p className="text-sm uppercase tracking-[0.28em] text-slate-900 dark:text-slate-200">Trending designs</p>
             <h2 className="mt-2 text-4xl font-semibold text-slate-950 dark:text-white">The current boutique edit.</h2>
           </div>
           <Link href="/catalog" className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-amber-700 transition hover:text-amber-600">
@@ -295,9 +295,9 @@ export default async function Home() {
                 <Image src={design.imageUrl} alt={design.title} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 33vw" loading="lazy" />
               </div>
               <div className="space-y-3 p-6 text-slate-950 dark:text-white">
-                <p className="text-xs uppercase tracking-[0.28em] text-slate-800 dark:text-slate-600">{design.category}</p>
+                <p className="text-xs uppercase tracking-[0.28em] text-slate-900 dark:text-slate-200">{design.category}</p>
                 <h3 className="text-xl font-semibold">{design.title}</h3>
-                <p className="text-sm leading-7 text-slate-800 dark:text-slate-700 line-clamp-2">{design.description}</p>
+                <p className="text-sm leading-7 text-slate-900 dark:text-slate-200 line-clamp-2">{design.description}</p>
                 <div className="flex items-center justify-between gap-4 text-amber-700 dark:text-amber-300">
                   <span className="font-semibold">{formatCurrency(design.price)}</span>
                   <span className="text-xs uppercase tracking-[0.28em]">View</span>
@@ -320,7 +320,7 @@ export default async function Home() {
                 <item.icon className="h-6 w-6" />
               </div>
               <h3 className="text-2xl font-semibold text-slate-950 dark:text-white">{item.title}</h3>
-              <p className="text-sm leading-7 text-slate-800 dark:text-slate-700">{item.description}</p>
+              <p className="text-sm leading-7 text-slate-900 dark:text-slate-200">{item.description}</p>
             </CardContent>
           </Card>
         ))}
@@ -329,7 +329,7 @@ export default async function Home() {
       <section className="mt-14 rounded-[2rem] border border-slate-200/80 bg-slate-50 p-8 text-slate-950 shadow-[0_40px_90px_-52px_rgba(209,155,84,0.8)] dark:border-white/10 dark:bg-slate-950/95 dark:text-white sm:p-10">
         <div className="mx-auto max-w-4xl">
           <div className="text-center">
-            <p className="text-sm uppercase tracking-[0.28em] text-slate-800 dark:text-slate-600">Testimonials</p>
+            <p className="text-sm uppercase tracking-[0.28em] text-slate-900 dark:text-slate-200">Testimonials</p>
             <h2 className="mt-3 text-4xl font-semibold text-slate-950 dark:text-white">Client stories from the boutique.</h2>
           </div>
           <div className="mt-10 grid gap-6 md:grid-cols-2">
@@ -338,7 +338,7 @@ export default async function Home() {
               { title: "Nina", description: "A luxury tailoring experience that felt effortless and modern." },
             ]).map((item) => (
               <div key={item.title} className="rounded-[2rem] border border-slate-200/70 bg-white p-6 text-slate-950 shadow-sm dark:border-white/10 dark:bg-slate-900/85 dark:text-white">
-                <p className="text-base leading-7 text-slate-800 dark:text-slate-700">“{item.description}”</p>
+                <p className="text-base leading-7 text-slate-900 dark:text-slate-200">“{item.description}”</p>
                 <p className="mt-4 text-sm font-semibold uppercase tracking-[0.28em] text-slate-900 dark:text-white">{item.title}</p>
               </div>
             ))}
@@ -349,9 +349,9 @@ export default async function Home() {
       <section className="mt-14 rounded-[2.5rem] border border-slate-200/80 bg-white/95 p-8 shadow-[0_30px_80px_-40px_rgba(15,12,10,0.18)] dark:border-white/10 dark:bg-slate-950/95 dark:ring-1 dark:ring-white/10 sm:p-10">
         <div className="mx-auto max-w-4xl rounded-[2rem] border border-slate-200/70 bg-slate-50/95 p-8 shadow-[0_30px_70px_-30px_rgba(15,12,10,0.12)] dark:border-white/10 dark:bg-slate-900/85">
           <div className="text-center">
-            <p className="text-sm uppercase tracking-[0.26em] text-slate-800 dark:text-slate-600">Contact details</p>
+            <p className="text-sm uppercase tracking-[0.26em] text-slate-900 dark:text-slate-200">Contact details</p>
             <h2 className="mt-3 text-4xl font-semibold text-slate-950 dark:text-white">Ready to book your fitting?</h2>
-            <p className="mx-auto mt-3 max-w-2xl text-base leading-7 text-slate-800 dark:text-slate-700">
+            <p className="mx-auto mt-3 max-w-2xl text-base leading-7 text-slate-900 dark:text-slate-200">
               Reach out directly via phone, WhatsApp, location or Instagram for fast styling support and appointment help.
             </p>
           </div>
