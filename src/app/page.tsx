@@ -63,42 +63,47 @@ export default async function Home() {
 
   return (
     <main className="mx-auto max-w-7xl px-4 pb-20 pt-10 md:px-8 md:pt-14">
-      <section className="hero-grid hero-spotlight relative overflow-hidden rounded-[2.5rem] p-6 shadow-[0_40px_120px_-60px_rgba(15,12,10,0.18)] dark:shadow-[0_40px_120px_-60px_rgba(0,0,0,0.55)] sm:p-8 lg:p-10">
+      <section className="hero-grid hero-spotlight relative overflow-hidden rounded-[2.5rem] border border-[#efe4d8] bg-[linear-gradient(160deg,#fffaf7_0%,#fff7f2_52%,#f7efe7_100%)] p-6 shadow-[0_40px_120px_-60px_rgba(15,12,10,0.18)] sm:p-8 lg:p-10">
         <LuxuryParallax />
         <FloatingGlow />
         <div className="absolute inset-x-0 top-0 h-64 bg-[radial-gradient(circle_at_top_right,_rgba(255,214,179,0.35),_transparent_45%)]" aria-hidden="true" />
         <div className="absolute -left-24 top-16 h-64 w-64 rounded-full bg-amber-200/40 blur-3xl mix-blend-screen" aria-hidden="true" />
         <div className="grid gap-10 lg:grid-cols-[1.3fr_0.9fr]">
-          <div className="relative z-10 mx-auto w-full max-w-xl rounded-[2rem] border border-white/30 bg-white/90 p-6 shadow-[0_30px_70px_-26px_rgba(15,12,10,0.12)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/90 dark:text-white sm:max-w-none sm:p-8 lg:p-10 text-left">
+          <div className="relative z-10 mx-auto w-full max-w-xl rounded-[2rem] border border-white/70 bg-white/95 p-6 shadow-[0_30px_70px_-26px_rgba(15,12,10,0.12)] backdrop-blur-xl sm:max-w-none sm:p-8 lg:p-10 text-left">
             <div className="flex flex-wrap items-center gap-3 sm:justify-start">
               <Badge className="fashion-chip">{heroBadge}</Badge>
             </div>
             <h1 className="mt-6 text-4xl font-semibold leading-[1.02] tracking-[-0.03em] text-foreground sm:text-5xl md:text-6xl lg:text-7xl dark:text-white">
               {heroHeadline}
             </h1>
-            <p className="mt-6 max-w-2xl text-base leading-8 text-slate-700 sm:text-lg dark:text-slate-300">
+            <p className="mt-6 max-w-2xl text-[1.02rem] leading-8 text-slate-700 sm:text-lg dark:text-slate-300">
               {heroDescription}
             </p>
-            <p className="mt-4 max-w-2xl text-base leading-8 text-slate-700 sm:text-lg dark:text-slate-300">
+            <p className="mt-4 max-w-2xl text-[1.02rem] leading-8 text-slate-700 sm:text-lg dark:text-slate-300">
               {heroExtra}
             </p>
+            <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-amber-200/80 bg-white/90 px-4 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.32em] text-amber-800 shadow-[0_16px_40px_-24px_rgba(145,111,79,0.45)]">
+              <Sparkles className="h-3.5 w-3.5" />
+              Curated for women who value softness, precision, and confidence
+            </div>
             <div className="mt-8 flex flex-wrap items-center gap-3 rounded-[1.5rem] border border-amber-200/70 bg-amber-50/90 p-4 shadow-sm shadow-amber-200/20 dark:border-amber-300/20 dark:bg-amber-500/10">
               <span className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-amber-900 shadow-sm dark:bg-slate-950/80 dark:text-amber-100">
                 <MapPin className="h-3.5 w-3.5" />
                 Free delivery within 5 km
               </span>
-              <p className="text-sm leading-6 text-slate-700 dark:text-slate-200">{deliveryNote}</p>
+              <p className="text-sm leading-6 text-slate-700 dark:text-slate-300">{deliveryNote}</p>
             </div>
-            <div className="mt-8 grid gap-4 grid-cols-1 sm:grid-cols-2">
-              <Link href="/book" className="w-full"><Button size="lg" className="w-full">{heroPrimaryCta}</Button></Link>
-              <Link href={catalogPath} className="w-full"><Button size="lg" variant="outline" className="w-full">{heroSecondaryCta}</Button></Link>
+            <div className="mt-8 grid gap-3 grid-cols-1 sm:grid-cols-2">
+              <Link href="/book" className="w-full"><Button size="lg" className="w-full rounded-full">{heroPrimaryCta}</Button></Link>
+              <Link href={catalogPath} className="w-full"><Button size="lg" variant="outline" className="w-full rounded-full">{heroSecondaryCta}</Button></Link>
             </div>
             <LuxuryStats />
           </div>
           <div className="relative">
             <LuxuryHeroSlider />
-            <div className="mt-4 rounded-[1.5rem] border border-white/25 bg-white/80 p-4 text-sm text-slate-700 shadow-[0_18px_45px_-32px_rgba(15,12,10,0.35)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/85 dark:text-slate-200">
-              A refined boutique experience with cinematic visuals, premium styling, and calm, elevated service.
+            <div className="mt-4 rounded-[1.75rem] border border-[#efe4d8] bg-white/90 p-4 text-sm text-slate-800 shadow-[0_18px_45px_-32px_rgba(15,12,10,0.35)] backdrop-blur-xl">
+              <p className="text-[0.68rem] uppercase tracking-[0.32em] text-amber-800">Studio promise</p>
+              <p className="mt-2 leading-7">Private fittings, premium finishes, and calm styling guidance from first consultation to final delivery.</p>
             </div>
           </div>
         </div>
@@ -107,7 +112,7 @@ export default async function Home() {
       <LuxuryReveal className="mt-14">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-sm uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">Latest designs</p>
+            <p className="text-sm uppercase tracking-[0.28em] text-slate-800 dark:text-slate-600">Latest designs</p>
             <h2 className="mt-2 text-4xl font-semibold text-slate-950 dark:text-white">New work from the boutique, refreshed daily.</h2>
           </div>
           <Link href={catalogPath} className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-amber-700 transition hover:text-amber-600">
@@ -143,9 +148,9 @@ export default async function Home() {
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent" />
                 </div>
                 <div className="relative z-10 mt-auto p-6">
-                  <p className="text-xs uppercase tracking-[0.28em] text-slate-200/80">{design.category}</p>
+                  <p className="text-xs uppercase tracking-[0.28em] text-slate-700/80">{design.category}</p>
                   <h3 className="mt-3 text-2xl font-semibold text-white">{design.title}</h3>
-                  <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-200/80">{design.description}</p>
+                  <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-700/80">{design.description}</p>
                   <div className="mt-4 flex items-center justify-between gap-4 text-sm text-amber-200">
                     <span>{formatCurrency(design.price)}</span>
                     <span className="rounded-full border border-amber-200/30 bg-amber-200/10 px-3 py-1">View</span>
@@ -161,7 +166,7 @@ export default async function Home() {
         <LuxuryReveal className="mt-14">
           <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="text-sm uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">Featured collection</p>
+              <p className="text-sm uppercase tracking-[0.28em] text-slate-800 dark:text-slate-600">Featured collection</p>
               <h2 className="mt-2 text-4xl font-semibold text-slate-950 dark:text-white">Highlighted designs from the boutique.</h2>
             </div>
             <Link href={catalogPath} className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-amber-700 transition hover:text-amber-600">
@@ -178,7 +183,7 @@ export default async function Home() {
                 <CardContent className="space-y-3 p-6 text-white">
                   <Badge className="fashion-chip">{design.category}</Badge>
                   <h3 className="text-2xl font-semibold">{design.title}</h3>
-                  <p className="text-sm text-slate-200/90 line-clamp-3">{design.description}</p>
+                  <p className="text-sm text-slate-700/90 line-clamp-3">{design.description}</p>
                   <div className="flex items-center justify-between gap-3 text-sm text-amber-200">
                     <span>{formatCurrency(design.price)}</span>
                     <span className="rounded-full border border-amber-200/30 bg-amber-200/10 px-3 py-1">Featured</span>
@@ -192,9 +197,9 @@ export default async function Home() {
 
       <section className="mt-14 grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="rounded-[2.5rem] border border-slate-200/80 bg-white/95 p-8 shadow-[0_30px_80px_-40px_rgba(15,12,10,0.18)] dark:border-white/10 dark:bg-slate-950/95 dark:text-white sm:p-10">
-          <p className="text-sm uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">New arrivals</p>
+          <p className="text-sm uppercase tracking-[0.28em] text-slate-800 dark:text-slate-600">New arrivals</p>
           <h2 className="mt-3 text-4xl font-semibold text-slate-950 dark:text-white">Fresh wardrobe moments, ready to inspire.</h2>
-          <p className="mt-4 max-w-2xl text-base leading-8 text-slate-700 dark:text-slate-300">
+          <p className="mt-4 max-w-2xl text-base leading-8 text-slate-800 dark:text-slate-700">
             Discover the latest tailoring options and curated pieces that can be personalized for your next appointment.
           </p>
           <div className="mt-8 space-y-4">
@@ -202,9 +207,9 @@ export default async function Home() {
               <div key={design.id} className="rounded-[2rem] border border-slate-200/70 bg-slate-50 p-5 dark:border-white/10 dark:bg-slate-900/85">
                 <div className="flex items-start justify-between gap-6">
                   <div>
-                    <p className="text-sm uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">{design.category}</p>
+                    <p className="text-sm uppercase tracking-[0.28em] text-slate-800 dark:text-slate-600">{design.category}</p>
                     <h3 className="mt-2 text-xl font-semibold text-slate-950 dark:text-white">{design.title}</h3>
-                    <p className="mt-2 text-sm leading-7 text-slate-700 dark:text-slate-300 line-clamp-2">{design.description}</p>
+                    <p className="mt-2 text-sm leading-7 text-slate-800 dark:text-slate-700 line-clamp-2">{design.description}</p>
                   </div>
                   <p className="text-lg font-semibold text-amber-700 dark:text-amber-300">{formatCurrency(design.price)}</p>
                 </div>
@@ -226,15 +231,15 @@ export default async function Home() {
           <Card className="rounded-[2rem] border border-slate-200/80 bg-slate-50 p-8 shadow-[0_30px_80px_-40px_rgba(15,12,10,0.18)] dark:border-white/10 dark:bg-slate-950/95 dark:text-white">
             <CardContent className="space-y-6">
               <div>
-                <p className="text-sm uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">Bridal and occasion</p>
+                <p className="text-sm uppercase tracking-[0.28em] text-slate-800 dark:text-slate-600">Bridal and occasion</p>
                 <h3 className="mt-3 text-3xl font-semibold text-slate-950 dark:text-white">Showcase styling for your special day.</h3>
               </div>
               <div className="grid gap-4">
                 {bridalDesigns.map((design) => (
                   <div key={design.id} className="rounded-[1.75rem] border border-slate-200/70 bg-white p-5 dark:border-white/10 dark:bg-slate-900/85">
-                    <p className="text-sm uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">{design.category}</p>
+                    <p className="text-sm uppercase tracking-[0.28em] text-slate-800 dark:text-slate-600">{design.category}</p>
                     <h4 className="mt-2 text-xl font-semibold text-slate-950 dark:text-white">{design.title}</h4>
-                    <p className="mt-2 text-sm leading-7 text-slate-700 dark:text-slate-300 line-clamp-2">{design.description}</p>
+                    <p className="mt-2 text-sm leading-7 text-slate-800 dark:text-slate-700 line-clamp-2">{design.description}</p>
                   </div>
                 ))}
               </div>
@@ -244,7 +249,7 @@ export default async function Home() {
           <Card className="rounded-[2rem] border border-slate-200/80 bg-white p-8 shadow-[0_30px_80px_-40px_rgba(15,12,10,0.18)] dark:border-white/10 dark:bg-slate-950/95 dark:text-white">
             <CardContent className="space-y-6">
               <div>
-                <p className="text-sm uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">Crafted for everyday elegance</p>
+                <p className="text-sm uppercase tracking-[0.28em] text-slate-800 dark:text-slate-600">Crafted for everyday elegance</p>
                 <h3 className="mt-3 text-3xl font-semibold text-slate-950 dark:text-white">Shop timeless silhouettes.</h3>
               </div>
               {occasionDesigns.length > 0 ? (
@@ -253,14 +258,14 @@ export default async function Home() {
                     <div className="flex items-center justify-between gap-4">
                       <div>
                         <p className="text-sm font-semibold text-slate-950 dark:text-white">{design.title}</p>
-                        <p className="mt-1 text-sm text-slate-700 dark:text-slate-300 line-clamp-2">{design.description}</p>
+                        <p className="mt-1 text-sm text-slate-800 dark:text-slate-700 line-clamp-2">{design.description}</p>
                       </div>
                       <span className="text-sm font-semibold text-amber-700 dark:text-amber-300">{formatCurrency(design.price)}</span>
                     </div>
                   </div>
                 ))
               ) : (
-                <div className="rounded-[1.75rem] border border-slate-200/70 bg-slate-50 p-6 text-sm text-slate-600 dark:border-white/10 dark:bg-slate-900/85 dark:text-slate-300">
+                <div className="rounded-[1.75rem] border border-slate-200/70 bg-slate-50 p-6 text-sm text-slate-800 dark:border-white/10 dark:bg-slate-900/85 dark:text-slate-700">
                   Browse the full catalog to discover elegant occasion favorites.
                 </div>
               )}
@@ -272,7 +277,7 @@ export default async function Home() {
       <section className="mt-14">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-sm uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">Trending designs</p>
+            <p className="text-sm uppercase tracking-[0.28em] text-slate-800 dark:text-slate-600">Trending designs</p>
             <h2 className="mt-2 text-4xl font-semibold text-slate-950 dark:text-white">The current boutique edit.</h2>
           </div>
           <Link href="/catalog" className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-amber-700 transition hover:text-amber-600">
@@ -290,9 +295,9 @@ export default async function Home() {
                 <Image src={design.imageUrl} alt={design.title} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 33vw" loading="lazy" />
               </div>
               <div className="space-y-3 p-6 text-slate-950 dark:text-white">
-                <p className="text-xs uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">{design.category}</p>
+                <p className="text-xs uppercase tracking-[0.28em] text-slate-800 dark:text-slate-600">{design.category}</p>
                 <h3 className="text-xl font-semibold">{design.title}</h3>
-                <p className="text-sm leading-7 text-slate-700 dark:text-slate-300 line-clamp-2">{design.description}</p>
+                <p className="text-sm leading-7 text-slate-800 dark:text-slate-700 line-clamp-2">{design.description}</p>
                 <div className="flex items-center justify-between gap-4 text-amber-700 dark:text-amber-300">
                   <span className="font-semibold">{formatCurrency(design.price)}</span>
                   <span className="text-xs uppercase tracking-[0.28em]">View</span>
@@ -315,7 +320,7 @@ export default async function Home() {
                 <item.icon className="h-6 w-6" />
               </div>
               <h3 className="text-2xl font-semibold text-slate-950 dark:text-white">{item.title}</h3>
-              <p className="text-sm leading-7 text-slate-700 dark:text-slate-300">{item.description}</p>
+              <p className="text-sm leading-7 text-slate-800 dark:text-slate-700">{item.description}</p>
             </CardContent>
           </Card>
         ))}
@@ -324,7 +329,7 @@ export default async function Home() {
       <section className="mt-14 rounded-[2rem] border border-slate-200/80 bg-slate-50 p-8 text-slate-950 shadow-[0_40px_90px_-52px_rgba(209,155,84,0.8)] dark:border-white/10 dark:bg-slate-950/95 dark:text-white sm:p-10">
         <div className="mx-auto max-w-4xl">
           <div className="text-center">
-            <p className="text-sm uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">Testimonials</p>
+            <p className="text-sm uppercase tracking-[0.28em] text-slate-800 dark:text-slate-600">Testimonials</p>
             <h2 className="mt-3 text-4xl font-semibold text-slate-950 dark:text-white">Client stories from the boutique.</h2>
           </div>
           <div className="mt-10 grid gap-6 md:grid-cols-2">
@@ -333,7 +338,7 @@ export default async function Home() {
               { title: "Nina", description: "A luxury tailoring experience that felt effortless and modern." },
             ]).map((item) => (
               <div key={item.title} className="rounded-[2rem] border border-slate-200/70 bg-white p-6 text-slate-950 shadow-sm dark:border-white/10 dark:bg-slate-900/85 dark:text-white">
-                <p className="text-base leading-7 text-slate-700 dark:text-slate-300">“{item.description}”</p>
+                <p className="text-base leading-7 text-slate-800 dark:text-slate-700">“{item.description}”</p>
                 <p className="mt-4 text-sm font-semibold uppercase tracking-[0.28em] text-slate-900 dark:text-white">{item.title}</p>
               </div>
             ))}
@@ -344,26 +349,26 @@ export default async function Home() {
       <section className="mt-14 rounded-[2.5rem] border border-slate-200/80 bg-white/95 p-8 shadow-[0_30px_80px_-40px_rgba(15,12,10,0.18)] dark:border-white/10 dark:bg-slate-950/95 dark:ring-1 dark:ring-white/10 sm:p-10">
         <div className="mx-auto max-w-4xl rounded-[2rem] border border-slate-200/70 bg-slate-50/95 p-8 shadow-[0_30px_70px_-30px_rgba(15,12,10,0.12)] dark:border-white/10 dark:bg-slate-900/85">
           <div className="text-center">
-            <p className="text-sm uppercase tracking-[0.26em] text-slate-500 dark:text-slate-400">Contact details</p>
+            <p className="text-sm uppercase tracking-[0.26em] text-slate-800 dark:text-slate-600">Contact details</p>
             <h2 className="mt-3 text-4xl font-semibold text-slate-950 dark:text-white">Ready to book your fitting?</h2>
-            <p className="mx-auto mt-3 max-w-2xl text-base leading-7 text-slate-700 dark:text-slate-300">
+            <p className="mx-auto mt-3 max-w-2xl text-base leading-7 text-slate-800 dark:text-slate-700">
               Reach out directly via phone, WhatsApp, location or Instagram for fast styling support and appointment help.
             </p>
           </div>
 
           <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            <div className="rounded-[2rem] border border-slate-200/70 bg-white p-6 text-slate-950 shadow-sm transition hover:-translate-y-1 hover:shadow-[0_24px_60px_-40px_rgba(15,12,10,0.18)] dark:border-white/10 dark:bg-zinc-900 dark:text-white">
-              <div className="inline-flex h-14 w-14 items-center justify-center rounded-3xl bg-amber-500/10 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300">
+            <div className="rounded-[1.75rem] border border-slate-200/70 bg-white p-5 text-slate-950 shadow-sm transition hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-30px_rgba(15,12,10,0.18)] dark:border-white/10 dark:bg-zinc-900 dark:text-white sm:p-6">
+              <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500/10 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300 sm:h-14 sm:w-14 sm:rounded-3xl">
                 <PhoneCall className="h-5 w-5" />
               </div>
-              <p className="mt-5 text-sm font-semibold text-slate-950 dark:text-white">Call studio</p>
-              <a href={`tel:${contactPhone}`} className="mt-3 block text-lg font-semibold text-slate-950 transition hover:text-amber-700 dark:text-white">
+              <p className="mt-4 text-sm font-semibold text-slate-950 dark:text-white">Call studio</p>
+              <a href={`tel:${contactPhone}`} className="mt-2 block text-base font-semibold text-slate-950 transition hover:text-amber-700 dark:text-white sm:text-lg">
                 {contactPhone}
               </a>
             </div>
 
-            <div className="rounded-[2rem] border border-slate-200/70 bg-white p-6 text-slate-950 shadow-sm transition hover:-translate-y-1 hover:shadow-[0_24px_60px_-40px_rgba(15,12,10,0.18)] dark:border-white/10 dark:bg-zinc-900 dark:text-white">
-              <div className="inline-flex h-14 w-14 items-center justify-center rounded-3xl bg-emerald-500/10 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
+            <div className="rounded-[1.75rem] border border-slate-200/70 bg-white p-5 text-slate-950 shadow-sm transition hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-30px_rgba(15,12,10,0.18)] dark:border-white/10 dark:bg-zinc-900 dark:text-white sm:p-6">
+              <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300 sm:h-14 sm:w-14 sm:rounded-3xl">
                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" className="h-5 w-5">
                   <circle cx="12" cy="12" r="10" fill="#25D366" />
                   <path
@@ -372,7 +377,7 @@ export default async function Home() {
                   />
                 </svg>
               </div>
-              <p className="mt-5 text-sm font-semibold text-slate-950 dark:text-white">WhatsApp</p>
+              <p className="mt-4 text-sm font-semibold text-slate-950 dark:text-white">WhatsApp</p>
               <a
                 href={whatsappLink}
                 target="_blank"
@@ -383,11 +388,11 @@ export default async function Home() {
               </a>
             </div>
 
-            <div className="rounded-[2rem] border border-slate-200/70 bg-white p-6 text-slate-950 shadow-sm transition hover:-translate-y-1 hover:shadow-[0_24px_60px_-40px_rgba(15,12,10,0.18)] dark:border-white/10 dark:bg-zinc-900 dark:text-white">
-              <div className="inline-flex h-14 w-14 items-center justify-center rounded-3xl bg-sky-500/10 text-sky-700 dark:bg-sky-500/15 dark:text-sky-300">
+            <div className="rounded-[1.75rem] border border-slate-200/70 bg-white p-5 text-slate-950 shadow-sm transition hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-30px_rgba(15,12,10,0.18)] dark:border-white/10 dark:bg-zinc-900 dark:text-white sm:p-6">
+              <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-500/10 text-sky-700 dark:bg-sky-500/15 dark:text-sky-300 sm:h-14 sm:w-14 sm:rounded-3xl">
                 <MapPin className="h-5 w-5" />
               </div>
-              <p className="mt-5 text-sm font-semibold text-slate-950 dark:text-white">Visit the studio</p>
+              <p className="mt-4 text-sm font-semibold text-slate-950 dark:text-white">Visit the studio</p>
               <a
                 href="https://maps.app.goo.gl/ouR5nVnGQCM6aPxK6?g_st=aw"
                 target="_blank"
@@ -398,11 +403,11 @@ export default async function Home() {
               </a>
             </div>
 
-            <div className="rounded-[2rem] border border-slate-200/70 bg-white p-6 text-slate-950 shadow-sm transition hover:-translate-y-1 hover:shadow-[0_24px_60px_-40px_rgba(15,12,10,0.18)] dark:border-white/10 dark:bg-zinc-900 dark:text-white">
-              <div className="inline-flex h-14 w-14 items-center justify-center rounded-3xl bg-gradient-to-tr from-pink-500 via-orange-400 to-yellow-300 text-white dark:bg-pink-500/15 dark:text-pink-200">
+            <div className="rounded-[1.75rem] border border-slate-200/70 bg-white p-5 text-slate-950 shadow-sm transition hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-30px_rgba(15,12,10,0.18)] dark:border-white/10 dark:bg-zinc-900 dark:text-white sm:p-6">
+              <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-tr from-pink-500 via-orange-400 to-yellow-300 text-white dark:bg-pink-500/15 dark:text-pink-200 sm:h-14 sm:w-14 sm:rounded-3xl">
                 <InstagramLogo className="h-5 w-5" />
               </div>
-              <p className="mt-5 text-sm font-semibold text-slate-950 dark:text-white">Instagram</p>
+              <p className="mt-4 text-sm font-semibold text-slate-950 dark:text-white">Instagram</p>
               <a
                 href="https://www.instagram.com/rmsladiesboutique?igsh=M3gybDBzdmkyN2Y5"
                 target="_blank"

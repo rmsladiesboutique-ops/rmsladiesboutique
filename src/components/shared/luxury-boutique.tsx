@@ -38,6 +38,10 @@ export function LuxuryHeroSlider() {
         </motion.div>
       </AnimatePresence>
 
+      <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between p-4 md:p-6">
+        <span className="rounded-full border border-white/20 bg-black/25 px-3 py-1 text-[0.68rem] uppercase tracking-[0.32em] text-amber-100 backdrop-blur-md">Editorial atelier</span>
+        <span className="rounded-full border border-white/20 bg-white/12 px-3 py-1 text-[0.68rem] uppercase tracking-[0.32em] text-white/90 backdrop-blur-md">Luxury styling</span>
+      </div>
       <div className="absolute inset-x-0 bottom-0 z-10 p-6 text-white md:p-8">
         <p className="text-[0.72rem] uppercase tracking-[0.35em] text-amber-100/90">{heroSlides[index].label}</p>
         <h2 className="mt-3 max-w-md text-2xl font-semibold tracking-[-0.04em] md:text-3xl">{heroSlides[index].title}</h2>
@@ -130,10 +134,10 @@ export function LuxuryStats() {
         <motion.div
           key={item.label}
           whileHover={{ y: -4 }}
-          className="rounded-[1.7rem] border border-white/25 bg-white/80 p-5 text-center shadow-[0_20px_40px_-26px_rgba(15,12,10,0.35)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/80"
+          className="rounded-[1.7rem] border border-[#efe4d8] bg-white/90 p-5 text-center shadow-[0_20px_40px_-26px_rgba(15,12,10,0.35)] backdrop-blur-xl"
         >
-          <p className="text-3xl font-semibold tracking-[-0.05em] text-slate-950 dark:text-white">{item.value}</p>
-          <p className="mt-2 text-sm uppercase tracking-[0.24em] text-slate-600 dark:text-slate-300">{item.label}</p>
+          <p className="text-3xl font-semibold tracking-[-0.05em] text-slate-950">{item.value}</p>
+          <p className="mt-2 text-sm uppercase tracking-[0.24em] text-slate-600">{item.label}</p>
         </motion.div>
       ))}
     </div>

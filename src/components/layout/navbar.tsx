@@ -43,7 +43,7 @@ export function Navbar({ siteTitle, navLinks }: NavbarProps) {
   const navItems = navLinks?.length ? navLinks : defaultNavItems;
 
   return (
-    <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${scrolled ? "border-b border-[#d9c4b3]/70 bg-white/95 shadow-[0_18px_45px_-30px_rgba(29,23,18,0.35)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/95" : "bg-transparent"}`}>
+    <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${scrolled ? "border-b border-[#e2d3c4]/80 bg-white/95 shadow-[0_18px_45px_-30px_rgba(29,23,18,0.35)] backdrop-blur-xl" : "bg-transparent"}`}>
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 md:px-8">
         <Link href="/" className="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.32em] text-slate-950 transition dark:text-slate-100">
           <Image src="/rms-logo.jpeg" alt={siteTitle ? `${siteTitle} logo` : "Site logo"} width={140} height={48} priority className="h-10 w-auto rounded-2xl border border-slate-200/70 bg-white/80 object-contain shadow-sm dark:border-white/10 dark:bg-slate-900/70" />
@@ -56,7 +56,7 @@ export function Navbar({ siteTitle, navLinks }: NavbarProps) {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`text-sm font-semibold uppercase tracking-[0.22em] transition ${active ? "text-slate-950 dark:text-white" : "text-slate-700/80 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white"}`}
+                className={`text-sm font-semibold uppercase tracking-[0.22em] transition ${active ? "text-slate-950 dark:text-white" : "text-slate-800/80 hover:text-slate-950 dark:text-slate-700 dark:hover:text-white"}`}
               >
                 {item.label}
               </Link>
@@ -65,7 +65,7 @@ export function Navbar({ siteTitle, navLinks }: NavbarProps) {
         </nav>
 
         <div className="flex items-center gap-3">
-          <Link href="/book" className="hidden rounded-full border border-slate-900/10 bg-slate-950 px-5 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-white transition hover:bg-slate-900 md:inline-flex">
+          <Link href="/book" className="hidden rounded-full border border-[#d8c0a6]/50 bg-[linear-gradient(135deg,#141413_0%,#2f241b_100%)] px-5 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-white shadow-[0_18px_40px_-18px_rgba(29,23,18,0.45)] transition hover:-translate-y-0.5 hover:brightness-105 md:inline-flex">
             Book Now
           </Link>
           <button
