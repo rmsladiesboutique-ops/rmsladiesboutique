@@ -9,6 +9,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
+export const dynamic = "force-dynamic";
+
 export default function AdminDesignsPage() {
   const [rows, setRows] = useState<DesignItem[]>([]);
   const [title, setTitle] = useState("");

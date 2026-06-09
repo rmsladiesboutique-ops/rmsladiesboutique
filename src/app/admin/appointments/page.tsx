@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
+export const dynamic = "force-dynamic";
+
 const CUSTOM_STATUS_VALUE = "__custom__";
 
 type StatusDraft = {

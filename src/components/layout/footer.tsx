@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { getSettings } from "@/lib/services";
-import { Instagram, Phone, Mail, MapPin, Clock, Facebook, Twitter } from "lucide-react";
+import { Sparkles, Star, Heart, Phone, Mail, MapPin, Clock } from "lucide-react";
 
 export async function Footer() {
   const settings = await getSettings();
@@ -35,21 +35,21 @@ export async function Footer() {
                 aria-label="Instagram"
                 className="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#E5E7EB] bg-white text-[#111827] shadow-lg transition-all duration-300 hover:scale-[1.08] hover:border-[#B8864A]/30 hover:text-[#B8864A] hover:shadow-xl"
               >
-                <Instagram className="h-6 w-6" />
+                <Sparkles className="h-6 w-6" />
               </a>
               <a
                 href="#"
                 aria-label="Facebook"
                 className="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#E5E7EB] bg-white text-[#111827] shadow-lg transition-all duration-300 hover:scale-[1.08] hover:border-[#B8864A]/30 hover:text-[#B8864A] hover:shadow-xl"
               >
-                <Facebook className="h-6 w-6" />
+                <Star className="h-6 w-6" />
               </a>
               <a
                 href="#"
-                aria-label="Twitter"
+                aria-label="X"
                 className="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#E5E7EB] bg-white text-[#111827] shadow-lg transition-all duration-300 hover:scale-[1.08] hover:border-[#B8864A]/30 hover:text-[#B8864A] hover:shadow-xl"
               >
-                <Twitter className="h-6 w-6" />
+                <Heart className="h-6 w-6" />
               </a>
             </div>
           </div>

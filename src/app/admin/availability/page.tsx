@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
+export const dynamic = "force-dynamic";
+
 type AvailabilityRule = {
   id: string;
   date: string;

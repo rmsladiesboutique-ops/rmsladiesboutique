@@ -7,6 +7,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import type { MeasurementField } from "@/types/domain";
 
+export const dynamic = "force-dynamic";
+
 export default function AdminMeasurementsPage() {
   const [rows, setRows] = useState<MeasurementField[]>([]);
   const [label, setLabel] = useState("");
