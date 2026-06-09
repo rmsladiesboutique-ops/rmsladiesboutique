@@ -36,7 +36,7 @@ export default async function DesignDetailPage({ params }: { params: { designId:
               <Badge className="fashion-chip">{design.category}</Badge>
               {design.available ? <span className="rounded-full border border-emerald-300/20 bg-emerald-50 px-3 py-1 text-xs uppercase tracking-[0.28em] text-emerald-700 dark:border-emerald-400/20 dark:bg-emerald-500/10 dark:text-emerald-100">Available</span> : <span className="rounded-full border border-slate-400/20 bg-slate-100 px-3 py-1 text-xs uppercase tracking-[0.28em] text-slate-950 dark:border-white/10 dark:bg-slate-900/70 dark:text-slate-100">Unavailable</span>}
             </div>
-            <h1 className="hero-heading sm:text-6xl">{design.title}</h1>
+            <h1 className="hero-heading sm:text-6xl text-[#111827]">{design.title}</h1>
             <p className="max-w-3xl text-xl leading-9 text-[#6B7280]">{design.description}</p>
             <div className="flex flex-wrap items-center gap-4 pt-4">
               <span className="text-3xl font-bold text-[#B8864A]">{formatCurrency(design.price)}</span>
@@ -75,12 +75,12 @@ export default async function DesignDetailPage({ params }: { params: { designId:
         </div>
       </section>
 
-      <section className="border-t border-slate-200/80 bg-[#fffdf8] px-4 py-24 sm:px-6 lg:px-8 dark:border-white/10 dark:bg-slate-950/95">
+      <section className="border-t border-slate-200/80 bg-[#fffdf8] px-4 py-24 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl grid gap-12 xl:grid-cols-[0.9fr_1.1fr]">
           <div className="space-y-6">
-            <p className="text-xs uppercase tracking-[0.35em] text-slate-900 dark:text-slate-200">Craftsmanship</p>
-            <h2 className="text-4xl font-semibold tracking-tight text-slate-950 dark:text-white">A signature experience in every detail.</h2>
-            <p className="max-w-3xl text-base leading-8 text-slate-950 dark:text-slate-100">
+            <p className="text-xs uppercase tracking-[0.35em] text-[#6B7280]">Craftsmanship</p>
+            <h2 className="text-4xl font-semibold tracking-tight text-[#111827]">A signature experience in every detail.</h2>
+            <p className="max-w-3xl text-base leading-8 text-[#111827]">
               From the first measurement to the final fitting, the atelier brings together premium fabrics, exacting hand finishes, and thoughtful design to ensure every piece looks as exquisite as it feels.
             </p>
           </div>
@@ -90,13 +90,13 @@ export default async function DesignDetailPage({ params }: { params: { designId:
               { icon: Sparkles, title: "Luxury materials", description: "Silk, satin, and premium textures sourced for their drape and feel." },
               { icon: MapPin, title: "Private consultation", description: "A discreet studio experience tailored to your schedule." },
             ].map((item) => (
-              <Card key={item.title} className="rounded-[2rem] border border-slate-200/70 bg-white p-8 shadow-sm dark:border-white/10 dark:bg-slate-900/90">
+              <Card key={item.title} className="rounded-[2rem] border border-slate-200/70 bg-white p-8 shadow-sm">
                 <CardContent className="space-y-4">
-                  <div className="inline-flex h-12 w-12 items-center justify-center rounded-3xl bg-slate-950 text-amber-300 dark:bg-amber-500/10 dark:text-amber-300">
+                  <div className="inline-flex h-12 w-12 items-center justify-center rounded-3xl bg-slate-950 text-amber-300">
                     <item.icon className="h-6 w-6" />
                   </div>
-                  <h3 className="text-xl font-semibold text-slate-950 dark:text-white">{item.title}</h3>
-                  <p className="text-sm leading-7 text-slate-950 dark:text-slate-100">{item.description}</p>
+                  <h3 className="text-xl font-semibold text-[#111827]">{item.title}</h3>
+                  <p className="text-sm leading-7 text-[#111827]">{item.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -109,23 +109,23 @@ export default async function DesignDetailPage({ params }: { params: { designId:
           <div className="mx-auto max-w-7xl">
             <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
               <div>
-                <p className="text-xs uppercase tracking-[0.35em] text-slate-900 dark:text-slate-200">Related collection</p>
-                <h2 className="text-3xl font-semibold text-slate-950 dark:text-white">More atelier favorites.</h2>
+                <p className="text-xs uppercase tracking-[0.35em] text-[#6B7280]">Related collection</p>
+                <h2 className="text-3xl font-semibold text-[#111827]">More atelier favorites.</h2>
               </div>
-              <Link href="/catalog" className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-amber-700 transition hover:text-amber-600">
+              <Link href="/catalog" className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-[#9a6f3a] transition hover:text-[#B8864A]">
                 Back to catalog <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
             <div className="mt-8 grid gap-6 sm:grid-cols-2 md:grid-cols-3">
               {relatedDesigns.map((item) => (
-                <Link key={item.id} href={`/catalog/${item.id}`} className="group overflow-hidden rounded-[2rem] border border-slate-200/70 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-[0_28px_80px_-40px_rgba(15,12,10,0.25)] dark:border-white/10 dark:bg-slate-900/85">
+                <Link key={item.id} href={`/catalog/${item.id}`} className="group overflow-hidden rounded-[2rem] border border-slate-200/70 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-[0_28px_80px_-40px_rgba(15,12,10,0.25)]">
                   <div className="relative aspect-[4/5] w-full overflow-hidden">
                     <Image src={item.imageUrl} alt={item.title} fill className="object-cover transition duration-500 group-hover:scale-105" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" loading="lazy" />
                   </div>
-                  <CardContent className="space-y-3 p-6 text-slate-950 dark:text-white">
-                    <p className="text-xs uppercase tracking-[0.28em] text-slate-900 dark:text-slate-200">{item.category}</p>
+                  <CardContent className="space-y-3 p-6 text-[#111827]">
+                    <p className="text-xs uppercase tracking-[0.28em] text-[#6B7280]">{item.category}</p>
                     <h3 className="text-xl font-semibold">{item.title}</h3>
-                    <p className="text-sm leading-7 text-slate-950 dark:text-slate-100 line-clamp-3">{item.description}</p>
+                    <p className="text-sm leading-7 text-[#111827] line-clamp-3">{item.description}</p>
                   </CardContent>
                 </Link>
               ))}

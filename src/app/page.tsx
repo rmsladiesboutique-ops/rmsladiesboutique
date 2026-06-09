@@ -111,8 +111,8 @@ export default async function Home() {
       <LuxuryReveal className="mt-14">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="section-label">Latest designs</p>
-            <h2 className="section-heading mt-2">New work from the boutique, refreshed daily.</h2>
+            <p className="section-label text-[#6B7280]">Latest designs</p>
+            <h2 className="section-heading mt-2 text-[#111827]">New work from the boutique, refreshed daily.</h2>
           </div>
           <Link href={catalogPath} className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-[#B8864A] transition hover:text-[#9a6f3a]">
             Explore the full collection <ArrowRight className="h-4 w-4" />
@@ -165,10 +165,10 @@ export default async function Home() {
         <LuxuryReveal className="mt-14">
           <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="text-sm uppercase tracking-[0.28em] text-slate-900 dark:text-slate-200">Featured collection</p>
-              <h2 className="mt-2 text-4xl font-semibold text-slate-950 dark:text-white">Highlighted designs from the boutique.</h2>
+              <p className="text-sm uppercase tracking-[0.28em] text-[#6B7280]">Featured collection</p>
+              <h2 className="mt-2 text-4xl font-semibold text-[#111827]">Highlighted designs from the boutique.</h2>
             </div>
-            <Link href={catalogPath} className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-amber-700 transition hover:text-amber-600">
+            <Link href={catalogPath} className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-[#9a6f3a] transition hover:text-[#B8864A]">
               View catalog <ArrowRight className="h-4 w-4" />
             </Link>
           </div>

@@ -48,18 +48,18 @@ export default async function CatalogPage() {
       <section className="relative overflow-hidden px-4 py-24 sm:px-6 lg:px-8">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,248,238,0.92),transparent_28%),radial-gradient(circle_at_bottom_right,_rgba(171,137,97,0.14),transparent_30%)]" />
         <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.95fr_1.05fr]">
-          <div className="max-w-3xl rounded-[2.5rem] border border-slate-200/80 bg-white/95 p-6 shadow-[0_30px_90px_-40px_rgba(15,12,10,0.18)] dark:border-white/10 dark:bg-slate-950/95 sm:p-8 lg:p-10">
-            <p className="section-label">Collection</p>
-            <h1 className="hero-heading mt-4 sm:text-6xl">{pageTitle}</h1>
+          <div className="max-w-3xl rounded-[2.5rem] border border-slate-200/80 bg-white/95 p-6 shadow-[0_30px_90px_-40px_rgba(15,12,10,0.18)] sm:p-8 lg:p-10">
+            <p className="section-label text-[#6B7280]">Collection</p>
+            <h1 className="hero-heading mt-4 sm:text-6xl text-[#111827]">{pageTitle}</h1>
             <p className="mt-6 max-w-3xl text-lg leading-9 text-[#6B7280]">{pageDescription}</p>
             <div className="mt-10 grid gap-4 sm:grid-cols-2">
-              <div className="rounded-[2rem] border border-slate-200/70 bg-slate-50 p-6 shadow-sm dark:border-white/10 dark:bg-slate-900/85">
-                <p className="text-sm uppercase tracking-[0.28em] text-slate-900 dark:text-slate-200">Featured edit</p>
-                <p className="mt-3 text-xl font-semibold text-slate-950 dark:text-white">A select edit of our latest atelier pieces.</p>
+              <div className="rounded-[2rem] border border-slate-200/70 bg-slate-50 p-6 shadow-sm">
+                <p className="text-sm uppercase tracking-[0.28em] text-[#6B7280]">Featured edit</p>
+                <p className="mt-3 text-xl font-semibold text-[#111827]">A select edit of our latest atelier pieces.</p>
               </div>
-              <div className="rounded-[2rem] border border-slate-200/70 bg-slate-50 p-6 shadow-sm dark:border-white/10 dark:bg-slate-900/85">
-                <p className="text-sm uppercase tracking-[0.28em] text-slate-900 dark:text-slate-200">Curated service</p>
-                <p className="mt-3 text-xl font-semibold text-slate-950 dark:text-white">Personal styling and private fittings by appointment.</p>
+              <div className="rounded-[2rem] border border-slate-200/70 bg-slate-50 p-6 shadow-sm">
+                <p className="text-sm uppercase tracking-[0.28em] text-[#6B7280]">Curated service</p>
+                <p className="mt-3 text-xl font-semibold text-[#111827]">Personal styling and private fittings by appointment.</p>
               </div>
             </div>
           </div>
@@ -80,16 +80,16 @@ export default async function CatalogPage() {
       <section className="px-4 pb-24 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl space-y-16">
           {latestDesigns.length > 0 ? (
-            <section className="rounded-[2.5rem] border border-slate-200/80 bg-white/95 p-6 shadow-[0_30px_80px_-40px_rgba(15,12,10,0.18)] dark:border-white/10 dark:bg-slate-950/95 sm:p-8">
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-                <div>
-                  <p className="text-sm uppercase tracking-[0.28em] text-slate-900 dark:text-slate-200">Latest designs</p>
-                  <h2 className="mt-2 text-4xl font-semibold text-slate-950 dark:text-white">Newest boutique pieces at a glance.</h2>
-                </div>
-                <Link href="/catalog" className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-amber-700 transition hover:text-amber-600">
-                  Browse full catalog <ArrowRight className="h-4 w-4" />
-                </Link>
-              </div>
+        <section className="rounded-[2.5rem] border border-slate-200/80 bg-white/95 p-6 shadow-[0_30px_80px_-40px_rgba(15,12,10,0.18)] sm:p-8">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-sm uppercase tracking-[0.28em] text-[#6B7280]">Latest designs</p>
+              <h2 className="mt-2 text-4xl font-semibold text-[#111827]">Newest boutique pieces at a glance.</h2>
+            </div>
+            <Link href="/catalog" className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-[#9a6f3a] transition hover:text-[#B8864A]">
+              Browse full catalog <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
               <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
                 {latestDesigns.map((design) => (
                   <Link
