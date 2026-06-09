@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createServiceRoleClient } from "@/lib/supabase/admin";
+import { createServiceRoleClient, getSupabaseAdminConfigError } from "@/lib/supabase/admin";
 import { requireAdminSession } from "@/lib/require-admin";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
 
   const supabase = createServiceRoleClient();
   if (!supabase) {
-    return NextResponse.json({ error: "Supabase client unavailable" }, { status: 500 });
+    return NextResponse.json({ error: getSupabaseAdminConfigError() ?? "Supabase client unavailable" }, { status: 500 });
   }
 
   const path = `designs/${Date.now()}-${safeName}`;
