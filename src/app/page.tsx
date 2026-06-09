@@ -2,15 +2,16 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Calendar, Scissors, Sparkles, Star, Heart, CheckCircle } from "lucide-react";
 import {
+  LuxuryCinematicHero,
   LuxuryReveal,
   LuxuryParallax,
   FloatingGlow,
 } from "@/components/shared/luxury-boutique";
+import { NewArrivalsCarousel } from "@/components/shared/new-arrivals-carousel";
 import { Badge } from "@/components/ui/badge";
 import { CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { getSettings, getDesigns, getFeaturedDesigns } from "@/lib/services";
-import { formatCurrency } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -23,7 +24,7 @@ export default async function Home() {
 
   const catalogPath = "/catalog";
   const bookingPath = "/book";
-  const latestDesigns = designs.slice(0, 4);
+  const latestDesigns = designs.slice(0, 10);
 
   const testimonials = [
     { name: "Amara", quote: "The fit was flawless and the service made me feel truly cared for." },
@@ -61,6 +62,31 @@ export default async function Home() {
         catalogPath={catalogPath}
       />
 
+      <section className="relative z-10 -mt-8 px-4 pb-8 sm:px-6 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-4 md:grid-cols-2">
+          {[
+            { title: "Free delivery within 5km range", subtitle: "Convenient doorstep delivery for nearby orders" },
+            { title: "Tailor at your door step", subtitle: "Personalized fitting and styling brought to you" },
+          ].map((item) => (
+            <article
+              key={item.title}
+              className="rounded-[1.5rem] border border-[#E5E7EB] bg-white/95 p-5 shadow-[0_24px_60px_-24px_rgba(17,24,39,0.18)] backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-[#B8864A]/30 hover:shadow-[0_30px_70px_-26px_rgba(17,24,39,0.22)]"
+            >
+              <div className="flex items-start gap-4">
+                <div className="mt-1 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#111827] text-[#D4AF37] shadow-lg">
+                  <Sparkles className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#B8864A]">Why clients love us</p>
+                  <h3 className="mt-2 text-xl font-semibold text-[#111827]">{item.title}</h3>
+                  <p className="mt-1 text-sm text-[#6B7280]">{item.subtitle}</p>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
       {/* Latest Designs */}
       <section className="section-padding relative bg-[#FAF7F2]">
         <LuxuryParallax />
@@ -84,36 +110,9 @@ export default async function Home() {
             </div>
           </LuxuryReveal>
 
-          <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
-            {latestDesigns.map((design) => (
-              <LuxuryReveal key={design.id} className="mt-0">
-                <Link href={`/catalog/${design.id}`} className="product-card group block">
-                  <div className="product-card-image">
-                    <Image
-                      src={design.imageUrl}
-                      alt={design.title}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      loading="lazy"
-                    />
-                  </div>
-                  <CardContent className="space-y-3 p-7 text-[#111827]">
-                    <p className="text-[0.65rem] font-semibold uppercase tracking-[0.32em] text-[#6B7280]">{design.category}</p>
-                    <h3 className="text-card-heading">{design.title}</h3>
-                    <p className="text-small text-[#6B7280] line-clamp-2">{design.description}</p>
-                    <div className="luxury-divider my-4" />
-                    <div className="flex items-center justify-between">
-                      <span className="text-xl font-bold text-[#B8864A]">{formatCurrency(design.price)}</span>
-                      <span className="text-[0.65rem] font-semibold uppercase tracking-[0.28em] text-[#111827] group-hover:text-[#B8864A] transition-colors">
-                        View →
-                      </span>
-                    </div>
-                  </CardContent>
-                </Link>
-              </LuxuryReveal>
-            ))}
-          </div>
+          <LuxuryReveal className="mt-0">
+            <NewArrivalsCarousel designs={latestDesigns} />
+          </LuxuryReveal>
         </div>
       </section>
 
@@ -286,7 +285,7 @@ export default async function Home() {
                           <Star key={star} className="h-5 w-5 fill-[#D4AF37] text-[#D4AF37]" />
                         ))}
                       </div>
-                      <p className="text-body text-[#111827] leading-relaxed">"{item.quote}"</p>
+                      <p className="text-body text-[#111827] leading-relaxed">&ldquo;{item.quote}&rdquo;</p>
                       <div className="luxury-divider my-6" />
                       <p className="text-small font-bold uppercase tracking-[0.28em] text-[#6B7280]">{item.name}</p>
                     </div>
