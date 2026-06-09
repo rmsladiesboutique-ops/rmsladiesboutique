@@ -54,10 +54,10 @@ export default function PublicStatusPage() {
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }} className="glass-panel rounded-[2.5rem] border border-amber-200/20 p-6 md:p-8 lg:p-10">
         <div className="space-y-5">
           <div>
-            <p className="text-sm uppercase tracking-[0.28em] text-foreground/55">Order Status</p>
-            <h1 className="mt-2 text-3xl font-semibold md:text-4xl">{pageTitle}</h1>
+            <p className="section-label">Order Status</p>
+            <h1 className="mt-2 text-3xl font-bold text-[#1F2937] md:text-4xl">{pageTitle}</h1>
           </div>
-          <p className="text-base leading-8 text-foreground/72">{pageDescription}</p>
+          <p className="text-base leading-8 text-[#6B7280]">{pageDescription}</p>
         </div>
 
         <div className="mt-8 grid gap-3 sm:grid-cols-[1fr_auto]">
@@ -72,13 +72,11 @@ export default function PublicStatusPage() {
           />
           <Button className="w-full sm:w-auto" onClick={lookup} disabled={loading || !code}>{loading ? "Looking up…" : "Check Status"}</Button>
         </div>
-        <p className="mt-3 text-sm text-foreground/60">Use the 6-digit booking code from your confirmation message to view progress and delivery updates.</p>
-
-        <p className="mt-3 text-sm text-foreground/60">Use the 6-digit booking code from your confirmation message to view progress and delivery updates.</p>
+        <p className="mt-3 text-sm text-[#6B7280]">Use the 6-digit booking code from your confirmation message to view progress and delivery updates.</p>
         {error ? <div className="mt-4 rounded-[1.5rem] border border-rose-300/25 bg-rose-50/60 p-4 text-sm text-rose-500">{error}</div> : null}
 
         {record ? (
-          <div className="mt-8 rounded-[2rem] border border-white/10 bg-black/5 p-6 shadow-[0_30px_90px_-56px_rgba(37,25,15,0.45)]">
+          <div className="mt-8 rounded-[2rem] border border-[#111827]/8 bg-white p-6 shadow-sm">
             <TrackingPanel initial={record} />
           </div>
         ) : null}

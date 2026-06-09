@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Manrope } from "next/font/google";
+import { Playfair_Display, Poppins } from "next/font/google";
 import { Toaster } from "sonner";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -15,10 +15,10 @@ const display = Playfair_Display({
   display: "swap",
 });
 
-const sans = Manrope({
+const sans = Poppins({
   variable: "--font-sans",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -46,7 +46,7 @@ export default async function RootLayout({
             phone={settings?.homepageContent?.footerPhone ?? settings?.phoneNumber}
             email={settings?.homepageContent?.footerEmail ?? settings?.contactEmail}
           />
-          <div className="bg-background py-4 text-center text-[0.72rem] uppercase tracking-[0.24em] text-slate-500/80">
+          <div className="bg-background py-4 text-center text-[0.72rem] uppercase tracking-[0.24em] text-[#6B7280]">
             This website was professionally developed by EGB Developers.
           </div>
           <Toaster richColors position="top-right" />

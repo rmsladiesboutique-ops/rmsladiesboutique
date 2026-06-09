@@ -25,53 +25,53 @@ export default async function ConfirmationPage({ params }: { params: { id: strin
       <Card>
         <CardContent className="space-y-6">
           <div className="space-y-2">
-            <h1 className="text-4xl font-semibold text-amber-300">{confirmationTitle}</h1>
-            <p className="text-lg text-zinc-300">{successMessage}</p>
+            <h1 className="text-4xl font-bold text-[#1F2937]">{confirmationTitle}</h1>
+            <p className="text-lg leading-8 text-[#6B7280]">{successMessage}</p>
           </div>
 
           {booking ? (
             <>
-              <div className="space-y-3 rounded-3xl border border-amber-300/20 bg-amber-300/10 p-6">
-                <p className="text-sm uppercase tracking-[0.24em] text-amber-200/80">Appointment Submitted</p>
-                <div className="rounded-2xl bg-slate-950/95 p-6 text-center text-white shadow-sm shadow-amber-500/10">
-                  <p className="text-sm uppercase tracking-[0.22em] text-amber-200/80">Your 6-digit booking code</p>
-                  <p className="mt-3 text-5xl font-semibold tracking-[0.28em] text-amber-300 font-mono">{booking.customerCode}</p>
-                  <p className="mt-3 text-sm text-zinc-400">Your team will contact you shortly with confirmation details.</p>
+              <div className="space-y-3 rounded-3xl border border-[#B8864A]/25 bg-[#FAF7F2] p-6">
+                <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#B8864A]">Appointment Submitted</p>
+                <div className="rounded-2xl bg-[#111827] p-6 text-center text-white shadow-sm">
+                  <p className="text-sm font-semibold uppercase tracking-[0.22em] text-white/80">Your 6-digit booking code</p>
+                  <p className="mt-3 font-mono text-5xl font-bold tracking-[0.28em] text-[#B8864A]">{booking.customerCode}</p>
+                  <p className="mt-3 text-sm text-white/80">Your team will contact you shortly with confirmation details.</p>
                 </div>
               </div>
 
-              <div className="space-y-3 rounded-lg border border-amber-300/20 bg-amber-300/5 p-4">
-                <h2 className="text-lg font-semibold text-zinc-100">Appointment Details</h2>
-                <div className="space-y-2">
-                  <p className="text-zinc-300">
-                    <span className="text-zinc-400">Name:</span> {booking.customerName}
+              <div className="space-y-3 rounded-2xl border border-[#111827]/10 bg-white p-5">
+                <h2 className="text-lg font-bold text-[#1F2937]">Appointment Details</h2>
+                <div className="space-y-2 text-[#1F2937]">
+                  <p>
+                    <span className="font-semibold text-[#6B7280]">Name:</span> {booking.customerName}
                   </p>
-                  <p className="text-zinc-300">
-                    <span className="text-zinc-400">Date & Time:</span> {booking.preferredDate} at {booking.preferredTime}
+                  <p>
+                    <span className="font-semibold text-[#6B7280]">Date & Time:</span> {booking.preferredDate} at {booking.preferredTime}
                   </p>
                 </div>
               </div>
 
-              <div className="space-y-3 rounded-lg border border-blue-300/20 bg-blue-300/5 p-4">
-                <h2 className="text-lg font-semibold text-zinc-100">What&apos;s Next?</h2>
-                <p className="text-zinc-300 leading-relaxed">
-                  Thank you for booking with <span className="font-semibold text-amber-300">RMS Ladies Boutique</span>! Our team will contact you shortly at <span className="font-semibold text-zinc-200">{booking.phoneNumber}</span> to confirm your appointment details and discuss any specific requirements or preferences you may have.
+              <div className="space-y-3 rounded-2xl border border-[#111827]/10 bg-[#FAF7F2] p-5">
+                <h2 className="text-lg font-bold text-[#1F2937]">What&apos;s Next?</h2>
+                <p className="leading-relaxed text-[#1F2937]">
+                  Thank you for booking with <span className="font-semibold text-[#B8864A]">RMS Ladies Boutique</span>! Our team will contact you shortly at <span className="font-semibold">{booking.phoneNumber}</span> to confirm your appointment details and discuss any specific requirements or preferences you may have.
                 </p>
-                <p className="text-sm text-zinc-400 pt-2">
+                <p className="pt-2 text-sm text-[#6B7280]">
                   Alternatively, you can check your appointment status anytime using your booking code on our Customer Dashboard.
                 </p>
               </div>
             </>
           ) : (
-            <p className="text-zinc-300">{confirmationDescription}</p>
+            <p className="text-[#6B7280]">{confirmationDescription}</p>
           )}
 
-          <div className="pt-4 grid gap-3 sm:grid-cols-2">
+          <div className="grid gap-3 pt-4 sm:grid-cols-2">
             <Link href="/dashboard" className="w-full">
               <Button className="w-full">Open Customer Dashboard</Button>
             </Link>
             <Link href="/" className="w-full">
-              <Button variant="outline" className="w-full">Return to Home</Button>
+              <Button variant="secondary" className="w-full">Return to Home</Button>
             </Link>
           </div>
         </CardContent>

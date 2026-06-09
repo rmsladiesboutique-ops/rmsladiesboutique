@@ -19,17 +19,17 @@ export default async function DashboardPage() {
         <div className="space-y-6">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-sm uppercase tracking-[0.28em] text-foreground/55">Customer Portal</p>
-              <h1 className="mt-2 text-4xl font-semibold md:text-5xl">{pageTitle}</h1>
+              <p className="section-label">Customer Portal</p>
+              <h1 className="mt-2 text-4xl font-bold text-[#1F2937] md:text-5xl">{pageTitle}</h1>
             </div>
             <Badge className="px-4 py-2">Secure tracking</Badge>
           </div>
-          <p className="max-w-2xl text-base leading-8 text-foreground/72">
+          <p className="max-w-2xl text-base leading-8 text-[#6B7280]">
             {pageDescription}
           </p>
         </div>
 
-        <div className="mt-10 rounded-[2rem] border border-white/10 bg-black/5 p-6 shadow-[0_30px_90px_-58px_rgba(37,25,15,0.5)]">
+        <div className="mt-10 rounded-[2rem] border border-[#111827]/8 bg-white p-6 shadow-sm">
           <CustomerLookup />
         </div>
       </section>

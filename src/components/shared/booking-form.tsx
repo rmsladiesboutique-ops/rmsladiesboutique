@@ -119,11 +119,11 @@ export function BookingForm({ availableDates, availableDateSlots }: Props) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="grid gap-5 md:grid-cols-2">
-      <div className="md:col-span-2 rounded-[2rem] border border-white/10 bg-black/5 p-6 shadow-[0_25px_80px_-42px_rgba(37,25,15,0.45)]">
+      <div className="md:col-span-2 rounded-[2rem] border border-[#111827]/8 bg-[#FAF7F2] p-6 shadow-sm">
         <div className="space-y-4">
-          <p className="text-sm uppercase tracking-[0.28em] text-foreground/55">Appointment Details</p>
-          <h2 className="text-2xl font-semibold">Tell us what you need</h2>
-          <p className="text-sm leading-7 text-foreground/70">Share the basics below, then add custom design notes if you want a truly one-of-a-kind creation.</p>
+          <p className="section-label">Appointment Details</p>
+          <h2 className="text-2xl font-bold text-[#1F2937]">Tell us what you need</h2>
+          <p className="text-sm leading-7 text-[#6B7280]">Share the basics below, then add custom design notes if you want a truly one-of-a-kind creation.</p>
         </div>
       </div>
 
@@ -143,7 +143,7 @@ export function BookingForm({ availableDates, availableDateSlots }: Props) {
       </div>
       <input type="hidden" value="Female" {...register("gender")} />
       <div className="space-y-1.5">
-        <p className="text-sm text-foreground/65">Appointments are available exclusively for women.</p>
+        <p className="text-sm text-[#6B7280]">Appointments are available exclusively for women.</p>
       </div>
       <div className="space-y-1.5">
         <Select {...register("preferredDate")}>
@@ -180,7 +180,7 @@ export function BookingForm({ availableDates, availableDateSlots }: Props) {
       <div className="space-y-1.5">
         <Input placeholder="Clothing type" {...register("clothingType")} />
       </div>
-      <label htmlFor="customDesign" className="flex items-center gap-3 rounded-[1.5rem] border border-white/10 bg-white/10 px-4 py-4 text-sm text-foreground/80 shadow-sm">
+      <label htmlFor="customDesign" className="flex items-center gap-3 rounded-[1.5rem] border border-[#111827]/10 bg-white px-4 py-4 text-sm text-[#1F2937] shadow-sm">
         <input id="customDesign" type="checkbox" {...register("customDesign")} className="h-4 w-4 rounded border-gray-300 text-amber-500 focus:ring-amber-400" />
         <span>Request custom design</span>
       </label>
@@ -189,10 +189,10 @@ export function BookingForm({ availableDates, availableDateSlots }: Props) {
       </div>
 
       {customDesign && (
-        <div className="md:col-span-2 space-y-5 rounded-[2rem] border border-white/10 bg-white/10 p-5">
+        <div className="md:col-span-2 space-y-5 rounded-[2rem] border border-[#111827]/8 bg-[#FAF7F2] p-5">
           <div className="space-y-1.5">
-            <p className="text-sm font-semibold">Custom design details</p>
-            <p className="text-sm text-foreground/60">Provide any specialty fabric, color, or measurement requests for your tailor-made piece.</p>
+            <p className="text-sm font-semibold text-[#1F2937]">Custom design details</p>
+            <p className="text-sm text-[#6B7280]">Provide any specialty fabric, color, or measurement requests for your tailor-made piece.</p>
           </div>
           <div className="grid gap-5 md:grid-cols-2">
             <div className="space-y-1.5">

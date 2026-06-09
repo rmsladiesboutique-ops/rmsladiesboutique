@@ -63,47 +63,46 @@ export default async function Home() {
 
   return (
     <main className="mx-auto max-w-7xl px-4 pb-20 pt-10 md:px-8 md:pt-14">
-      <section className="hero-grid hero-spotlight relative overflow-hidden rounded-[2.5rem] border border-[#efe4d8] bg-[linear-gradient(160deg,#fffaf7_0%,#fff7f2_52%,#f7efe7_100%)] p-6 shadow-[0_40px_120px_-60px_rgba(15,12,10,0.18)] sm:p-8 lg:p-10">
+      <section className="hero-grid hero-spotlight relative overflow-hidden rounded-[2.5rem] border border-[#B8864A]/20 bg-[#FAF7F2] p-6 shadow-[0_40px_120px_-60px_rgba(17,24,39,0.12)] sm:p-8 lg:p-10">
         <LuxuryParallax />
         <FloatingGlow />
-        <div className="absolute inset-x-0 top-0 h-64 bg-[radial-gradient(circle_at_top_right,_rgba(255,214,179,0.35),_transparent_45%)]" aria-hidden="true" />
-        <div className="absolute -left-24 top-16 h-64 w-64 rounded-full bg-amber-200/40 blur-3xl mix-blend-screen" aria-hidden="true" />
+        <div className="absolute inset-x-0 top-0 h-64 bg-[radial-gradient(circle_at_top_right,_rgba(184,134,74,0.15),_transparent_45%)]" aria-hidden="true" />
         <div className="grid gap-10 lg:grid-cols-[1.3fr_0.9fr]">
-          <div className="relative z-10 mx-auto w-full max-w-xl rounded-[2rem] border border-white/70 bg-white/95 p-6 shadow-[0_30px_70px_-26px_rgba(15,12,10,0.12)] backdrop-blur-xl sm:max-w-none sm:p-8 lg:p-10 text-left">
+          <div className="animate-fade-in-up relative z-10 mx-auto w-full max-w-xl rounded-[2rem] border border-white bg-white p-6 shadow-[0_30px_70px_-26px_rgba(17,24,39,0.1)] sm:max-w-none sm:p-8 lg:p-10 text-left">
             <div className="flex flex-wrap items-center gap-3 sm:justify-start">
               <Badge className="fashion-chip">{heroBadge}</Badge>
             </div>
-            <h1 className="mt-6 text-4xl font-semibold leading-[1.02] tracking-[-0.03em] text-foreground sm:text-5xl md:text-6xl lg:text-7xl dark:text-white">
+            <h1 className="hero-heading mt-6 text-[#1F2937]">
               {heroHeadline}
             </h1>
-            <p className="mt-6 max-w-2xl text-[1.02rem] leading-8 text-slate-900 sm:text-lg dark:text-slate-100">
+            <p className="mt-6 max-w-2xl text-[1.02rem] leading-8 text-[#1F2937] sm:text-lg">
               {heroDescription}
             </p>
-            <p className="mt-4 max-w-2xl text-[1.02rem] leading-8 text-slate-900 sm:text-lg dark:text-slate-100">
+            <p className="mt-4 max-w-2xl text-[1.02rem] leading-8 text-[#6B7280] sm:text-lg">
               {heroExtra}
             </p>
-            <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-amber-200/80 bg-white/90 px-4 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.32em] text-amber-800 shadow-[0_16px_40px_-24px_rgba(145,111,79,0.45)]">
+            <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-[#B8864A]/30 bg-[#FAF7F2] px-4 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.32em] text-[#9a6f3a]">
               <Sparkles className="h-3.5 w-3.5" />
               Curated for women who value softness, precision, and confidence
             </div>
-            <div className="mt-8 flex flex-wrap items-center gap-3 rounded-[1.5rem] border border-amber-200/70 bg-amber-50/90 p-4 shadow-sm shadow-amber-200/20 dark:border-amber-300/20 dark:bg-amber-500/10">
-              <span className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-amber-900 shadow-sm dark:bg-slate-950/80 dark:text-amber-100">
-                <MapPin className="h-3.5 w-3.5" />
+            <div className="mt-8 flex flex-wrap items-center gap-3 rounded-[1.5rem] border border-[#B8864A]/25 bg-[#FAF7F2] p-4">
+              <span className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-[#1F2937] shadow-sm">
+                <MapPin className="h-3.5 w-3.5 text-[#B8864A]" />
                 Free delivery within 5 km
               </span>
-              <p className="text-sm leading-6 text-slate-900 dark:text-slate-100">{deliveryNote}</p>
+              <p className="text-sm leading-6 text-[#6B7280]">{deliveryNote}</p>
             </div>
             <div className="mt-8 grid gap-3 grid-cols-1 sm:grid-cols-2">
               <Link href="/book" className="w-full"><Button size="lg" className="w-full rounded-full">{heroPrimaryCta}</Button></Link>
-              <Link href={catalogPath} className="w-full"><Button size="lg" variant="outline" className="w-full rounded-full">{heroSecondaryCta}</Button></Link>
+              <Link href={catalogPath} className="w-full"><Button size="lg" variant="secondary" className="w-full rounded-full">{heroSecondaryCta}</Button></Link>
             </div>
             <LuxuryStats />
           </div>
-          <div className="relative">
+          <div className="relative animate-fade-in-up" style={{ animationDelay: "0.15s" }}>
             <LuxuryHeroSlider />
-            <div className="mt-4 rounded-[1.75rem] border border-[#efe4d8] bg-white/90 p-4 text-sm text-slate-900 shadow-[0_18px_45px_-32px_rgba(15,12,10,0.35)] backdrop-blur-xl">
-              <p className="text-[0.68rem] uppercase tracking-[0.32em] text-amber-800">Studio promise</p>
-              <p className="mt-2 leading-7">Private fittings, premium finishes, and calm styling guidance from first consultation to final delivery.</p>
+            <div className="mt-4 rounded-[1.75rem] border border-[#111827]/10 bg-white p-4 text-sm shadow-sm">
+              <p className="text-[0.68rem] font-semibold uppercase tracking-[0.32em] text-[#B8864A]">Studio promise</p>
+              <p className="mt-2 leading-7 text-[#1F2937]">Private fittings, premium finishes, and calm styling guidance from first consultation to final delivery.</p>
             </div>
           </div>
         </div>
@@ -112,10 +111,10 @@ export default async function Home() {
       <LuxuryReveal className="mt-14">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-sm uppercase tracking-[0.28em] text-slate-900 dark:text-slate-200">Latest designs</p>
-            <h2 className="mt-2 text-4xl font-semibold text-slate-950 dark:text-white">New work from the boutique, refreshed daily.</h2>
+            <p className="section-label">Latest designs</p>
+            <h2 className="section-heading mt-2">New work from the boutique, refreshed daily.</h2>
           </div>
-          <Link href={catalogPath} className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-amber-700 transition hover:text-amber-600">
+          <Link href={catalogPath} className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-[#B8864A] transition hover:text-[#9a6f3a]">
             Explore the full collection <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
@@ -134,7 +133,7 @@ export default async function Home() {
               <Link
                 key={design.id}
                 href={`/catalog/${design.id}`}
-                className={`group relative flex min-h-[20rem] flex-col overflow-hidden rounded-[2rem] border border-slate-200/70 bg-slate-950/95 text-white transition duration-500 hover:-translate-y-1 hover:shadow-[0_30px_60px_-24px_rgba(15,12,10,0.32)] ${spanClasses}`}
+                className={`group relative flex min-h-[20rem] flex-col overflow-hidden rounded-[2rem] border border-[#111827]/10 bg-[#111827] text-white transition duration-500 hover:-translate-y-1 hover:scale-[1.01] hover:shadow-[0_30px_60px_-24px_rgba(17,24,39,0.32)] ${spanClasses}`}
               >
                 <div className="absolute inset-0">
                   <Image
@@ -145,15 +144,15 @@ export default async function Home() {
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent" />
+                  <div className="absolute inset-0 image-overlay-bottom" />
                 </div>
                 <div className="relative z-10 mt-auto p-6">
-                  <p className="text-xs uppercase tracking-[0.28em] text-slate-100/95">{design.category}</p>
-                  <h3 className="mt-3 text-2xl font-semibold text-white">{design.title}</h3>
-                  <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-100/95">{design.description}</p>
-                  <div className="mt-4 flex items-center justify-between gap-4 text-sm text-amber-200">
-                    <span>{formatCurrency(design.price)}</span>
-                    <span className="rounded-full border border-amber-200/30 bg-amber-200/10 px-3 py-1">View</span>
+                  <p className="text-xs font-semibold uppercase tracking-[0.28em] text-white/90">{design.category}</p>
+                  <h3 className="card-title mt-3 text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.4)]">{design.title}</h3>
+                  <p className="mt-2 line-clamp-2 text-sm leading-6 text-white/90">{design.description}</p>
+                  <div className="mt-4 flex items-center justify-between gap-4 text-sm text-[#B8864A]">
+                    <span className="font-semibold">{formatCurrency(design.price)}</span>
+                    <span className="rounded-full border border-white/30 bg-white/10 px-3 py-1 text-white">View</span>
                   </div>
                 </div>
               </Link>
@@ -175,18 +174,18 @@ export default async function Home() {
           </div>
           <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
             {featuredDesigns.map((design) => (
-              <Card key={design.id} className="overflow-hidden rounded-[2rem] border border-slate-200/70 bg-slate-950 text-white shadow-[0_24px_80px_-40px_rgba(0,0,0,0.35)] transition hover:-translate-y-1 hover:shadow-[0_36px_120px_-60px_rgba(0,0,0,0.35)]">
+              <Card key={design.id} className="group overflow-hidden rounded-[2rem] border border-[#111827]/10 bg-[#111827] text-white shadow-[0_24px_80px_-40px_rgba(17,24,39,0.35)] transition hover:-translate-y-1 hover:scale-[1.01]">
                 <div className="relative h-72 w-full overflow-hidden">
-                  <Image src={design.imageUrl} alt={design.title} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 33vw" loading="lazy" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent" />
+                  <Image src={design.imageUrl} alt={design.title} fill className="object-cover transition duration-500 group-hover:scale-105" sizes="(max-width: 1024px) 100vw, 33vw" loading="lazy" />
+                  <div className="absolute inset-0 image-overlay-bottom" />
                 </div>
                 <CardContent className="space-y-3 p-6 text-white">
                   <Badge className="fashion-chip">{design.category}</Badge>
-                  <h3 className="text-2xl font-semibold">{design.title}</h3>
-                  <p className="text-sm text-slate-100/95 line-clamp-3">{design.description}</p>
-                  <div className="flex items-center justify-between gap-3 text-sm text-amber-200">
-                    <span>{formatCurrency(design.price)}</span>
-                    <span className="rounded-full border border-amber-200/30 bg-amber-200/10 px-3 py-1">Featured</span>
+                  <h3 className="card-title text-white">{design.title}</h3>
+                  <p className="text-sm leading-7 text-white/90 line-clamp-3">{design.description}</p>
+                  <div className="flex items-center justify-between gap-3 text-sm text-[#B8864A]">
+                    <span className="font-semibold">{formatCurrency(design.price)}</span>
+                    <span className="rounded-full border border-white/30 bg-white/10 px-3 py-1 text-white">Featured</span>
                   </div>
                 </CardContent>
               </Card>
@@ -220,7 +219,7 @@ export default async function Home() {
             <Link
               href="/catalog"
               aria-label="Explore all designs"
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 dark:border-white/10 dark:bg-slate-100 dark:text-slate-950"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-[#111827] px-6 py-3 text-sm font-semibold text-white transition hover:scale-[1.02] hover:bg-[#1F2937]"
             >
               Explore all designs <ArrowRight className="h-4 w-4" />
             </Link>

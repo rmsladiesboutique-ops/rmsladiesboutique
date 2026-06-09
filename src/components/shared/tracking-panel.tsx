@@ -13,18 +13,18 @@ export function TrackingPanel({ initial }: { initial: AppointmentRecord }) {
     <Card className="mt-8">
       <CardContent className="space-y-5">
         <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
-          <p className="text-lg font-semibold">{record.customerName}</p>
-          <p className="text-sm text-foreground/70">Current status: {record.status}</p>
+          <p className="text-lg font-bold text-[#1F2937]">{record.customerName}</p>
+          <p className="text-sm text-[#6B7280]">Current status: {record.status}</p>
         </motion.div>
 
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.05 }}>
           <div className="flex items-center justify-between">
-            <p className="text-sm text-foreground/70">Progress: {record.completionPercent}%</p>
-            <p className="text-sm text-foreground/55">Estimated: {record.estimatedCompletionDate}</p>
+            <p className="text-sm text-[#6B7280]">Progress: {record.completionPercent}%</p>
+            <p className="text-sm text-[#6B7280]">Estimated: {record.estimatedCompletionDate}</p>
           </div>
-          <div className="mt-2 h-2 overflow-hidden rounded-full bg-black/8 dark:bg-white/10">
+          <div className="mt-2 h-2 overflow-hidden rounded-full bg-[#111827]/10">
             <motion.div
-              className="h-full bg-amber-400"
+              className="h-full bg-[#B8864A]"
               initial={{ width: 0 }}
               animate={{ width: `${record.completionPercent}%` }}
               transition={{ type: "spring", stiffness: 80, damping: 18 }}
@@ -33,7 +33,7 @@ export function TrackingPanel({ initial }: { initial: AppointmentRecord }) {
         </motion.div>
 
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.12 }}>
-          <p className="text-sm text-foreground/60">Admin notes: {record.adminNotes || "No notes yet"}</p>
+          <p className="text-sm text-[#6B7280]">Admin notes: {record.adminNotes || "No notes yet"}</p>
         </motion.div>
 
         <StatusTimeline statusIndex={record.statusIndex} />

@@ -23,32 +23,32 @@ export default async function TrackingPage({ params }: { params: Promise<{ custo
       <div className="glass-panel rounded-[2.5rem] border border-amber-200/20 p-6 md:p-8 lg:p-10">
         <div className="grid gap-8">
           <div className="space-y-4">
-            <p className="text-sm uppercase tracking-[0.28em] text-foreground/55">Live Journey</p>
-            <h1 className="text-4xl font-semibold md:text-5xl">{pageTitle}</h1>
-            <p className="max-w-2xl text-base leading-8 text-foreground/72">
+            <p className="section-label">Live Journey</p>
+            <h1 className="text-4xl font-bold text-[#1F2937] md:text-5xl">{pageTitle}</h1>
+            <p className="max-w-2xl text-base leading-8 text-[#6B7280]">
               {pageSubtitle}
             </p>
           </div>
 
-          <div className="rounded-[2rem] border border-white/10 bg-black/5 p-6 shadow-[0_28px_90px_-48px_rgba(37,25,15,0.5)]">
+          <div className="rounded-[2rem] border border-[#111827]/8 bg-white p-6 shadow-sm">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
-                <p className="text-sm uppercase tracking-[0.24em] text-amber-700/90">Customer code</p>
-                <p className="mt-2 text-2xl font-semibold text-foreground">{record.customerCode}</p>
+                <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#B8864A]">Customer code</p>
+                <p className="mt-2 text-2xl font-bold text-[#1F2937]">{record.customerCode}</p>
               </div>
-              <p className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm uppercase tracking-[0.22em] text-foreground/70">{record.status}</p>
+              <p className="rounded-full border border-[#111827]/10 bg-[#FAF7F2] px-4 py-2 text-sm font-semibold uppercase tracking-[0.22em] text-[#1F2937]">{record.status}</p>
             </div>
           </div>
 
-          <div className="rounded-[2rem] border border-white/10 bg-white/10 p-6 shadow-[0_26px_85px_-52px_rgba(209,155,84,0.3)]">
+          <div className="rounded-[2rem] border border-[#111827]/8 bg-[#FAF7F2] p-6">
             <TrackingPanel initial={record} />
           </div>
 
           <div className="grid gap-3 sm:grid-cols-2">
-            <Link href="/dashboard" className="rounded-[1.75rem] border border-white/10 bg-black/5 px-5 py-4 text-center text-sm font-semibold text-foreground transition hover:bg-black/10">
+            <Link href="/dashboard" className="rounded-[1.75rem] border border-[#111827]/10 bg-[#111827] px-5 py-4 text-center text-sm font-semibold text-white transition hover:bg-[#1F2937]">
               Visit Customer Dashboard
             </Link>
-            <Link href="/status" className="rounded-[1.75rem] border border-white/10 bg-white/10 px-5 py-4 text-center text-sm font-semibold text-foreground transition hover:bg-white/20">
+            <Link href="/status" className="rounded-[1.75rem] border border-[#B8864A]/40 bg-[#FAF7F2] px-5 py-4 text-center text-sm font-semibold text-[#1F2937] transition hover:bg-white">
               Lookup another status code
             </Link>
           </div>

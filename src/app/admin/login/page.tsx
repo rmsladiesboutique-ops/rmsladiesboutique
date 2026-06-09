@@ -41,13 +41,13 @@ export default function AdminLoginPage() {
             <Badge className="inline-flex rounded-full bg-amber-100 px-4 py-2 text-sm font-semibold text-amber-900 dark:bg-amber-500/10 dark:text-amber-200">Admin Portal</Badge>
             <div>
               <h1 className="text-4xl font-semibold tracking-tight text-slate-950 dark:text-white sm:text-5xl">Secure administrator access</h1>
-              <p className="mt-4 max-w-xl text-base leading-8 text-slate-700 dark:text-slate-300">
+              <p className="mt-4 max-w-xl text-base leading-8 text-slate-950 dark:text-slate-100">
                 Only authenticated administrators may access the management workspace. Sign in with the admin credentials to continue.
               </p>
             </div>
 
             <div className="rounded-[1.75rem] border border-slate-200 bg-slate-50 p-5 shadow-sm dark:border-white/10 dark:bg-slate-900/80">
-              <div className="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-300">
+              <div className="flex items-center gap-3 text-sm text-slate-950 dark:text-slate-100">
                 <ShieldCheck className="h-5 w-5 text-amber-600" />
                 <span>Protected environment — appointment, design, and settings control.</span>
               </div>
@@ -57,23 +57,23 @@ export default function AdminLoginPage() {
           <Card className="bg-white/95 text-slate-950 shadow-xl shadow-amber-500/10 dark:bg-slate-950/95 dark:text-white">
             <CardContent className="space-y-6">
               <div className="space-y-2">
-                <div className="inline-flex h-14 w-14 items-center justify-center rounded-3xl bg-amber-500/15 text-amber-300">
+                <div className="inline-flex h-14 w-14 items-center justify-center rounded-3xl bg-[#B8864A]/15 text-[#9a6f3a]">
                   <LockKeyhole className="h-6 w-6" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-semibold">Admin Sign in</h2>
-                  <p className="text-sm text-zinc-400">Enter the admin credentials to continue to the dashboard.</p>
+                  <h2 className="text-2xl font-bold text-[#1F2937]">Admin Sign in</h2>
+                  <p className="text-sm text-[#6B7280]">Enter the admin credentials to continue to the dashboard.</p>
                 </div>
               </div>
 
               <div className="space-y-4">
                 <div>
-                  <label htmlFor="admin-id" className="block text-sm font-medium text-slate-700 dark:text-slate-300">Admin ID</label>
+                  <label htmlFor="admin-id" className="block text-sm font-medium text-slate-950 dark:text-slate-100">Admin ID</label>
                   <Input id="admin-id" autoComplete="username" placeholder="admin" value={id} onChange={(e) => setId(e.target.value)} className="border-slate-300 bg-slate-50 text-slate-950 focus:border-amber-500 dark:border-slate-700 dark:bg-slate-900/90 dark:text-white" />
                 </div>
 
                 <div>
-                  <label htmlFor="admin-password" className="block text-sm font-medium text-slate-700 dark:text-slate-300">Password</label>
+                  <label htmlFor="admin-password" className="block text-sm font-medium text-slate-950 dark:text-slate-100">Password</label>
                   <Input id="admin-password" autoComplete="current-password" type="password" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} className="border-slate-300 bg-slate-50 text-slate-950 focus:border-amber-500 dark:border-slate-700 dark:bg-slate-900/90 dark:text-white" />
                 </div>
 
@@ -84,7 +84,7 @@ export default function AdminLoginPage() {
                 )}
               </div>
 
-              <Button type="button" onClick={submit} className="w-full bg-amber-500 text-zinc-950 hover:bg-amber-400 dark:text-slate-950">Sign in securely</Button>
+              <Button type="button" onClick={submit} className="w-full">Sign in securely</Button>
             </CardContent>
           </Card>
         </div>

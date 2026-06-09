@@ -44,21 +44,21 @@ export default async function CatalogPage() {
   const hasDesigns = designs.length > 0;
 
   return (
-    <main className="relative overflow-hidden bg-[#fbf6f0] text-slate-950 dark:bg-slate-950 dark:text-slate-100">
+    <main className="relative overflow-hidden bg-[#FAF7F2] text-[#1F2937]">
       <section className="relative overflow-hidden px-4 py-24 sm:px-6 lg:px-8">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,248,238,0.92),transparent_28%),radial-gradient(circle_at_bottom_right,_rgba(171,137,97,0.14),transparent_30%)]" />
         <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.95fr_1.05fr]">
           <div className="max-w-3xl rounded-[2.5rem] border border-slate-200/80 bg-white/95 p-6 shadow-[0_30px_90px_-40px_rgba(15,12,10,0.18)] dark:border-white/10 dark:bg-slate-950/95 sm:p-8 lg:p-10">
-            <p className="text-xs uppercase tracking-[0.35em] text-slate-500 dark:text-slate-400">Collection</p>
-            <h1 className="mt-4 text-5xl font-semibold tracking-[-0.04em] text-slate-950 dark:text-white sm:text-6xl">{pageTitle}</h1>
-            <p className="mt-6 max-w-3xl text-lg leading-9 text-slate-700 dark:text-slate-300">{pageDescription}</p>
+            <p className="section-label">Collection</p>
+            <h1 className="hero-heading mt-4 sm:text-6xl">{pageTitle}</h1>
+            <p className="mt-6 max-w-3xl text-lg leading-9 text-[#6B7280]">{pageDescription}</p>
             <div className="mt-10 grid gap-4 sm:grid-cols-2">
               <div className="rounded-[2rem] border border-slate-200/70 bg-slate-50 p-6 shadow-sm dark:border-white/10 dark:bg-slate-900/85">
-                <p className="text-sm uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">Featured edit</p>
+                <p className="text-sm uppercase tracking-[0.28em] text-slate-900 dark:text-slate-200">Featured edit</p>
                 <p className="mt-3 text-xl font-semibold text-slate-950 dark:text-white">A select edit of our latest atelier pieces.</p>
               </div>
               <div className="rounded-[2rem] border border-slate-200/70 bg-slate-50 p-6 shadow-sm dark:border-white/10 dark:bg-slate-900/85">
-                <p className="text-sm uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">Curated service</p>
+                <p className="text-sm uppercase tracking-[0.28em] text-slate-900 dark:text-slate-200">Curated service</p>
                 <p className="mt-3 text-xl font-semibold text-slate-950 dark:text-white">Personal styling and private fittings by appointment.</p>
               </div>
             </div>
@@ -68,9 +68,9 @@ export default async function CatalogPage() {
             <div className="min-h-[260px] sm:min-h-[340px] relative overflow-hidden">
               <Image src={heroImage} alt="Editorial fashion collection" fill className="object-cover" />
             </div>
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-transparent" />
+            <div className="absolute inset-0 image-overlay-bottom" />
             <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
-              <p className="text-xs uppercase tracking-[0.28em] text-white/75">Designed for quiet luxury</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-white/90">Designed for quiet luxury</p>
               <p className="mt-3 text-3xl font-semibold tracking-tight">The boutique’s signature story.</p>
             </div>
           </div>
@@ -83,7 +83,7 @@ export default async function CatalogPage() {
             <section className="rounded-[2.5rem] border border-slate-200/80 bg-white/95 p-6 shadow-[0_30px_80px_-40px_rgba(15,12,10,0.18)] dark:border-white/10 dark:bg-slate-950/95 sm:p-8">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                 <div>
-                  <p className="text-sm uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">Latest designs</p>
+                  <p className="text-sm uppercase tracking-[0.28em] text-slate-900 dark:text-slate-200">Latest designs</p>
                   <h2 className="mt-2 text-4xl font-semibold text-slate-950 dark:text-white">Newest boutique pieces at a glance.</h2>
                 </div>
                 <Link href="/catalog" className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-amber-700 transition hover:text-amber-600">
@@ -95,7 +95,7 @@ export default async function CatalogPage() {
                   <Link
                     key={design.id}
                     href={`/catalog/${design.id}`}
-                    className="group overflow-hidden rounded-[2rem] border border-slate-200/70 bg-slate-950/95 text-white transition hover:-translate-y-1 hover:shadow-[0_24px_60px_-32px_rgba(15,12,10,0.18)] dark:border-white/10"
+                    className="group overflow-hidden rounded-[2rem] border border-[#111827]/10 bg-[#111827] text-white transition hover:-translate-y-1 hover:scale-[1.01] hover:shadow-[0_24px_60px_-32px_rgba(17,24,39,0.25)]"
                   >
                     <div className="relative aspect-[4/5] w-full overflow-hidden">
                       <Image
@@ -106,14 +106,15 @@ export default async function CatalogPage() {
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                         loading="lazy"
                       />
+                      <div className="absolute inset-0 image-overlay-bottom" />
                     </div>
                     <CardContent className="space-y-3 p-5 text-white">
-                      <p className="text-xs uppercase tracking-[0.28em] text-slate-200/80">{design.category}</p>
-                      <h3 className="text-xl font-semibold">{design.title}</h3>
-                      <p className="text-sm leading-6 text-slate-200/80 line-clamp-2">{design.description}</p>
-                      <div className="flex items-center justify-between gap-4 text-amber-200">
+                      <p className="text-xs font-semibold uppercase tracking-[0.28em] text-white/85">{design.category}</p>
+                      <h3 className="card-title text-white">{design.title}</h3>
+                      <p className="text-sm leading-6 text-white/85 line-clamp-2">{design.description}</p>
+                      <div className="flex items-center justify-between gap-4 text-[#B8864A]">
                         <span className="font-semibold">{formatCurrency(design.price)}</span>
-                        <span className="text-xs uppercase tracking-[0.28em]">View</span>
+                        <span className="text-xs font-semibold uppercase tracking-[0.28em] text-white">View</span>
                       </div>
                     </CardContent>
                   </Link>
@@ -135,9 +136,9 @@ export default async function CatalogPage() {
               return (
                 <div key={key} className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
                   <div className="space-y-4">
-                    <p className="text-xs uppercase tracking-[0.32em] text-slate-500 dark:text-slate-400">{label}</p>
+                    <p className="text-xs uppercase tracking-[0.32em] text-slate-900 dark:text-slate-200">{label}</p>
                     <h2 className="text-3xl font-semibold text-slate-950 dark:text-white">{label}</h2>
-                    <p className="max-w-2xl text-base leading-8 text-slate-700 dark:text-slate-300">{description}</p>
+                    <p className="max-w-2xl text-base leading-8 text-slate-950 dark:text-slate-100">{description}</p>
                   </div>
                   <div className="grid gap-6">
                     {items.slice(0, 3).map((design) => (
@@ -149,14 +150,14 @@ export default async function CatalogPage() {
                         <CardContent className="space-y-3 p-7 text-slate-950 dark:text-white">
                           <div className="flex items-center justify-between gap-4">
                             <div>
-                              <p className="text-sm uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">{design.category}</p>
+                              <p className="text-sm uppercase tracking-[0.28em] text-slate-900 dark:text-slate-200">{design.category}</p>
                               <h3 className="mt-3 text-2xl font-semibold">{design.title}</h3>
                             </div>
-                            <Badge className={design.available ? "border-amber-300 bg-amber-500/10 text-amber-200" : "border-zinc-600 bg-zinc-700/50 text-zinc-200"}>
+                            <Badge className={design.available ? "border-[#B8864A]/30 bg-[#FAF7F2] text-[#9a6f3a]" : "border-[#6B7280]/30 bg-[#FAF7F2] text-[#6B7280]"}>
                               {design.available ? "Available" : "Unavailable"}
                             </Badge>
                           </div>
-                          <p className="text-sm leading-7 text-slate-700 dark:text-slate-300 line-clamp-3">{design.description}</p>
+                          <p className="text-sm leading-7 text-slate-950 dark:text-slate-100 line-clamp-3">{design.description}</p>
                           <div className="flex items-center justify-between gap-4 text-amber-700 dark:text-amber-300">
                             <span className="text-lg font-semibold">{formatCurrency(design.price)}</span>
                             <span className="text-xs uppercase tracking-[0.32em]">View details</span>
@@ -176,12 +177,12 @@ export default async function CatalogPage() {
           )}
 
           {hasDesigns ? (
-            <div className="rounded-[2.5rem] border border-slate-200/80 bg-slate-950/95 p-8 text-white shadow-[0_40px_100px_-64px_rgba(15,12,10,0.35)] dark:border-white/10 sm:p-10">
+            <div className="luxury-card-dark p-8 sm:p-10">
               <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
                 <div className="space-y-6">
-                  <p className="text-xs uppercase tracking-[0.32em] text-amber-300/80">The boutique edit</p>
-                  <h2 className="text-4xl font-semibold tracking-tight text-white">More than a catalog — a personal fashion story.</h2>
-                  <p className="max-w-3xl text-base leading-8 text-slate-200/80">
+                  <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[#B8864A]">The boutique edit</p>
+                  <h2 className="section-heading text-white">More than a catalog — a personal fashion story.</h2>
+                  <p className="max-w-3xl text-base leading-8 text-white/85">
                     Each design is selected with thoughtful proportions, premium finishes, and a sense of occasion. Book your consultation and let us tailor the collection to your needs.
                   </p>
                 </div>

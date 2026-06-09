@@ -123,13 +123,13 @@ export function CustomerLookup() {
           <div>
             <p className="text-sm uppercase tracking-[0.24em] text-amber-700 dark:text-amber-200">Secure Lookup</p>
             <h2 className="mt-2 text-2xl font-semibold text-slate-950 dark:text-white">Track Your Appointment</h2>
-            <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">Enter your phone number and 6-digit booking code to view your order status</p>
+            <p className="mt-1 text-sm text-slate-900 dark:text-slate-200">Enter your phone number and 6-digit booking code to view your order status</p>
           </div>
           
           <div className="space-y-3">
             <div className="grid gap-3 md:grid-cols-[1fr_1fr]">
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-[0.08em] text-slate-700 dark:text-slate-300 mb-2">
+                <label className="block text-xs font-semibold uppercase tracking-[0.08em] text-slate-950 dark:text-slate-100 mb-2">
                   Phone Number
                 </label>
                 <Input 
@@ -145,7 +145,7 @@ export function CustomerLookup() {
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-[0.08em] text-slate-700 dark:text-slate-300 mb-2">
+                <label className="block text-xs font-semibold uppercase tracking-[0.08em] text-slate-950 dark:text-slate-100 mb-2">
                   6-Digit Code
                 </label>
                 <Input 
@@ -203,7 +203,7 @@ export function CustomerLookup() {
               <CheckCircle2 className="h-6 w-6 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
               <div>
                 <h3 className="text-xl font-semibold text-slate-950 dark:text-white">{record.customerName}</h3>
-                <p className="text-sm text-slate-600 dark:text-slate-400">Booking Code: {record.customerCode}</p>
+                <p className="text-sm text-slate-900 dark:text-slate-200">Booking Code: {record.customerCode}</p>
               </div>
             </div>
 
@@ -231,16 +231,16 @@ export function CustomerLookup() {
             </div>
 
             <div className="space-y-2 rounded-lg border border-slate-200/50 bg-slate-50/50 p-4 dark:border-slate-700/50 dark:bg-slate-900/20">
-              <p className="text-xs uppercase tracking-[0.08em] font-semibold text-slate-700 dark:text-slate-300">Appointment Details</p>
+              <p className="text-xs uppercase tracking-[0.08em] font-semibold text-slate-950 dark:text-slate-100">Appointment Details</p>
               <div className="grid gap-2 text-sm">
-                <p className="text-slate-700 dark:text-slate-300">
+                <p className="text-slate-950 dark:text-slate-100">
                   <span className="font-medium text-slate-900 dark:text-white">Date & Time:</span> {record.preferredDate} at {record.preferredTime}
                 </p>
-                <p className="text-slate-700 dark:text-slate-300">
+                <p className="text-slate-950 dark:text-slate-100">
                   <span className="font-medium text-slate-900 dark:text-white">Service:</span> {record.clothingType}
                 </p>
                 {record.adminNotes && (
-                  <p className="text-slate-700 dark:text-slate-300">
+                  <p className="text-slate-950 dark:text-slate-100">
                     <span className="font-medium text-slate-900 dark:text-white">Notes:</span> {record.adminNotes}
                   </p>
                 )}

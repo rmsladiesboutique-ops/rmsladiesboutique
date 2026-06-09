@@ -43,20 +43,20 @@ export function Navbar({ siteTitle, navLinks }: NavbarProps) {
   const navItems = navLinks?.length ? navLinks : defaultNavItems;
 
   return (
-    <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${scrolled ? "border-b border-[#e2d3c4]/80 bg-white/95 shadow-[0_18px_45px_-30px_rgba(29,23,18,0.35)] backdrop-blur-xl" : "bg-transparent"}`}>
+    <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${scrolled ? "border-b border-[#111827]/10 bg-[#FAF7F2]/95 shadow-[0_18px_45px_-30px_rgba(17,24,39,0.15)] backdrop-blur-xl" : "bg-[#FAF7F2]/80 backdrop-blur-sm"}`}>
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 md:px-8">
-        <Link href="/" className="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.32em] text-slate-950 transition dark:text-slate-100">
-          <Image src="/rms-logo.jpeg" alt={siteTitle ? `${siteTitle} logo` : "Site logo"} width={140} height={48} priority className="h-10 w-auto rounded-2xl border border-slate-200/70 bg-white/80 object-contain shadow-sm dark:border-white/10 dark:bg-slate-900/70" />
-          {siteTitle ? <span className="hidden text-base tracking-[0.22em] text-slate-950 dark:text-slate-100 sm:inline">{siteTitle}</span> : null}
+        <Link href="/" className="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.32em] text-[#1F2937] transition">
+          <Image src="/rms-logo.jpeg" alt={siteTitle ? `${siteTitle} logo` : "Site logo"} width={140} height={48} priority className="h-10 w-auto rounded-2xl border border-[#111827]/10 bg-white object-contain shadow-sm" />
+          {siteTitle ? <span className="hidden text-base tracking-[0.22em] text-[#1F2937] sm:inline">{siteTitle}</span> : null}
         </Link>
-        <nav className="hidden items-center gap-8 lg:flex">
+        <nav className="hidden items-center gap-8 lg:flex" aria-label="Main navigation">
           {navItems.map((item) => {
             const active = pathname === item.href;
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`text-sm font-semibold uppercase tracking-[0.22em] transition ${active ? "text-slate-950 dark:text-white" : "text-slate-800/80 hover:text-slate-950 dark:text-slate-700 dark:hover:text-white"}`}
+                className={`text-sm font-semibold uppercase tracking-[0.22em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B8864A]/50 focus-visible:ring-offset-2 ${active ? "text-[#111827]" : "text-[#6B7280] hover:text-[#1F2937]"}`}
               >
                 {item.label}
               </Link>
@@ -65,12 +65,12 @@ export function Navbar({ siteTitle, navLinks }: NavbarProps) {
         </nav>
 
         <div className="flex items-center gap-3">
-          <Link href="/book" className="hidden rounded-full border border-[#d8c0a6]/50 bg-[linear-gradient(135deg,#141413_0%,#2f241b_100%)] px-5 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-white shadow-[0_18px_40px_-18px_rgba(29,23,18,0.45)] transition hover:-translate-y-0.5 hover:brightness-105 md:inline-flex">
+          <Link href="/book" className="hidden rounded-full bg-[#B8864A] px-5 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-white shadow-[0_18px_40px_-18px_rgba(184,134,74,0.55)] transition hover:scale-[1.03] hover:bg-[#9a6f3a] md:inline-flex">
             Book Now
           </Link>
           <button
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#d8c0a6]/60 bg-[linear-gradient(135deg,#fffaf6_0%,#f3ebe2_100%)] text-slate-900 shadow-[0_18px_40px_-24px_rgba(29,23,18,0.35)] transition hover:-translate-y-0.5 hover:border-[#caa27a]/70 dark:border-white/10 dark:bg-slate-900/85 dark:text-white md:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#111827]/10 bg-white text-[#1F2937] shadow-sm transition hover:scale-[1.02] hover:border-[#B8864A]/40 md:hidden"
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-nav"
@@ -82,13 +82,13 @@ export function Navbar({ siteTitle, navLinks }: NavbarProps) {
       </div>
 
       <div
-        className={`fixed inset-0 z-40 bg-slate-950/45 transition-opacity duration-300 ${mobileMenuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
+        className={`fixed inset-0 z-40 bg-[#111827]/50 transition-opacity duration-300 ${mobileMenuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
         aria-hidden={!mobileMenuOpen}
         onClick={() => setMobileMenuOpen(false)}
       />
       <div
         id="mobile-nav"
-        className={`fixed inset-x-4 top-24 z-50 mx-auto w-full max-w-[24rem] max-h-[calc(100vh-6rem)] overflow-y-auto rounded-[2.3rem] border border-[#e7d8ca]/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(249,244,237,0.96))] p-6 shadow-[0_30px_80px_-30px_rgba(29,23,18,0.35)] backdrop-blur-2xl transition duration-300 dark:border-white/10 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.98),rgba(10,14,19,0.98))] md:hidden ${mobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}`}
+        className={`fixed inset-x-4 top-24 z-50 mx-auto w-full max-w-[24rem] max-h-[calc(100vh-6rem)] overflow-y-auto rounded-[2.3rem] border border-[#111827]/10 bg-[#FAF7F2] p-6 shadow-[0_30px_80px_-30px_rgba(17,24,39,0.2)] transition duration-300 md:hidden ${mobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}`}
         aria-hidden={!mobileMenuOpen}
       >
         <div className="space-y-4">
@@ -99,7 +99,7 @@ export function Navbar({ siteTitle, navLinks }: NavbarProps) {
                 key={item.href}
                 href={item.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`block rounded-[1.5rem] border px-5 py-4 text-sm font-semibold uppercase tracking-[0.22em] transition ${active ? "border-[#caa27a]/50 bg-[linear-gradient(135deg,#18181b_0%,#2f241b_100%)] text-white shadow-[0_16px_30px_-18px_rgba(29,23,18,0.45)]" : "border-[#efe3d6] bg-white/90 text-slate-900 hover:bg-[#fffaf6] dark:border-white/10 dark:bg-slate-900/85 dark:text-slate-100 dark:hover:bg-slate-800"}`}
+                className={`block rounded-[1.5rem] border px-5 py-4 text-sm font-semibold uppercase tracking-[0.22em] transition ${active ? "border-[#B8864A]/40 bg-[#111827] text-white shadow-[0_16px_30px_-18px_rgba(17,24,39,0.35)]" : "border-[#111827]/10 bg-white text-[#1F2937] hover:bg-[#FAF7F2]"}`}
               >
                 {item.label}
               </Link>
@@ -107,7 +107,7 @@ export function Navbar({ siteTitle, navLinks }: NavbarProps) {
           })}
         </div>
         <div className="mt-5">
-          <Link href="/book" onClick={() => setMobileMenuOpen(false)} className="inline-flex w-full items-center justify-center rounded-full bg-[linear-gradient(135deg,#d2b07b_0%,#b68a5e_45%,#8b6a52_100%)] px-5 py-3 text-sm font-semibold uppercase tracking-[0.22em] text-white shadow-[0_18px_40px_-18px_rgba(145,111,79,0.65)] transition hover:-translate-y-0.5 hover:brightness-105">
+          <Link href="/book" onClick={() => setMobileMenuOpen(false)} className="inline-flex w-full items-center justify-center rounded-full bg-[#B8864A] px-5 py-3 text-sm font-semibold uppercase tracking-[0.22em] text-white shadow-[0_18px_40px_-18px_rgba(184,134,74,0.55)] transition hover:scale-[1.03] hover:bg-[#9a6f3a]">
             Book Now
           </Link>
         </div>
