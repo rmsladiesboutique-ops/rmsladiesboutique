@@ -36,7 +36,7 @@ export default async function DesignDetailPage({ params }: { params: { designId:
               <Badge className="fashion-chip">{design.category}</Badge>
               {design.available ? <span className="rounded-full border border-emerald-300/20 bg-emerald-50 px-3 py-1 text-xs uppercase tracking-[0.28em] text-emerald-700 dark:border-emerald-400/20 dark:bg-emerald-500/10 dark:text-emerald-100">Available</span> : <span className="rounded-full border border-slate-400/20 bg-slate-100 px-3 py-1 text-xs uppercase tracking-[0.28em] text-slate-950 dark:border-white/10 dark:bg-slate-900/70 dark:text-slate-100">Unavailable</span>}
             </div>
-            <h1 className="hero-heading sm:text-6xl text-[#111827]">{design.title}</h1>
+            <h1 className="text-hero text-[#111827]">{design.title}</h1>
             <p className="max-w-3xl text-xl leading-9 text-[#6B7280]">{design.description}</p>
             <div className="flex flex-wrap items-center gap-4 pt-4">
               <span className="text-3xl font-bold text-[#B8864A]">{formatCurrency(design.price)}</span>

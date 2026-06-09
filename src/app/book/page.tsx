@@ -26,7 +26,7 @@ export default async function BookPage() {
         <div className="grid gap-8 lg:grid-cols-[1.08fr_minmax(320px,420px)]">
           <div className="space-y-6">
             <p className="section-label">Appointments</p>
-            <h1 className="text-4xl font-bold tracking-tight text-[#1F2937] md:text-5xl">{pageTitle}</h1>
+            <h1 className="text-hero text-[#111827]">{pageTitle}</h1>
             <p className="max-w-2xl text-base leading-8 text-[#6B7280]">
               {pageDescription}
             </p>

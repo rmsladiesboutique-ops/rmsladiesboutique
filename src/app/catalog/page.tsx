@@ -1,210 +1,327 @@
-import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { getDesigns, getNewArrivals, getSettings } from "@/lib/services";
-import { formatCurrency } from "@/lib/utils";
+import Image from "next/image";
+import { ArrowRight, Sparkles } from "lucide-react";
+import { LuxuryReveal } from "@/components/shared/luxury-boutique";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CardContent } from "@/components/ui/card";
-
-export const metadata: Metadata = {
-  title: "Design Catalog | RMS LADIES BOUTIQUE",
-  description: "Explore our premium tailoring collections and curated design stories.",
-};
+import { Button } from "@/components/ui/button";
+import { getDesigns } from "@/lib/services";
+import { formatCurrency } from "@/lib/utils";
 
 export default async function CatalogPage() {
-  const [designs, latestDesigns, settings] = await Promise.all([
-    getDesigns(),
-    getNewArrivals(10),
-    getSettings(),
-  ]);
-  const homepage = settings?.homepageContent;
-  const pageTitle = homepage?.catalogTitle ?? "Design Catalog";
-  const pageDescription = homepage?.catalogDescription ?? "Explore statement styles, hand-selected fabrics, and runway-ready tailoring for your most memorable moments.";
-
-  const byCategory = designs.reduce(
-    (acc, design) => {
-      const categoryKey = design.category?.toLowerCase().includes("bridal")
-        ? "bridal"
-        : design.category?.toLowerCase().includes("occasion") || design.category?.toLowerCase().includes("occasional")
-        ? "occasion"
-        : "signature";
-
-      acc[categoryKey].push(design);
-      return acc;
-    },
-    {
-      occasion: [] as typeof designs,
-      bridal: [] as typeof designs,
-      signature: [] as typeof designs,
-    },
-  );
-
-  const heroImage = designs.find((design) => design.isFeatured)?.imageUrl || latestDesigns[0]?.imageUrl || designs[0]?.imageUrl || "/images/bridal-wear.jpeg";
+  const designs = await getDesigns();
+  const latestDesigns = designs.slice(0, 4);
   const hasDesigns = designs.length > 0;
 
-  return (
-    <main className="relative overflow-hidden bg-[#FAF7F2] text-[#1F2937]">
-      <section className="relative overflow-hidden px-4 py-24 sm:px-6 lg:px-8">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,248,238,0.92),transparent_28%),radial-gradient(circle_at_bottom_right,_rgba(171,137,97,0.14),transparent_30%)]" />
-        <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.95fr_1.05fr]">
-          <div className="max-w-3xl rounded-[2.5rem] border border-slate-200/80 bg-white/95 p-6 shadow-[0_30px_90px_-40px_rgba(15,12,10,0.18)] sm:p-8 lg:p-10">
-            <p className="section-label text-[#6B7280]">Collection</p>
-            <h1 className="hero-heading mt-4 sm:text-6xl text-[#111827]">{pageTitle}</h1>
-            <p className="mt-6 max-w-3xl text-lg leading-9 text-[#6B7280]">{pageDescription}</p>
-            <div className="mt-10 grid gap-4 sm:grid-cols-2">
-              <div className="rounded-[2rem] border border-slate-200/70 bg-slate-50 p-6 shadow-sm">
-                <p className="text-sm uppercase tracking-[0.28em] text-[#6B7280]">Featured edit</p>
-                <p className="mt-3 text-xl font-semibold text-[#111827]">A select edit of our latest atelier pieces.</p>
-              </div>
-              <div className="rounded-[2rem] border border-slate-200/70 bg-slate-50 p-6 shadow-sm">
-                <p className="text-sm uppercase tracking-[0.28em] text-[#6B7280]">Curated service</p>
-                <p className="mt-3 text-xl font-semibold text-[#111827]">Personal styling and private fittings by appointment.</p>
-              </div>
-            </div>
-          </div>
+  const bridalWear = designs.filter((d) => d.category === "Bridal Wear");
+  const occasionWear = designs.filter((d) => d.category === "Occasion Wear");
+  const signaturePieces = designs.filter((d) => d.category === "Signature Piece");
 
-          <div className="relative overflow-hidden rounded-[2.5rem] border border-slate-200/70 bg-slate-950/95 shadow-[0_60px_120px_-72px_rgba(15,12,10,0.35)] dark:border-white/10">
-            <div className="min-h-[260px] sm:min-h-[340px] relative overflow-hidden">
-              <Image src={heroImage} alt="Editorial fashion collection" fill className="object-cover" />
+  const heroImage = "/images/bridal-wear.jpeg";
+
+  return (
+    <main className="pt-32">
+      {/* Catalog Hero Section */}
+      <section className="px-6 sm:px-10 lg:px-16 pb-24">
+        <div className="mx-auto max-w-7xl">
+          <LuxuryReveal className="relative">
+            <div className="rounded-[2.5rem] overflow-hidden border border-[#B8864A]/10 bg-white shadow-[0_40px_100px_-40px_rgba(17,24,39,0.15)]">
+              <div className="min-h-[320px] sm:min-h-[420px] relative overflow-hidden">
+                <Image src={heroImage} alt="Editorial fashion collection" fill className="object-cover" priority />
+                <div className="absolute inset-0 image-overlay-bottom" />
+                <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between p-8 md:p-12">
+                  <span className="inline-flex items-center gap-2 rounded-full border border-[#B8864A]/30 bg-[#FAF7F2]/95 px-6 py-2.5 text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-[#B8864A] backdrop-blur-md">
+                    <Sparkles className="h-4 w-4" />
+                    Full Collection
+                  </span>
+                </div>
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 p-10 sm:p-14 lg:p-16 text-white">
+                <p className="text-[0.75rem] font-semibold uppercase tracking-[0.32em] text-[#B8864A]">Discover Our Designs</p>
+                <p className="mt-5 text-card-heading max-w-2xl">
+                  Explore our curated collection of luxury pieces, from bridal couture to everyday elegance.
+                </p>
+              </div>
             </div>
-            <div className="absolute inset-0 image-overlay-bottom" />
-            <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
-              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-white/90">Designed for quiet luxury</p>
-              <p className="mt-3 text-3xl font-semibold tracking-tight">The boutique’s signature story.</p>
+          </LuxuryReveal>
+        </div>
+      </section>
+
+      {/* Latest Designs */}
+      <section className="px-6 sm:px-10 lg:px-16 pb-24">
+        <div className="mx-auto max-w-7xl">
+          <LuxuryReveal className="mb-12">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <div className="space-y-3">
+                <p className="section-label">New arrivals</p>
+                <h2 className="text-section-heading text-[#111827]">Latest additions to our collection</h2>
+              </div>
             </div>
+          </LuxuryReveal>
+
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {latestDesigns.map((design) => (
+              <LuxuryReveal key={design.id} className="mt-0">
+                <Link
+                  href={`/catalog/${design.id}`}
+                  className="group overflow-hidden rounded-[2rem] border border-[#E5E7EB] bg-white shadow-[0_30px_70px_-40px_rgba(17,24,39,0.15)] transition-all duration-500 hover:-translate-y-3 hover:scale-[1.02] hover:shadow-[0_40px_90px_-40px_rgba(17,24,39,0.25)]"
+                >
+                  <div className="relative aspect-[4/5] w-full overflow-hidden">
+                    <Image
+                      src={design.imageUrl}
+                      alt={design.title}
+                      fill
+                      className="object-cover transition-all duration-700 group-hover:scale-110"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      priority
+                    />
+                  </div>
+                  <CardContent className="space-y-4 p-8 text-[#111827]">
+                    <p className="text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-[#6B7280]">{design.category}</p>
+                    <h3 className="text-card-heading">{design.title}</h3>
+                    <p className="text-small text-[#6B7280] line-clamp-2 leading-relaxed">{design.description}</p>
+                    <div className="flex items-center justify-between gap-4 pt-2 border-t border-[#E5E7EB] mt-4 pt-5">
+                      <span className="text-xl font-bold text-[#B8864A]">{formatCurrency(design.price)}</span>
+                      <span className="text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-[#111827]">View</span>
+                    </div>
+                  </CardContent>
+                </Link>
+              </LuxuryReveal>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="px-4 pb-24 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl space-y-16">
-          {latestDesigns.length > 0 ? (
-        <section className="rounded-[2.5rem] border border-slate-200/80 bg-white/95 p-6 shadow-[0_30px_80px_-40px_rgba(15,12,10,0.18)] sm:p-8">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="text-sm uppercase tracking-[0.28em] text-[#6B7280]">Latest designs</p>
-              <h2 className="mt-2 text-4xl font-semibold text-[#111827]">Newest boutique pieces at a glance.</h2>
-            </div>
-            <Link href="/catalog" className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-[#9a6f3a] transition hover:text-[#B8864A]">
-              Browse full catalog <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-              <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
-                {latestDesigns.map((design) => (
+      {/* Bridal Wear */}
+      {bridalWear.length > 0 && (
+        <section className="px-6 sm:px-10 lg:px-16 pb-24">
+          <div className="mx-auto max-w-7xl">
+            <LuxuryReveal className="mb-12">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                <div className="space-y-3">
+                  <p className="section-label">Bridal Wear</p>
+                  <h2 className="text-section-heading text-[#111827]">Elegant designs for your special day</h2>
+                </div>
+              </div>
+            </LuxuryReveal>
+
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+              {bridalWear.map((design) => (
+                <LuxuryReveal key={design.id} className="mt-0">
                   <Link
-                    key={design.id}
                     href={`/catalog/${design.id}`}
-                    className="group overflow-hidden rounded-[2rem] border border-[#111827]/10 bg-[#111827] text-white transition hover:-translate-y-1 hover:scale-[1.01] hover:shadow-[0_24px_60px_-32px_rgba(17,24,39,0.25)]"
+                    className="group overflow-hidden rounded-[2rem] border border-[#E5E7EB] bg-white shadow-[0_30px_70px_-40px_rgba(17,24,39,0.15)] transition-all duration-500 hover:-translate-y-3 hover:scale-[1.02] hover:shadow-[0_40px_90px_-40px_rgba(17,24,39,0.25)]"
                   >
                     <div className="relative aspect-[4/5] w-full overflow-hidden">
                       <Image
                         src={design.imageUrl}
                         alt={design.title}
                         fill
-                        className="object-cover transition duration-500 group-hover:scale-105"
+                        className="object-cover transition-all duration-700 group-hover:scale-110"
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                         loading="lazy"
                       />
-                      <div className="absolute inset-0 image-overlay-bottom" />
                     </div>
-                    <CardContent className="space-y-3 p-5 text-white">
-                      <p className="text-xs font-semibold uppercase tracking-[0.28em] text-white/85">{design.category}</p>
-                      <h3 className="card-title text-white">{design.title}</h3>
-                      <p className="text-sm leading-6 text-white/85 line-clamp-2">{design.description}</p>
-                      <div className="flex items-center justify-between gap-4 text-[#B8864A]">
-                        <span className="font-semibold">{formatCurrency(design.price)}</span>
-                        <span className="text-xs font-semibold uppercase tracking-[0.28em] text-white">View</span>
+                    <CardContent className="space-y-4 p-8 text-[#111827]">
+                      <p className="text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-[#6B7280]">{design.category}</p>
+                      <h3 className="text-card-heading">{design.title}</h3>
+                      <p className="text-small text-[#6B7280] line-clamp-2 leading-relaxed">{design.description}</p>
+                      <div className="flex items-center justify-between gap-4 pt-2 border-t border-[#E5E7EB] mt-4 pt-5">
+                        <span className="text-xl font-bold text-[#B8864A]">{formatCurrency(design.price)}</span>
+                        <span className="text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-[#111827]">View</span>
                       </div>
                     </CardContent>
                   </Link>
-                ))}
+                </LuxuryReveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Occasion Wear */}
+      {occasionWear.length > 0 && (
+        <section className="px-6 sm:px-10 lg:px-16 pb-24">
+          <div className="mx-auto max-w-7xl">
+            <LuxuryReveal className="mb-12">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                <div className="space-y-3">
+                  <p className="section-label">Occasion Wear</p>
+                  <h2 className="text-section-heading text-[#111827]">Elegant pieces for every occasion</h2>
+                </div>
               </div>
-            </section>
-          ) : null}
+            </LuxuryReveal>
 
-          {hasDesigns ? (
-            Object.entries(byCategory).map(([key, items]) => {
-              const label = key === "bridal" ? "Bridal Collection" : key === "occasion" ? "Occasion Wear" : "Signature Pieces";
-              const description =
-                key === "bridal"
-                  ? "Soft silhouettes, elevated details, and refined dressmaking for meaningful moments."
-                  : key === "occasion"
-                  ? "Fashion-forward tailoring designed for gatherings, celebrations, and evenings out."
-                  : "Daily luxury with polished shapes, premium textures, and effortless style.";
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+              {occasionWear.map((design) => (
+                <LuxuryReveal key={design.id} className="mt-0">
+                  <Link
+                    href={`/catalog/${design.id}`}
+                    className="group overflow-hidden rounded-[2rem] border border-[#E5E7EB] bg-white shadow-[0_30px_70px_-40px_rgba(17,24,39,0.15)] transition-all duration-500 hover:-translate-y-3 hover:scale-[1.02] hover:shadow-[0_40px_90px_-40px_rgba(17,24,39,0.25)]"
+                  >
+                    <div className="relative aspect-[4/5] w-full overflow-hidden">
+                      <Image
+                        src={design.imageUrl}
+                        alt={design.title}
+                        fill
+                        className="object-cover transition-all duration-700 group-hover:scale-110"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                        loading="lazy"
+                      />
+                    </div>
+                    <CardContent className="space-y-4 p-8 text-[#111827]">
+                      <p className="text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-[#6B7280]">{design.category}</p>
+                      <h3 className="text-card-heading">{design.title}</h3>
+                      <p className="text-small text-[#6B7280] line-clamp-2 leading-relaxed">{design.description}</p>
+                      <div className="flex items-center justify-between gap-4 pt-2 border-t border-[#E5E7EB] mt-4 pt-5">
+                        <span className="text-xl font-bold text-[#B8864A]">{formatCurrency(design.price)}</span>
+                        <span className="text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-[#111827]">View</span>
+                      </div>
+                    </CardContent>
+                  </Link>
+                </LuxuryReveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
-              return (
-                <div key={key} className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
-                  <div className="space-y-4">
-                    <p className="text-xs uppercase tracking-[0.32em] text-[#6B7280]">{label}</p>
-                    <h2 className="text-3xl font-semibold text-[#111827]">{label}</h2>
-                    <p className="max-w-2xl text-base leading-8 text-[#111827]">{description}</p>
-                  </div>
-                  <div className="grid gap-6">
-                    {items.slice(0, 3).map((design) => (
-                      <Link key={design.id} href={`/catalog/${design.id}`} className="group overflow-hidden rounded-[2rem] border border-slate-200/70 bg-white shadow-[0_24px_70px_-40px_rgba(15,12,10,0.15)] transition hover:-translate-y-1 hover:shadow-[0_30px_90px_-45px_rgba(15,12,10,0.25)]">
-                        <div className="relative h-64 w-full overflow-hidden sm:h-72">
-                          <Image src={design.imageUrl} alt={design.title} fill className="object-cover transition duration-500 group-hover:scale-105" />
-                          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
-                        </div>
-                        <CardContent className="space-y-3 p-7 text-[#111827]">
-                          <div className="flex items-center justify-between gap-4">
-                            <div>
-                              <p className="text-sm uppercase tracking-[0.28em] text-[#6B7280]">{design.category}</p>
-                              <h3 className="mt-3 text-2xl font-semibold">{design.title}</h3>
-                            </div>
-                            <Badge className={design.available ? "border-[#B8864A]/30 bg-[#FAF7F2] text-[#9a6f3a]" : "border-[#6B7280]/30 bg-[#FAF7F2] text-[#6B7280]"}>
-                              {design.available ? "Available" : "Unavailable"}
-                            </Badge>
-                          </div>
-                          <p className="text-sm leading-7 text-[#111827] line-clamp-3">{design.description}</p>
-                          <div className="flex items-center justify-between gap-4 text-[#B8864A]">
-                            <span className="text-lg font-semibold">{formatCurrency(design.price)}</span>
-                            <span className="text-xs uppercase tracking-[0.32em]">View details</span>
-                          </div>
-                        </CardContent>
+      {/* Signature Pieces */}
+      {signaturePieces.length > 0 && (
+        <section className="px-6 sm:px-10 lg:px-16 pb-24">
+          <div className="mx-auto max-w-7xl">
+            <LuxuryReveal className="mb-12">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                <div className="space-y-3">
+                  <p className="section-label">Signature Pieces</p>
+                  <h2 className="text-section-heading text-[#111827]">Our most exclusive designs</h2>
+                </div>
+              </div>
+            </LuxuryReveal>
+
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+              {signaturePieces.map((design) => (
+                <LuxuryReveal key={design.id} className="mt-0">
+                  <Link
+                    href={`/catalog/${design.id}`}
+                    className="group overflow-hidden rounded-[2rem] border border-[#E5E7EB] bg-white shadow-[0_30px_70px_-40px_rgba(17,24,39,0.15)] transition-all duration-500 hover:-translate-y-3 hover:scale-[1.02] hover:shadow-[0_40px_90px_-40px_rgba(17,24,39,0.25)]"
+                  >
+                    <div className="relative aspect-[4/5] w-full overflow-hidden">
+                      <Image
+                        src={design.imageUrl}
+                        alt={design.title}
+                        fill
+                        className="object-cover transition-all duration-700 group-hover:scale-110"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                        loading="lazy"
+                      />
+                    </div>
+                    <CardContent className="space-y-4 p-8 text-[#111827]">
+                      <p className="text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-[#6B7280]">{design.category}</p>
+                      <h3 className="text-card-heading">{design.title}</h3>
+                      <p className="text-small text-[#6B7280] line-clamp-2 leading-relaxed">{design.description}</p>
+                      <div className="flex items-center justify-between gap-4 pt-2 border-t border-[#E5E7EB] mt-4 pt-5">
+                        <span className="text-xl font-bold text-[#B8864A]">{formatCurrency(design.price)}</span>
+                        <span className="text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-[#111827]">View</span>
+                      </div>
+                    </CardContent>
+                  </Link>
+                </LuxuryReveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Full Collection Grid */}
+      {hasDesigns && (
+        <section className="px-6 sm:px-10 lg:px-16 pb-24">
+          <div className="mx-auto max-w-7xl">
+            <LuxuryReveal className="mb-12">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                <div className="space-y-3">
+                  <p className="section-label">Full collection</p>
+                  <h2 className="text-section-heading text-[#111827]">All our luxury designs</h2>
+                </div>
+              </div>
+            </LuxuryReveal>
+
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+              {designs.map((design) => (
+                <LuxuryReveal key={design.id} className="mt-0">
+                  <Link
+                    href={`/catalog/${design.id}`}
+                    className="group overflow-hidden rounded-[2rem] border border-[#E5E7EB] bg-white shadow-[0_30px_70px_-40px_rgba(17,24,39,0.15)] transition-all duration-500 hover:-translate-y-3 hover:scale-[1.02] hover:shadow-[0_40px_90px_-40px_rgba(17,24,39,0.25)]"
+                  >
+                    <div className="relative aspect-[4/5] w-full overflow-hidden">
+                      <Image
+                        src={design.imageUrl}
+                        alt={design.title}
+                        fill
+                        className="object-cover transition-all duration-700 group-hover:scale-110"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                        loading="lazy"
+                      />
+                    </div>
+                    <CardContent className="space-y-4 p-8 text-[#111827]">
+                      <p className="text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-[#6B7280]">{design.category}</p>
+                      <h3 className="text-card-heading">{design.title}</h3>
+                      <p className="text-small text-[#6B7280] line-clamp-2 leading-relaxed">{design.description}</p>
+                      <div className="flex items-center justify-between gap-4 pt-2 border-t border-[#E5E7EB] mt-4 pt-5">
+                        <span className="text-xl font-bold text-[#B8864A]">{formatCurrency(design.price)}</span>
+                        <span className="text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-[#111827]">View</span>
+                      </div>
+                    </CardContent>
+                  </Link>
+                </LuxuryReveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Bottom CTA */}
+      {hasDesigns && (
+        <section className="px-6 sm:px-10 lg:px-16 pb-32 pt-12">
+          <div className="mx-auto max-w-7xl">
+            <LuxuryReveal className="mt-0">
+              <div className="rounded-[2.5rem] border border-[#B8864A]/10 bg-[#FAF7F2] p-10 sm:p-16 lg:p-20 shadow-[0_40px_100px_-40px_rgba(17,24,39,0.15)]">
+                <div className="grid gap-12 lg:grid-cols-[1.1fr_1.2fr] items-center">
+                  <div className="space-y-8">
+                    <p className="section-label">The boutique edit</p>
+                    <h2 className="text-section-heading text-[#111827]">More than a catalog — a personal fashion story.</h2>
+                    <p className="text-body text-[#6B7280] leading-relaxed">
+                      Each design is selected with thoughtful proportions, premium finishes, and a sense of occasion. Book your consultation and let us tailor the collection to your needs.
+                    </p>
+                    <div className="pt-4">
+                      <Link href="/book" aria-label="Book appointment">
+                        <Button className="btn-primary text-xs px-10 py-4">
+                          Book Appointment
+                          <ArrowRight className="ml-3 h-5 w-5" />
+                        </Button>
                       </Link>
+                    </div>
+                  </div>
+                  <div className="grid gap-6 sm:grid-cols-2">
+                    {latestDesigns.slice(0, 4).map((design) => (
+                      <div key={design.id} className="rounded-[2rem] overflow-hidden border border-[#E5E7EB] bg-white p-5 transition-all duration-300 hover:border-[#B8864A]/20 hover:shadow-[0_20px_60px_-20px_rgba(17,24,39,0.1)]">
+                        <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[1.75rem]">
+                          <Image src={design.imageUrl} alt={design.title} fill className="object-cover" sizes="(max-width: 640px) 100vw, 50vw" loading="lazy" />
+                        </div>
+                        <div className="mt-6 space-y-3">
+                          <p className="text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-[#6B7280]">{design.category}</p>
+                          <h3 className="text-lg font-bold text-[#111827]">{design.title}</h3>
+                          <p className="text-small text-[#B8864A] font-bold">{formatCurrency(design.price)}</p>
+                        </div>
+                      </div>
                     ))}
                   </div>
                 </div>
-              );
-            })
-          ) : (
-            <div className="rounded-[2rem] border border-amber-200/30 bg-amber-50/70 p-10 text-center text-amber-900 shadow-sm">
-              <p className="text-xl font-semibold">No catalog pieces are available yet.</p>
-              <p className="mt-3 text-sm">Add more designs through the admin panel to bring the boutique collection to life.</p>
-            </div>
-          )}
-
-          {hasDesigns ? (
-            <div className="luxury-card-dark p-8 sm:p-10">
-              <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-                <div className="space-y-6">
-                  <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[#B8864A]">The boutique edit</p>
-                  <h2 className="section-heading text-white">More than a catalog — a personal fashion story.</h2>
-                  <p className="max-w-3xl text-base leading-8 text-white/85">
-                    Each design is selected with thoughtful proportions, premium finishes, and a sense of occasion. Book your consultation and let us tailor the collection to your needs.
-                  </p>
-                </div>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  {latestDesigns.slice(0, 4).map((design) => (
-                    <div key={design.id} className="rounded-[2rem] overflow-hidden border border-white/10 bg-white/10 p-4">
-                      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[1.5rem] bg-slate-900">
-                        <Image src={design.imageUrl} alt={design.title} fill className="object-cover" sizes="(max-width: 640px) 100vw, 50vw" loading="lazy" />
-                      </div>
-                      <div className="mt-4">
-                        <p className="text-sm uppercase tracking-[0.28em] text-slate-300">{design.category}</p>
-                        <h3 className="mt-2 text-lg font-semibold text-white">{design.title}</h3>
-                        <p className="mt-2 text-sm text-slate-300">{formatCurrency(design.price)}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
               </div>
-            </div>
-          ) : null}
-        </div>
-      </section>
+            </LuxuryReveal>
+          </div>
+        </section>
+      )}
     </main>
   );
 }

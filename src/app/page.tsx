@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Calendar, Scissors, Sparkles, Star, Heart, MapPin, CheckCircle } from "lucide-react";
+import { ArrowRight, Calendar, Scissors, Sparkles, Star, Heart, CheckCircle } from "lucide-react";
 import {
   LuxuryHeroSlider,
   LuxuryReveal,
@@ -26,8 +26,6 @@ export default async function Home() {
   const bookingPath = "/book";
 
   const latestDesigns = designs.slice(0, 4);
-  const bridalDesigns = designs.filter((d) => d.category === "bridal").slice(0, 2);
-  const occasionDesigns = designs.filter((d) => d.category === "occasion").slice(0, 2);
 
   const testimonials = [
     { name: "Amara", quote: "The fit was flawless and the service made me feel truly cared for." },
@@ -48,41 +46,40 @@ export default async function Home() {
       <LuxuryParallax />
 
       {/* Hero Section */}
-      <section className="px-4 pt-8 sm:px-6 lg:px-8">
+      <section className="px-6 pt-32 sm:px-10 lg:px-16 pb-24">
         <div className="mx-auto max-w-7xl">
-          <div className="grid gap-10 lg:grid-cols-[1fr_1.2fr] items-center">
-            <LuxuryReveal className="space-y-6">
-              <Badge className="fashion-chip">New Arrivals 2025</Badge>
-              <h1 className="hero-heading text-[#111827]">
+          <div className="grid gap-12 lg:grid-cols-[1.1fr_1.2fr] items-center">
+            <LuxuryReveal className="space-y-8">
+              <div className="inline-block">
+                <Badge className="fashion-chip border-[#B8864A]/30 bg-white px-6 py-2.5 text-[0.7rem]">
+                  New Arrivals 2025
+                </Badge>
+              </div>
+              <h1 className="text-hero text-[#111827] leading-tight">
                 Luxury Tailoring for the
-                <span className="block text-[#B8864A]">Modern Woman</span>
+                <span className="block text-[#B8864A] mt-2">Modern Woman</span>
               </h1>
-              <p className="max-w-lg text-base leading-8 text-[#6B7280]">
+              <p className="text-body max-w-xl text-[#6B7280] leading-relaxed">
                 {settings?.homepageContent?.heroDescription ??
                   "Discover a curated collection of bespoke designs, from bridal couture to everyday elegance, crafted with passion and precision."}
               </p>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-5 pt-4">
                 <Link href={bookingPath} aria-label="Book an appointment">
-                  <Button
-                    size="lg"
-                    className="rounded-full bg-[#111827] px-8 text-white hover:bg-[#1F2937] transition-all"
-                  >
+                  <Button className="btn-primary text-xs px-10 py-4">
                     Book Appointment
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                    <ArrowRight className="ml-3 h-5 w-5" />
                   </Button>
                 </Link>
                 <Link href={catalogPath} aria-label="Explore designs">
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="rounded-full border-[#B8864A] text-[#9a6f3a] hover:bg-[#FAF7F2] hover:text-[#9a6f3a]"
-                  >
+                  <Button className="btn-ghost border-[#E5E7EB] text-xs px-10 py-4">
                     Explore Collection
                   </Button>
                 </Link>
               </div>
 
-              <LuxuryStats />
+              <div className="pt-6">
+                <LuxuryStats />
+              </div>
             </LuxuryReveal>
 
             <LuxuryReveal>
@@ -92,47 +89,48 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* New Arrivals & Bridal/Occasion Section */}
-      <section className="mt-16 px-4 sm:px-6 lg:px-8">
+      {/* Latest Designs Section */}
+      <section className="px-6 sm:px-10 lg:px-16 py-24">
         <div className="mx-auto max-w-7xl">
-          <LuxuryReveal className="mt-14">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <p className="section-label text-[#6B7280]">Latest designs</p>
-                <h2 className="section-heading mt-2 text-[#111827]">
+          <LuxuryReveal className="mb-12">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <div className="space-y-3">
+                <p className="section-label">Latest designs</p>
+                <h2 className="text-section-heading text-[#111827]">
                   New pieces for your wardrobe
                 </h2>
               </div>
-              <Link href={catalogPath} className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-[#9a6f3a] transition hover:text-[#B8864A]">
+              <Link href={catalogPath} className="inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.28em] text-[#B8864A] transition hover:text-[#9a6f3a]">
                 View All
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-5 w-5" />
               </Link>
             </div>
           </LuxuryReveal>
 
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {latestDesigns.map((design) => (
-              <LuxuryReveal key={design.id}>
+              <LuxuryReveal key={design.id} className="mt-0">
                 <Link
                   href={`/catalog/${design.id}`}
-                  className="group overflow-hidden rounded-[2rem] border border-[#E5E7EB] bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-[0_24px_70px_-40px_rgba(17,24,39,0.18)]"
+                  className="group overflow-hidden rounded-[2rem] border border-[#E5E7EB] bg-white shadow-[0_30px_70px_-40px_rgba(17,24,39,0.15)] transition-all duration-500 hover:-translate-y-3 hover:scale-[1.02] hover:shadow-[0_40px_90px_-40px_rgba(17,24,39,0.25)]"
                 >
                   <div className="relative aspect-[4/5] w-full overflow-hidden">
                     <Image
                       src={design.imageUrl}
                       alt={design.title}
                       fill
-                      className="object-cover transition duration-500 group-hover:scale-105"
+                      className="object-cover transition-all duration-700 group-hover:scale-110"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      loading="lazy"
                     />
                   </div>
-                  <CardContent className="space-y-3 p-5 text-[#111827]">
-                    <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#6B7280]">{design.category}</p>
-                    <h3 className="card-title">{design.title}</h3>
-                    <p className="text-sm leading-6 text-[#6B7280] line-clamp-2">{design.description}</p>
-                    <div className="flex items-center justify-between gap-4">
-                      <span className="text-lg font-semibold text-[#B8864A]">{formatCurrency(design.price)}</span>
-                      <span className="text-xs font-semibold uppercase tracking-[0.28em] text-[#111827]">View</span>
+                  <CardContent className="space-y-4 p-8 text-[#111827]">
+                    <p className="text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-[#6B7280]">{design.category}</p>
+                    <h3 className="text-card-heading">{design.title}</h3>
+                    <p className="text-small text-[#6B7280] line-clamp-2 leading-relaxed">{design.description}</p>
+                    <div className="flex items-center justify-between gap-4 pt-2 border-t border-[#E5E7EB] mt-4 pt-5">
+                      <span className="text-xl font-bold text-[#B8864A]">{formatCurrency(design.price)}</span>
+                      <span className="text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-[#111827]">View</span>
                     </div>
                   </CardContent>
                 </Link>
@@ -142,51 +140,54 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Boutique Story / Why Choose Us */}
-      <section className="mt-20 px-4 sm:px-6 lg:px-8">
+      {/* Boutique Story Section */}
+      <section className="px-6 sm:px-10 lg:px-16 py-24 bg-gradient-to-b from-[#FAF7F2] to-white">
         <div className="mx-auto max-w-7xl">
           <LuxuryReveal>
-            <div className="rounded-[2.5rem] border border-[#E5E7EB] bg-[#FAF7F2] p-8 sm:p-10">
-              <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[0.9fr_1.1fr] items-center">
-                <div className="space-y-4">
-                  <p className="section-label text-[#9a6f3a]">Our Story</p>
-                  <h2 className="section-heading text-[#111827]">
+            <div className="rounded-[2.5rem] border border-[#E5E7EB] bg-white p-10 sm:p-14 lg:p-16 shadow-[0_40px_90px_-40px_rgba(17,24,39,0.15)]">
+              <div className="flex flex-col gap-16 lg:grid lg:grid-cols-[1fr_1.2fr] items-center">
+                <div className="space-y-8">
+                  <p className="section-label">Our Story</p>
+                  <h2 className="text-section-heading text-[#111827] leading-tight">
                     Crafting Excellence, One Piece at a Time
                   </h2>
-                  <p className="text-base leading-8 text-[#6B7280]">
+                  <p className="text-body text-[#6B7280] leading-relaxed">
                     With years of experience in couture tailoring, we bring together premium fabrics, meticulous craftsmanship,
                     and personalized design to create pieces that make you feel confident and elegant.
                   </p>
 
-                  <div className="grid grid-cols-2 gap-4 pt-4">
+                  <div className="grid gap-6 pt-4">
                     {[
                       { title: "Premium Fabrics", desc: "Carefully sourced materials", icon: Star },
                       { title: "Private Fittings", desc: "One-on-one appointments", icon: Heart },
                       { title: "Handcrafted Details", desc: "Meticulous attention to detail", icon: Sparkles },
                       { title: "Custom Fit", desc: "Made just for you", icon: CheckCircle },
-                    ].map((item) => (
-                      <div key={item.title} className="rounded-[1.75rem] bg-white p-5 border border-[#E5E7EB]">
-                        <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#FAF7F2] text-[#B8864A]">
-                          <item.icon className="h-6 w-6" />
+                    ].map((item, index) => (
+                      <div key={item.title} className="flex items-center gap-6 rounded-[2rem] border border-[#E5E7EB] bg-[#FAF7F2] p-7 transition-all duration-300 hover:border-[#B8864A]/20 hover:shadow-[0_20px_60px_-20px_rgba(17,24,39,0.1)]">
+                        <div className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-[#111827] text-[#B8864A] shadow-lg">
+                          <item.icon className="h-8 w-8" />
                         </div>
-                        <h4 className="mt-4 text-lg font-semibold text-[#111827]">{item.title}</h4>
-                        <p className="mt-2 text-sm text-[#6B7280]">{item.desc}</p>
+                        <div>
+                          <h4 className="text-lg font-bold text-[#111827] mb-1">{item.title}</h4>
+                          <p className="text-small text-[#6B7280]">{item.desc}</p>
+                        </div>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="grid gap-4 grid-cols-2">
-                  <div className="relative aspect-[3/4] overflow-hidden rounded-[2rem]">
+                <div className="grid gap-6 grid-cols-2">
+                  <div className="relative aspect-[3/4] overflow-hidden rounded-[2rem] shadow-2xl">
                     <Image
                       src="/images/bridal-wear.jpeg"
                       alt="Bridal wear"
                       fill
                       className="object-cover"
+                      priority
                     />
                   </div>
-                  <div className="space-y-4">
-                    <div className="relative aspect-square overflow-hidden rounded-[2rem]">
+                  <div className="space-y-6">
+                    <div className="relative aspect-square overflow-hidden rounded-[2rem] shadow-2xl">
                       <Image
                         src="/images/occasional-wear.jpeg"
                         alt="Occasion wear"
@@ -194,7 +195,7 @@ export default async function Home() {
                         className="object-cover"
                       />
                     </div>
-                    <div className="relative aspect-[3/4] overflow-hidden rounded-[2rem]">
+                    <div className="relative aspect-[3/4] overflow-hidden rounded-[2rem] shadow-2xl">
                       <Image
                         src="/images/simple-daily-wear.jpeg"
                         alt="Daily wear"
@@ -210,45 +211,45 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Featured Collections */}
+      {/* Featured Designs Section */}
       {featuredDesigns.length > 0 && (
-        <section className="mt-20 px-4 sm:px-6 lg:px-8">
+        <section className="px-6 sm:px-10 lg:px-16 py-24">
           <div className="mx-auto max-w-7xl">
-            <LuxuryReveal>
-              <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-                <div>
-                  <p className="section-label text-[#6B7280]">Featured collection</p>
-                  <h2 className="section-heading text-[#111827]">Our most loved designs</h2>
+            <LuxuryReveal className="mb-12">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                <div className="space-y-3">
+                  <p className="section-label">Featured collection</p>
+                  <h2 className="text-section-heading text-[#111827]">Our most loved designs</h2>
                 </div>
-                <Link href={catalogPath} className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-[#9a6f3a] transition hover:text-[#B8864A]">
+                <Link href={catalogPath} className="inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.28em] text-[#B8864A] transition hover:text-[#9a6f3a]">
                   Shop All
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="h-5 w-5" />
                 </Link>
               </div>
             </LuxuryReveal>
 
-            <div className="mt-10 grid gap-6 lg:grid-cols-3">
+            <div className="grid gap-8 lg:grid-cols-3">
               {featuredDesigns.map((design) => (
-                <LuxuryReveal key={design.id}>
-                  <Link href={`/catalog/${design.id}`} className="group overflow-hidden rounded-[2.5rem] border border-[#E5E7EB] bg-white shadow-sm transition hover:-translate-y-2">
+                <LuxuryReveal key={design.id} className="mt-0">
+                  <Link href={`/catalog/${design.id}`} className="group overflow-hidden rounded-[2.5rem] border border-[#E5E7EB] bg-white shadow-[0_30px_70px_-40px_rgba(17,24,39,0.15)] transition-all duration-500 hover:-translate-y-4 hover:shadow-[0_40px_100px_-40px_rgba(17,24,39,0.3)]">
                     <div className="relative aspect-[4/5] w-full overflow-hidden">
                       <Image
                         src={design.imageUrl}
                         alt={design.title}
                         fill
-                        className="object-cover transition duration-500 group-hover:scale-105"
+                        className="object-cover transition-all duration-700 group-hover:scale-108"
                         sizes="(max-width: 1024px) 100vw, 33vw"
                         priority
                       />
                       <div className="absolute inset-0 image-overlay-bottom" />
-                      <div className="absolute left-6 top-6">
-                        <Badge className="fashion-chip">Featured</Badge>
+                      <div className="absolute left-8 top-8">
+                        <Badge className="fashion-chip bg-white/95 backdrop-blur-md">Featured</Badge>
                       </div>
                     </div>
-                    <CardContent className="space-y-3 p-6 text-[#111827]">
-                      <p className="text-xs uppercase tracking-[0.28em] text-[#6B7280]">{design.category}</p>
-                      <h3 className="card-title">{design.title}</h3>
-                      <p className="text-sm leading-7 text-[#6B7280] line-clamp-3">{design.description}</p>
+                    <CardContent className="space-y-5 p-10 text-[#111827]">
+                      <p className="text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-[#6B7280]">{design.category}</p>
+                      <h3 className="text-card-heading">{design.title}</h3>
+                      <p className="text-small text-[#6B7280] line-clamp-3 leading-relaxed">{design.description}</p>
                     </CardContent>
                   </Link>
                 </LuxuryReveal>
@@ -259,31 +260,31 @@ export default async function Home() {
       )}
 
       {/* Process Section */}
-      <section className="mt-20 px-4 sm:px-6 lg:px-8">
+      <section className="px-6 sm:px-10 lg:px-16 py-24 bg-gradient-to-b from-white to-[#FAF7F2]">
         <div className="mx-auto max-w-7xl">
           <LuxuryReveal>
-            <div className="text-center max-w-2xl mx-auto">
-              <p className="section-label text-[#6B7280]">The Experience</p>
-              <h2 className="section-heading text-[#111827] mt-3">
+            <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
+              <p className="section-label">The Experience</p>
+              <h2 className="text-section-heading text-[#111827]">
                 How it works
               </h2>
             </div>
 
-            <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
               {processSteps.map((step, index) => (
                 <LuxuryReveal key={index} className="mt-0">
-                  <Card className="rounded-[2rem] border border-[#E5E7EB] bg-white">
-                    <CardContent className="p-6 space-y-4">
-                      <div className="flex items-center gap-4">
-                        <div className="h-10 w-10 rounded-full bg-[#111827] flex items-center justify-center text-white font-bold">
+                  <Card className="luxury-card p-1 border-0">
+                    <CardContent className="p-8 space-y-6">
+                      <div className="flex items-center gap-5">
+                        <div className="h-16 w-16 rounded-full bg-[#111827] flex items-center justify-center text-white font-bold text-xl shadow-xl">
                           {index + 1}
                         </div>
                         <div className="text-[#B8864A]">
                           {step.icon}
                         </div>
                       </div>
-                      <h3 className="text-xl font-semibold font-display text-[#111827]">{step.title}</h3>
-                      <p className="text-sm text-[#6B7280]">{step.description}</p>
+                      <h3 className="text-card-heading">{step.title}</h3>
+                      <p className="text-small text-[#6B7280] leading-relaxed">{step.description}</p>
                     </CardContent>
                   </Card>
                 </LuxuryReveal>
@@ -293,27 +294,27 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="mt-20 px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl rounded-[2.5rem] border border-[#E5E7EB] bg-[#111827] p-8 text-white sm:p-10">
+      {/* Testimonials Section */}
+      <section className="px-6 sm:px-10 lg:px-16 py-24">
+        <div className="mx-auto max-w-7xl rounded-[2.5rem] border border-[#B8864A]/10 bg-white p-10 sm:p-16 lg:p-20 shadow-[0_40px_100px_-40px_rgba(17,24,39,0.15)]">
           <LuxuryReveal>
-            <div className="text-center">
-              <p className="section-label text-white/70">Testimonials</p>
-              <h2 className="section-heading text-white mt-3">
+            <div className="text-center space-y-4 mb-16">
+              <p className="section-label">Testimonials</p>
+              <h2 className="text-section-heading text-[#111827]">
                 What our clients say
               </h2>
             </div>
-            <div className="mt-10 grid gap-6 md:grid-cols-3">
+            <div className="grid gap-8 md:grid-cols-3">
               {testimonials.map((item, i) => (
                 <LuxuryReveal key={i} className="mt-0">
-                  <div className="rounded-[2rem] border border-white/15 bg-white/5 p-6">
-                    <div className="flex gap-1 mb-4">
+                  <div className="rounded-[2rem] border border-[#E5E7EB] bg-[#FAF7F2] p-9 transition-all duration-300 hover:border-[#B8864A]/20 hover:shadow-[0_20px_60px_-20px_rgba(17,24,39,0.1)]">
+                    <div className="flex gap-1.5 mb-8">
                       {[1, 2, 3, 4, 5].map((star) => (
-                        <Star key={star} className="h-5 w-5 fill-[#B8864A] text-[#B8864A]" />
+                        <Star key={star} className="h-6 w-6 fill-[#B8864A] text-[#B8864A]" />
                       ))}
                     </div>
-                    <p className="text-base leading-7 text-white/80">“{item.quote}”</p>
-                    <p className="mt-6 text-sm font-semibold uppercase tracking-[0.28em] text-white">{item.name}</p>
+                    <p className="text-body text-[#111827] leading-relaxed">“{item.quote}”</p>
+                    <p className="mt-8 text-small font-bold uppercase tracking-[0.32em] text-[#6B7280]">{item.name}</p>
                   </div>
                 </LuxuryReveal>
               ))}
@@ -323,26 +324,25 @@ export default async function Home() {
       </section>
 
       {/* Luxury CTA Banner */}
-      <section className="mt-20 px-4 sm:px-6 lg:px-8 pb-20">
+      <section className="px-6 sm:px-10 lg:px-16 pb-32 pt-12">
         <div className="mx-auto max-w-7xl">
           <LuxuryReveal>
-            <div className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-r from-[#B8864A] to-[#9a6f3a] p-10 sm:p-12 text-center">
-              <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle,_white,_transparent_50%)]"></div>
-              <div className="relative max-w-2xl mx-auto space-y-6">
-                <p className="section-label text-white/80">Ready for your perfect piece?</p>
-                <h2 className="section-heading text-white">Create your dream outfit today</h2>
-                <p className="text-lg text-white/90">
+            <div className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-[#B8864A] via-[#a57743] to-[#9a6f3a] p-12 sm:p-16 lg:p-20 text-center shadow-[0_40px_100px_-40px_rgba(184,134,74,0.5)]">
+              <div className="absolute inset-0 opacity-25 bg-[radial-gradient(circle_at_top,white,transparent_60%)]" />
+              <div className="relative max-w-3xl mx-auto space-y-8">
+                <p className="section-label text-white/90">Ready for your perfect piece?</p>
+                <h2 className="text-section-heading text-white">Create your dream outfit today</h2>
+                <p className="text-body text-white/90 leading-relaxed">
                   Book a private consultation and let us bring your vision to life.
                 </p>
-                <Link href={bookingPath} aria-label="Book an appointment">
-                  <Button
-                    size="lg"
-                    className="rounded-full bg-white text-[#111827] hover:bg-[#f8fafc] px-10"
-                  >
-                    Book Now
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </Link>
+                <div className="pt-4">
+                  <Link href={bookingPath} aria-label="Book an appointment">
+                    <Button className="bg-white text-[#B8864A] hover:bg-white/90 text-xs px-12 py-4 rounded-full font-bold uppercase tracking-[0.28em] shadow-[0_24px_50px_-20px_rgba(17,24,39,0.3)] transition-all duration-300 hover:scale-[1.03]">
+                      Book Now
+                      <ArrowRight className="ml-3 h-5 w-5" />
+                    </Button>
+                  </Link>
+                </div>
               </div>
             </div>
           </LuxuryReveal>

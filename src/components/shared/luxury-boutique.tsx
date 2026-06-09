@@ -23,7 +23,7 @@ export function LuxuryHeroSlider() {
   }, []);
 
   return (
-    <div className="relative h-[420px] overflow-hidden rounded-[2rem] border border-[#111827]/10 bg-[#111827] shadow-[0_30px_80px_-40px_rgba(17,24,39,0.45)] md:h-[520px]">
+    <div className="relative h-[420px] overflow-hidden rounded-[2rem] border border-[#B8864A]/20 bg-white shadow-[0_30px_80px_-40px_rgba(17,24,39,0.15)] md:h-[520px]">
       <AnimatePresence mode="wait">
         <motion.div
           key={heroSlides[index].image}
@@ -40,8 +40,8 @@ export function LuxuryHeroSlider() {
       </AnimatePresence>
 
       <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between p-4 md:p-6">
-        <span className="rounded-full border border-white/25 bg-black/40 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.32em] text-white backdrop-blur-md">Editorial atelier</span>
-        <span className="rounded-full border border-white/25 bg-black/40 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.32em] text-white backdrop-blur-md">Luxury styling</span>
+        <span className="inline-flex items-center rounded-full border border-[#B8864A]/30 bg-[#FAF7F2]/90 px-4 py-1.5 text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-[#B8864A] backdrop-blur-md">Editorial atelier</span>
+        <span className="inline-flex items-center rounded-full border border-[#B8864A]/30 bg-[#FAF7F2]/90 px-4 py-1.5 text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-[#B8864A] backdrop-blur-md">Luxury styling</span>
       </div>
       <motion.div
         key={`copy-${index}`}
@@ -50,8 +50,8 @@ export function LuxuryHeroSlider() {
         transition={{ duration: 0.7, ease: "easeOut" }}
         className="absolute inset-x-0 bottom-0 z-10 p-6 text-white md:p-8"
       >
-        <p className="text-[0.72rem] font-semibold uppercase tracking-[0.35em] text-white/90">{heroSlides[index].label}</p>
-        <h2 className="mt-3 max-w-md text-2xl font-bold tracking-[-0.04em] text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)] md:text-3xl">{heroSlides[index].title}</h2>
+        <p className="text-[0.75rem] font-semibold uppercase tracking-[0.32em] text-[#B8864A]">{heroSlides[index].label}</p>
+        <h2 className="mt-3 max-w-md text-hero text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]">{heroSlides[index].title}</h2>
       </motion.div>
 
       <div className="absolute right-4 top-16 z-10 flex gap-2 md:right-6 md:top-20">
@@ -60,7 +60,7 @@ export function LuxuryHeroSlider() {
             key={slide.image}
             type="button"
             onClick={() => setIndex(slideIndex)}
-            className={`h-2.5 rounded-full transition-all focus-visible:ring-2 focus-visible:ring-white/70 ${slideIndex === index ? "w-10 bg-white" : "w-2.5 bg-white/50 hover:bg-white/80"}`}
+            className={`h-2.5 rounded-full transition-all focus-visible:ring-2 focus-visible:ring-[#B8864A]/70 ${slideIndex === index ? "w-10 bg-[#B8864A]" : "w-2.5 bg-white/50 hover:bg-white/80"}`}
             aria-label={`Show slide ${slideIndex + 1}`}
             aria-current={slideIndex === index ? "true" : undefined}
           />

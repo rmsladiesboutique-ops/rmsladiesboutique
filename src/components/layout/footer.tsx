@@ -1,55 +1,141 @@
-"use client";
-
 import Link from "next/link";
-import { Mail, MapPin, PhoneCall, ArrowRight } from "lucide-react";
-import { usePathname } from "next/navigation";
+import Image from "next/image";
+import { getSettings } from "@/lib/services";
+import { Instagram, Phone, Mail, MapPin, Clock, Facebook, Twitter } from "lucide-react";
 
-type FooterProps = {
-  siteTitle?: string;
-  tagline?: string;
-  phone?: string;
-  email?: string;
-};
-
-export function Footer({ siteTitle, tagline, phone, email }: FooterProps) {
-  const pathname = usePathname() ?? "";
-
-  if (pathname.startsWith("/admin")) {
-    return null;
-  }
+export async function Footer() {
+  const settings = await getSettings();
+  const siteTitle = settings?.shopName ?? "RMS Boutique";
+  const footerText = settings?.homepageContent?.footerText ?? "Luxury tailoring and couture designs.";
+  const contactPhone = settings?.phoneNumber ?? "+971509715097";
+  const contactEmail = settings?.email ?? "info@rmsboutique.com";
+  const contactAddress = settings?.address ?? "123 Fashion Street, Dubai, UAE";
 
   return (
-    <footer className="border-t border-[#111827]/10 bg-[#FAF7F2] text-[#1F2937]">
-      <div className="mx-auto max-w-7xl px-4 py-14 md:px-8 lg:py-16">
-        <div className="grid gap-10 rounded-[2rem] border border-[#111827]/8 bg-white p-8 shadow-[0_24px_70px_-40px_rgba(17,24,39,0.12)] lg:grid-cols-[1.1fr_0.9fr_0.8fr] lg:p-10">
-          <div className="space-y-4">
-            <p className="section-label">RMS Ladies Boutique</p>
-            <h3 className="text-2xl font-bold tracking-[-0.03em] text-[#1F2937] md:text-3xl">{siteTitle ?? "RMS LADIES BOUTIQUE"}</h3>
-            <p className="max-w-xl text-sm leading-7 text-[#6B7280]">{tagline ?? "A discreet couture atelier crafting tailored womenswear with timeless elegance, premium fittings, and personalized service."}</p>
+    <footer className="border-t border-[#E5E7EB] bg-[#FAF7F2] pt-20 pb-10">
+      <div className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-16">
+        <div className="grid gap-12 lg:grid-cols-[1.5fr_1fr_1fr] pb-16 border-b border-[#E5E7EB]">
+          <div className="space-y-8">
+            <Link href="/" className="flex items-center gap-4">
+              <Image
+                src="/rms-logo.jpeg"
+                alt={siteTitle}
+                width={160}
+                height={64}
+                priority
+                className="h-16 w-auto rounded-3xl border border-[#E5E7EB] bg-white p-1 shadow-lg"
+              />
+            </Link>
+            <p className="text-body text-[#6B7280] max-w-md leading-relaxed">
+              {footerText}
+            </p>
+            <div className="flex gap-4 pt-2">
+              <a
+                href="#"
+                aria-label="Instagram"
+                className="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#E5E7EB] bg-white text-[#111827] shadow-lg transition-all duration-300 hover:scale-[1.08] hover:border-[#B8864A]/30 hover:text-[#B8864A] hover:shadow-xl"
+              >
+                <Instagram className="h-6 w-6" />
+              </a>
+              <a
+                href="#"
+                aria-label="Facebook"
+                className="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#E5E7EB] bg-white text-[#111827] shadow-lg transition-all duration-300 hover:scale-[1.08] hover:border-[#B8864A]/30 hover:text-[#B8864A] hover:shadow-xl"
+              >
+                <Facebook className="h-6 w-6" />
+              </a>
+              <a
+                href="#"
+                aria-label="Twitter"
+                className="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#E5E7EB] bg-white text-[#111827] shadow-lg transition-all duration-300 hover:scale-[1.08] hover:border-[#B8864A]/30 hover:text-[#B8864A] hover:shadow-xl"
+              >
+                <Twitter className="h-6 w-6" />
+              </a>
+            </div>
           </div>
 
-          <div className="space-y-3 rounded-[1.5rem] border border-[#111827]/8 bg-[#FAF7F2] p-5">
-            <p className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[#6B7280]">Contact</p>
-            <ul className="space-y-2.5 text-xs leading-6 text-[#1F2937]">
-              {phone ? <li className="flex items-center gap-2.5 rounded-2xl border border-[#111827]/8 bg-white px-3 py-2"><PhoneCall className="h-3.5 w-3.5 text-[#B8864A]" />{phone}</li> : null}
-              {email ? <li className="flex items-center gap-2.5 rounded-2xl border border-[#111827]/8 bg-white px-3 py-2"><Mail className="h-3.5 w-3.5 text-[#B8864A]" />{email}</li> : null}
-              <li className="flex items-center gap-2.5 rounded-2xl border border-[#111827]/8 bg-white px-3 py-2"><MapPin className="h-3.5 w-3.5 text-[#B8864A]" />Boutique appointments and design consultations</li>
-            </ul>
+          <div className="space-y-6">
+            <h3 className="text-sm font-bold uppercase tracking-[0.32em] text-[#111827]">Quick Links</h3>
+            <nav className="space-y-4">
+              {[
+                { href: "/", label: "Home" },
+                { href: "/catalog", label: "Design Catalog" },
+                { href: "/book", label: "Book Appointment" },
+                { href: "/dashboard", label: "Customer Dashboard" },
+              ].map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="block text-body text-[#6B7280] transition-all duration-300 hover:text-[#B8864A]"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
           </div>
 
-          <div className="space-y-4">
-            <p className="section-label">Explore</p>
-            <div className="space-y-3 text-sm font-semibold text-[#1F2937]">
-              <Link href="/book" className="block rounded-[1rem] border border-[#111827]/8 bg-[#FAF7F2] px-4 py-3 transition hover:-translate-y-0.5 hover:border-[#B8864A]/40 hover:bg-white">Book a consultation</Link>
-              <Link href="/catalog" className="block rounded-[1rem] border border-[#111827]/8 bg-[#FAF7F2] px-4 py-3 transition hover:-translate-y-0.5 hover:border-[#B8864A]/40 hover:bg-white">Browse the collection</Link>
-              <a href="https://www.instagram.com/rmsladiesboutique" target="_blank" rel="noreferrer" className="flex items-center justify-between rounded-[1rem] border border-[#111827]/8 bg-[#FAF7F2] px-4 py-3 transition hover:-translate-y-0.5 hover:border-pink-300 hover:bg-white"><span className="flex items-center gap-3"><ArrowRight className="h-4 w-4 text-pink-600" /> Instagram</span><span className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-[#6B7280]">Follow</span></a>
+          <div className="space-y-6">
+            <h3 className="text-sm font-bold uppercase tracking-[0.32em] text-[#111827]">Contact</h3>
+            <div className="space-y-5">
+              <div className="flex items-start gap-4">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white border border-[#E5E7EB] text-[#B8864A] shadow-lg">
+                  <Phone className="h-6 w-6" />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#6B7280]">Phone</p>
+                  <a href={`tel:${contactPhone}`} className="text-body text-[#111827] hover:text-[#B8864A] transition-all duration-300">
+                    {contactPhone}
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white border border-[#E5E7EB] text-[#B8864A] shadow-lg">
+                  <Mail className="h-6 w-6" />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#6B7280]">Email</p>
+                  <a href={`mailto:${contactEmail}`} className="text-body text-[#111827] hover:text-[#B8864A] transition-all duration-300">
+                    {contactEmail}
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white border border-[#E5E7EB] text-[#B8864A] shadow-lg">
+                  <MapPin className="h-6 w-6" />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#6B7280]">Address</p>
+                  <p className="text-body text-[#111827]">{contactAddress}</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white border border-[#E5E7EB] text-[#B8864A] shadow-lg">
+                  <Clock className="h-6 w-6" />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#6B7280]">Hours</p>
+                  <p className="text-body text-[#111827]">Mon - Sat, 10am - 7pm</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="mt-8 flex flex-col items-center justify-between gap-3 rounded-[1.25rem] border border-[#111827]/8 bg-white px-4 py-4 text-center text-[0.72rem] uppercase tracking-[0.28em] text-[#6B7280] md:flex-row md:text-left">
-          <span>An exclusive bespoke fashion experience designed for exceptional women.</span>
-          <span>RMS Ladies Boutique • Luxury tailoring and styling</span>
+        <div className="pt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-small text-[#6B7280]">
+            © {new Date().getFullYear()} {siteTitle}. All rights reserved.
+          </p>
+          <div className="flex gap-6">
+            <Link href="/" className="text-small text-[#6B7280] hover:text-[#B8864A] transition-all duration-300">
+              Privacy Policy
+            </Link>
+            <Link href="/" className="text-small text-[#6B7280] hover:text-[#B8864A] transition-all duration-300">
+              Terms of Service
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
