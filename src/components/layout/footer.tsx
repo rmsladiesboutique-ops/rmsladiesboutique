@@ -17,7 +17,7 @@ export function Footer({ siteTitle, tagline, phone, email }: FooterProps) {
   }
 
   return (
-    <footer className="border-t border-slate-200/70 bg-[#f8f3ec] text-slate-950 dark:border-white/10 dark:bg-slate-950 dark:text-slate-100">
+    <footer className="border-t border-[#e7d8ca] bg-[linear-gradient(180deg,#fffaf6_0%,#f6efe8_100%)] text-slate-950 dark:border-white/10 dark:bg-slate-950 dark:text-slate-100">
       <div className="mx-auto max-w-7xl px-4 py-16 md:px-8">
         <div className="grid gap-12 lg:grid-cols-[1.5fr_1fr_1fr]">
           <div className="space-y-4">

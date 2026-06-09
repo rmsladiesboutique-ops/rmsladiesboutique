@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getDesigns, getFeaturedDesigns, getNewArrivals, getSettings } from "@/lib/services";
 import { formatCurrency } from "@/lib/utils";
+import { FloatingGlow, LuxuryHeroSlider, LuxuryParallax, LuxuryReveal, LuxuryStats } from "@/components/shared/luxury-boutique";
 
 function InstagramLogo(props: SVGProps<SVGSVGElement>) {
   return (
@@ -42,14 +43,6 @@ export default async function Home() {
   const catalogPath = "/catalog";
   const heroPrimaryCta = homepage?.heroPrimaryCta ?? "Book your appointment";
   const heroSecondaryCta = homepage?.heroSecondaryCta ?? "View our collection";
-  const heroStats = homepage?.heroStats?.length
-    ? homepage.heroStats
-    : [
-        { value: "120+", label: "Private consultations" },
-        { value: "4.9/5", label: "Client satisfaction" },
-        { value: "72h", label: "Studio response time" },
-      ];
-
   const latestDesigns = latestArrivals.length ? latestArrivals : designs.slice(0, 12);
   const featuredDesigns = (featuredArrivals.length ? featuredArrivals : latestDesigns).slice(0, 4);
   const bridalDesigns = designs.filter((design) => (design.category ?? "").toLowerCase().includes("bridal")).slice(0, 4);
@@ -59,8 +52,6 @@ export default async function Home() {
     return category.includes("occasion") || category.includes("occasional");
   }).slice(0, 4);
   const trendingDesigns = featuredDesigns.length ? featuredDesigns : latestDesigns.slice(0, 4);
-  const showcaseDesign = featuredDesigns[0] || bridalDesigns[0] || latestGallery[0];
-  const heroImageUrl = homepage?.heroImageUrl || showcaseDesign?.imageUrl || "/images/bridal-wear.jpeg";
   const newArrivals = latestDesigns.slice(0, 4);
   const deliveryNote = homepage?.deliveryNote ?? "Finished in our women-only boutique studio with attentive tailoring and premium local delivery.";
 
@@ -73,10 +64,12 @@ export default async function Home() {
   return (
     <main className="mx-auto max-w-7xl px-4 pb-20 pt-10 md:px-8 md:pt-14">
       <section className="hero-grid hero-spotlight relative overflow-hidden rounded-[2.5rem] p-6 shadow-[0_40px_120px_-60px_rgba(15,12,10,0.18)] dark:shadow-[0_40px_120px_-60px_rgba(0,0,0,0.55)] sm:p-8 lg:p-10">
+        <LuxuryParallax />
+        <FloatingGlow />
         <div className="absolute inset-x-0 top-0 h-64 bg-[radial-gradient(circle_at_top_right,_rgba(255,214,179,0.35),_transparent_45%)]" aria-hidden="true" />
         <div className="absolute -left-24 top-16 h-64 w-64 rounded-full bg-amber-200/40 blur-3xl mix-blend-screen" aria-hidden="true" />
         <div className="grid gap-10 lg:grid-cols-[1.3fr_0.9fr]">
-          <div className="relative z-10 mx-auto w-full max-w-xl rounded-[2rem] border border-slate-200/70 bg-white/95 p-6 shadow-[0_30px_70px_-26px_rgba(15,12,10,0.12)] dark:border-white/10 dark:bg-slate-950/95 dark:text-white sm:max-w-none sm:p-8 lg:p-10 text-left">
+          <div className="relative z-10 mx-auto w-full max-w-xl rounded-[2rem] border border-white/30 bg-white/90 p-6 shadow-[0_30px_70px_-26px_rgba(15,12,10,0.12)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/90 dark:text-white sm:max-w-none sm:p-8 lg:p-10 text-left">
             <div className="flex flex-wrap items-center gap-3 sm:justify-start">
               <Badge className="fashion-chip">{heroBadge}</Badge>
             </div>
@@ -100,29 +93,18 @@ export default async function Home() {
               <Link href="/book" className="w-full"><Button size="lg" className="w-full">{heroPrimaryCta}</Button></Link>
               <Link href={catalogPath} className="w-full"><Button size="lg" variant="outline" className="w-full">{heroSecondaryCta}</Button></Link>
             </div>
-            <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-              {heroStats.map((stat) => (
-                <div key={stat.value + stat.label} className="group min-h-[14rem] rounded-[1.75rem] border border-slate-200/70 bg-slate-50 p-5 text-center transition hover:-translate-y-1 hover:border-amber-200 hover:bg-amber-50 dark:border-white/10 dark:bg-slate-900/85 dark:text-white">
-                  <p className="text-lg font-semibold text-slate-950 dark:text-white">{stat.value}</p>
-                  <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">{stat.label}</p>
-                </div>
-              ))}
-            </div>
+            <LuxuryStats />
           </div>
           <div className="relative">
-            <div className="hero-image-panel relative overflow-hidden rounded-[2rem] border border-slate-200/70 bg-slate-50 shadow-[0_40px_110px_-60px_rgba(15,12,10,0.18)] dark:border-white/10 dark:bg-slate-900/80">
-              <Image src={heroImageUrl} alt="Premium fashion tailoring" fill className="object-cover" priority />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 p-6">
-                <p className="text-sm uppercase tracking-[0.3em] text-white/75">Boutique craftsmanship</p>
-                <p className="mt-2 text-xl font-semibold text-white">New collections refreshed for every season</p>
-              </div>
+            <LuxuryHeroSlider />
+            <div className="mt-4 rounded-[1.5rem] border border-white/25 bg-white/80 p-4 text-sm text-slate-700 shadow-[0_18px_45px_-32px_rgba(15,12,10,0.35)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/85 dark:text-slate-200">
+              A refined boutique experience with cinematic visuals, premium styling, and calm, elevated service.
             </div>
           </div>
         </div>
       </section>
 
-      <section className="mt-14">
+      <LuxuryReveal className="mt-14">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="text-sm uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">Latest designs</p>
@@ -173,10 +155,10 @@ export default async function Home() {
             );
           })}
         </div>
-      </section>
+      </LuxuryReveal>
 
       {featuredDesigns.length > 0 ? (
-        <section className="mt-14">
+        <LuxuryReveal className="mt-14">
           <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="text-sm uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">Featured collection</p>
@@ -205,7 +187,7 @@ export default async function Home() {
               </Card>
             ))}
           </div>
-        </section>
+        </LuxuryReveal>
       ) : null}
 
       <section className="mt-14 grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
