@@ -9,7 +9,8 @@ interface FloatingWhatsAppProps {
 
 export function FloatingWhatsApp({ phoneNumber }: FloatingWhatsAppProps) {
   const handleClick = () => {
-    const url = `https://wa.me/8296028147;
+    const digits = phoneNumber.replace(/\D/g, '');
+    const url = `https://wa.me/${digits}`;
     window.open(url, '_blank');
   };
 
