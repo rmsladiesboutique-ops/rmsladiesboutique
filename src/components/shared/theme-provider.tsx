@@ -6,9 +6,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   return (
     <NextThemeProvider
       attribute="class"
-      defaultTheme="system"
-      enableSystem
-      enableColorScheme
+      defaultTheme="light"
+      forcedTheme="light"
+      enableSystem={false}
+      enableColorScheme={false}
       disableTransitionOnChange
       storageKey="rms-theme"
     >
