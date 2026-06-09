@@ -1,3 +1,4 @@
+import type { SVGProps } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, MapPin, PhoneCall, Sparkles, Star, Heart } from "lucide-react";
@@ -7,7 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { getDesigns, getFeaturedDesigns, getNewArrivals, getSettings } from "@/lib/services";
 import { formatCurrency } from "@/lib/utils";
 
-function InstagramLogo(props: any) {
+function InstagramLogo(props: SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
       <defs>
@@ -36,8 +37,8 @@ export default async function Home() {
   const homepage = settings?.homepageContent;
   const heroBadge = homepage?.heroBadge ?? "RMS LADIES BOUTIQUE";
   const heroHeadline = homepage?.heroHeadline ?? "Luxury women’s tailoring designed for modern confidence.";
-  const heroDescription = homepage?.heroDescription ?? "Book a private fitting, explore elevated collections, and experience couture-level finishes made for real life.";
-  const heroExtra = homepage?.heroExtra ?? "Studio appointments, expert measurements, and polished wardrobe edits delivered with care.";
+  const heroDescription = homepage?.heroDescription ?? "Book a private fitting, explore elevated collections, and enjoy polished tailoring designed for real life.";
+  const heroExtra = homepage?.heroExtra ?? "Private appointments, expert guidance, and a calm boutique experience from first fitting to final delivery.";
   const catalogPath = "/catalog";
   const heroPrimaryCta = homepage?.heroPrimaryCta ?? "Book your appointment";
   const heroSecondaryCta = homepage?.heroSecondaryCta ?? "View our collection";
@@ -50,27 +51,18 @@ export default async function Home() {
       ];
 
   const latestDesigns = latestArrivals.length ? latestArrivals : designs.slice(0, 12);
-  const featuredDesigns = featuredArrivals.length ? featuredArrivals : latestDesigns.slice(0, 6);
+  const featuredDesigns = (featuredArrivals.length ? featuredArrivals : latestDesigns).slice(0, 4);
   const bridalDesigns = designs.filter((design) => (design.category ?? "").toLowerCase().includes("bridal")).slice(0, 4);
-  const latestGallery = latestDesigns.slice(0, 6);
+  const latestGallery = latestDesigns.slice(0, 4);
   const occasionDesigns = designs.filter((design) => {
     const category = (design.category ?? "").toLowerCase();
     return category.includes("occasion") || category.includes("occasional");
   }).slice(0, 4);
-  const trendingDesigns = featuredDesigns.length ? featuredDesigns.slice(0, 4) : latestDesigns.slice(0, 4);
+  const trendingDesigns = featuredDesigns.length ? featuredDesigns : latestDesigns.slice(0, 4);
   const showcaseDesign = featuredDesigns[0] || bridalDesigns[0] || latestGallery[0];
   const heroImageUrl = homepage?.heroImageUrl || showcaseDesign?.imageUrl || "/images/bridal-wear.jpeg";
-  const newArrivals = latestDesigns.slice(0, 8);
+  const newArrivals = latestDesigns.slice(0, 4);
   const deliveryNote = homepage?.deliveryNote ?? "Finished in our women-only boutique studio with attentive tailoring and premium local delivery.";
-  const featureSectionTitle = homepage?.featureSectionTitle ?? "Refined collections, custom service.";
-  const featureSectionSubtitle = homepage?.featureSectionSubtitle ?? "Our boutique wardrobe pieces balance polished craftsmanship with elevated everyday ease.";
-  const featureCards = homepage?.featureCards?.length
-    ? homepage.featureCards
-    : [
-        { title: "Tailored to your shape", description: "Every piece is shaped around your measurements and movement." },
-        { title: "Luxurious finishings", description: "Hand-pressed seams, couture details, and premium textures." },
-        { title: "Calm boutique experience", description: "Private appointments with attentive styling support." },
-      ];
 
   const contactPhone = settings?.phoneNumber ?? "8951432847";
   const whatsappNumber = contactPhone.replace(/\D/g, "") || "918951432847";
@@ -84,22 +76,25 @@ export default async function Home() {
         <div className="absolute inset-x-0 top-0 h-64 bg-[radial-gradient(circle_at_top_right,_rgba(255,214,179,0.35),_transparent_45%)]" aria-hidden="true" />
         <div className="absolute -left-24 top-16 h-64 w-64 rounded-full bg-amber-200/40 blur-3xl mix-blend-screen" aria-hidden="true" />
         <div className="grid gap-10 lg:grid-cols-[1.3fr_0.9fr]">
-          <div className="relative z-10 mx-auto w-full max-w-xl rounded-[2rem] border border-slate-200/70 bg-white/95 p-6 shadow-[0_30px_70px_-26px_rgba(15,12,10,0.12)] dark:border-white/10 dark:bg-slate-950/95 dark:text-white sm:max-w-none sm:p-8 lg:p-10 text-center sm:text-left">
-            <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-start">
+          <div className="relative z-10 mx-auto w-full max-w-xl rounded-[2rem] border border-slate-200/70 bg-white/95 p-6 shadow-[0_30px_70px_-26px_rgba(15,12,10,0.12)] dark:border-white/10 dark:bg-slate-950/95 dark:text-white sm:max-w-none sm:p-8 lg:p-10 text-left">
+            <div className="flex flex-wrap items-center gap-3 sm:justify-start">
               <Badge className="fashion-chip">{heroBadge}</Badge>
             </div>
             <h1 className="mt-6 text-4xl font-semibold leading-[1.02] tracking-[-0.03em] text-foreground sm:text-5xl md:text-6xl lg:text-7xl dark:text-white">
               {heroHeadline}
             </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-slate-700 sm:text-lg dark:text-slate-300">
+            <p className="mt-6 max-w-2xl text-base leading-8 text-slate-700 sm:text-lg dark:text-slate-300">
               {heroDescription}
             </p>
-            <p className="mx-auto mt-4 max-w-2xl text-base leading-8 text-slate-700 sm:text-lg dark:text-slate-300">
+            <p className="mt-4 max-w-2xl text-base leading-8 text-slate-700 sm:text-lg dark:text-slate-300">
               {heroExtra}
             </p>
-            <div className="mt-8 grid gap-3 rounded-[1.75rem] border border-amber-200/60 bg-amber-50/90 p-4 text-sm font-semibold uppercase tracking-[0.24em] text-amber-900 shadow-sm shadow-amber-200/20 dark:border-amber-300/20 dark:bg-amber-500/10 dark:text-amber-100 sm:grid-cols-[1fr_auto] sm:items-center">
-              <span>Free delivery within 5km range</span>
-              <span className="text-right text-[0.75rem] uppercase tracking-[0.32em]">{deliveryNote}</span>
+            <div className="mt-8 flex flex-wrap items-center gap-3 rounded-[1.5rem] border border-amber-200/70 bg-amber-50/90 p-4 shadow-sm shadow-amber-200/20 dark:border-amber-300/20 dark:bg-amber-500/10">
+              <span className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-amber-900 shadow-sm dark:bg-slate-950/80 dark:text-amber-100">
+                <MapPin className="h-3.5 w-3.5" />
+                Free delivery within 5 km
+              </span>
+              <p className="text-sm leading-6 text-slate-700 dark:text-slate-200">{deliveryNote}</p>
             </div>
             <div className="mt-8 grid gap-4 grid-cols-1 sm:grid-cols-2">
               <Link href="/book" className="w-full"><Button size="lg" className="w-full">{heroPrimaryCta}</Button></Link>

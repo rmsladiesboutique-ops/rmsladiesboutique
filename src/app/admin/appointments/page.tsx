@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { MessageCircleMore, PhoneCall } from "lucide-react";
 import { STATUS_STAGES, type AppointmentRecord, type StatusHistoryEntry } from "@/types/domain";
@@ -42,7 +42,7 @@ export default function AdminAppointmentsPage() {
 
   const router = useRouter();
 
-  const loadAppointments = async () => {
+  const loadAppointments = useCallback(async () => {
     try {
       const res = await fetch("/api/admin/appointments");
       if (!res.ok) {
@@ -59,14 +59,14 @@ export default function AdminAppointmentsPage() {
           }),
         ),
       );
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      console.error(error);
     }
-  };
+  }, [router]);
 
   useEffect(() => {
     loadAppointments();
-  }, [router]);
+  }, [loadAppointments]);
 
   const filtered = useMemo(() => rows.filter((r) => r.customerName.toLowerCase().includes(query.toLowerCase()) || r.phoneNumber.includes(query)), [rows, query]);
 

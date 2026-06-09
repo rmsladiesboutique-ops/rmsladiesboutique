@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import type { DesignItem } from "@/types/domain";
 import { Button } from "@/components/ui/button";
@@ -21,7 +22,7 @@ export default function AdminDesignsPage() {
 
   const router = useRouter();
 
-  const loadDesigns = async () => {
+  const loadDesigns = useCallback(async () => {
     try {
       const res = await fetch("/api/admin/designs");
       if (!res.ok) {
@@ -30,14 +31,14 @@ export default function AdminDesignsPage() {
       }
       const data = await res.json();
       setRows(data);
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      console.error(error);
     }
-  };
+  }, [router]);
 
   useEffect(() => {
     loadDesigns();
-  }, [router]);
+  }, [loadDesigns]);
 
   const cleanupUnuploaded = async () => {
     try {
@@ -334,7 +335,9 @@ export default function AdminDesignsPage() {
               <p className="mt-2 text-sm text-zinc-400">Paste a public image URL or upload a file to preview the design image before publishing.</p>
               <div className="mt-5 rounded-3xl border border-zinc-800 bg-zinc-900 p-4">
                 {imageUrl ? (
-                  <img src={imageUrl} alt="Design preview" className="h-72 w-full rounded-3xl object-cover" />
+                  <div className="relative h-72 w-full overflow-hidden rounded-3xl">
+                    <Image src={imageUrl} alt="Design preview" fill className="object-cover" />
+                  </div>
                 ) : (
                   <div className="grid h-72 place-items-center rounded-3xl border border-dashed border-zinc-700 bg-zinc-950 text-sm text-zinc-500">
                     Image preview will appear here
@@ -356,8 +359,8 @@ export default function AdminDesignsPage() {
           <div className="space-y-4">
             {rows.map((r) => (
               <div key={r.id} className="grid gap-4 rounded-[2rem] border border-zinc-800 bg-zinc-950/70 p-4 shadow-[0_20px_60px_-40px_rgba(0,0,0,0.7)] sm:grid-cols-[160px_minmax(0,1fr)]">
-                <div className="overflow-hidden rounded-[1.5rem] border border-zinc-800 bg-zinc-900">
-                  <img src={r.imageUrl} alt={r.title} className="h-40 w-full object-cover" />
+                <div className="relative h-40 w-full overflow-hidden rounded-[1.5rem] border border-zinc-800 bg-zinc-900">
+                  <Image src={r.imageUrl} alt={r.title} fill className="object-cover" />
                 </div>
                 <div className="grid gap-3">
                   <div className="flex flex-wrap items-center justify-between gap-3">

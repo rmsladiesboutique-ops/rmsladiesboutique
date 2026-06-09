@@ -53,7 +53,7 @@ export default async function ConfirmationPage({ params }: { params: { id: strin
               </div>
 
               <div className="space-y-3 rounded-lg border border-blue-300/20 bg-blue-300/5 p-4">
-                <h2 className="text-lg font-semibold text-zinc-100">What's Next?</h2>
+                <h2 className="text-lg font-semibold text-zinc-100">What&apos;s Next?</h2>
                 <p className="text-zinc-300 leading-relaxed">
                   Thank you for booking with <span className="font-semibold text-amber-300">RMS Ladies Boutique</span>! Our team will contact you shortly at <span className="font-semibold text-zinc-200">{booking.phoneNumber}</span> to confirm your appointment details and discuss any specific requirements or preferences you may have.
                 </p>

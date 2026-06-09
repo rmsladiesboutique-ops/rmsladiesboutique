@@ -72,7 +72,7 @@ export function CustomerLookup() {
       const data = await res.json();
       setError("");
       setRecord(data);
-    } catch (err) {
+    } catch {
       setError("An error occurred while fetching your appointment. Please try again.");
       setRecord(null);
     } finally {

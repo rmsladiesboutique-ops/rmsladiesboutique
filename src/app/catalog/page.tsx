@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { getDesigns, getNewArrivals, getSettings } from "@/lib/services";
 import { formatCurrency } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
+import { CardContent } from "@/components/ui/card";
 
 export const metadata: Metadata = {
   title: "Design Catalog | RMS LADIES BOUTIQUE",

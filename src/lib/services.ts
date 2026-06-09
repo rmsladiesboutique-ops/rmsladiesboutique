@@ -572,7 +572,10 @@ export async function cleanupUnuploadedDesigns() {
   const { data } = await supabase.from("designs").select("id, image_url");
   if (!data) return 0;
 
-  const idsToDelete = data.filter((d: any) => !d.image_url || d.image_url === "").map((d: any) => d.id);
+  type DesignImageRow = { id: string; image_url?: string | null };
+  const idsToDelete = (data as DesignImageRow[])
+    .filter((d) => !d.image_url || d.image_url === "")
+    .map((d) => d.id);
   if (idsToDelete.length === 0) return 0;
 
   await supabase.from("designs").delete().in("id", idsToDelete);
@@ -593,9 +596,9 @@ export async function normalizeDesignCategories() {
   if (!supabase) {
     let count = 0;
     for (const d of mockDesigns) {
-      const normalized = normalize(d.category as any);
+      const normalized = normalize(d.category);
       if (d.category !== normalized) {
-        d.category = normalized as any;
+        d.category = normalized;
         count++;
       }
     }
@@ -605,8 +608,10 @@ export async function normalizeDesignCategories() {
   const { data } = await supabase.from("designs").select("id, category");
   if (!data) return 0;
 
+  type DesignCategoryRow = { id: string; category?: string | null };
+
   let updated = 0;
-  for (const row of data) {
+  for (const row of data as DesignCategoryRow[]) {
     const id = row.id;
     const current = row.category ?? "";
     const normalized = normalize(current);

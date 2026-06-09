@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -53,7 +53,10 @@ export function BookingForm({ availableDates, availableDateSlots }: Props) {
   const customDesign = watch("customDesign");
   const selectedDate = watch("preferredDate");
   const selectedTime = watch("preferredTime");
-  const availableSlots = selectedDate ? availableDateSlots[selectedDate] ?? [] : [];
+  const availableSlots = useMemo(
+    () => (selectedDate ? availableDateSlots[selectedDate] ?? [] : []),
+    [availableDateSlots, selectedDate],
+  );
 
   useEffect(() => {
     if (selectedDate && selectedTime && !availableSlots.includes(selectedTime)) {

@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, ChevronRight, Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Menu, X } from "lucide-react";
 
 type NavLink = {
   href: string;
@@ -89,7 +88,7 @@ export function Navbar({ siteTitle, navLinks }: NavbarProps) {
       />
       <div
         id="mobile-nav"
-        className={`fixed right-4 top-24 z-50 w-[min(92vw,24rem)] max-h-[calc(100vh-6rem)] overflow-y-auto rounded-[2.5rem] border border-slate-200/70 bg-white/95 p-6 shadow-2xl backdrop-blur-2xl transition duration-300 dark:border-white/10 dark:bg-slate-950/95 md:hidden ${mobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}`}
+        className={`fixed inset-x-4 top-24 z-50 mx-auto w-full max-w-[24rem] max-h-[calc(100vh-6rem)] overflow-y-auto rounded-[2.5rem] border border-slate-200/70 bg-white/95 p-6 shadow-2xl backdrop-blur-2xl transition duration-300 dark:border-white/10 dark:bg-slate-950/95 md:hidden ${mobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}`}
         aria-hidden={!mobileMenuOpen}
       >
         <div className="space-y-4">
