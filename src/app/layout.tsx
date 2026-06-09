@@ -26,7 +26,7 @@ const sans = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "RMS LADIES BOUTIQUE | Women’s Couture Tailoring",
+  title: "RMS LADIES BOUTIQUE | Women's Couture Tailoring",
   description: "Luxury women-only tailoring with curated appointments, design catalog access, and order tracking.",
 };
 
@@ -39,19 +39,15 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning className={`${display.variable} ${sans.variable} h-full antialiased`}>
-      <body className="min-h-full bg-background text-foreground selection:bg-[#B8864A]/20 selection:text-foreground">
+      <body className="min-h-full bg-background text-foreground">
         <ThemeProvider>
           <ScrollProgress />
           <Navbar siteTitle={settings?.siteTitle} navLinks={settings?.homepageContent?.navLinks} />
           <PageTransition>{children}</PageTransition>
-          <Footer
-            siteTitle={settings?.siteTitle}
-            tagline={settings?.homepageContent?.footerTagline}
-            phone={settings?.homepageContent?.footerPhone ?? settings?.phoneNumber}
-            email={settings?.homepageContent?.footerEmail ?? settings?.contactEmail}
-          />
-          <div className="bg-background py-4 text-center text-[0.72rem] uppercase tracking-[0.24em] text-[#6B7280]">
-            This website was professionally developed by EGB Developers.
+          <Footer />
+          <div className="border-t border-[#E5E7EB]/50 bg-[#FAF7F2] py-4 text-center text-[0.7rem] uppercase tracking-[0.24em] text-[#6B7280]">
+            This website was professionally developed by{" "}
+            <span className="text-[#B8864A]">EGB Developers</span>.
           </div>
           <FloatingWhatsApp phoneNumber={settings?.phoneNumber || "971509715097"} />
           <BackToTop />

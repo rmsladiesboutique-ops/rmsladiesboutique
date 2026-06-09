@@ -20,9 +20,11 @@ export function Navbar({ siteTitle, navLinks }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname() ?? "";
+  const isHome = pathname === "/";
+  const heroMode = isHome && !scrolled;
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 32);
+    const onScroll = () => setScrolled(window.scrollY > 48);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -41,18 +43,33 @@ export function Navbar({ siteTitle, navLinks }: NavbarProps) {
 
   const navItems = navLinks?.length ? navLinks : defaultNavItems;
 
+  const headerClass = scrolled
+    ? "glass-nav shadow-[0_8px_32px_-12px_rgba(17,24,39,0.12)]"
+    : heroMode
+      ? "glass-nav-hero"
+      : "bg-transparent";
+
+  const linkClass = (active: boolean) => {
+    if (heroMode) {
+      return active
+        ? "text-[#D4AF37]"
+        : "text-white/80 hover:text-white";
+    }
+    return active
+      ? "text-[#B8864A]"
+      : "text-[#6B7280] hover:text-[#111827]";
+  };
+
+  const activeIndicator = heroMode ? "via-[#D4AF37]" : "via-[#B8864A]";
+
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "border-b border-[#B8864A]/10 bg-[#FAF7F2]/98 shadow-[0_24px_60px_-40px_rgba(17,24,39,0.15)] backdrop-blur-2xl"
-          : "bg-transparent"
-      }`}
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${headerClass}`}
     >
-      <div className="mx-auto flex h-24 max-w-7xl items-center justify-between px-6 md:px-10">
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 md:px-10 lg:px-16">
         <Link
           href="/"
-          className="flex items-center gap-4 transition hover:opacity-80"
+          className="group flex items-center gap-4 transition hover:opacity-90"
         >
           <Image
             src="/rms-logo.jpeg"
@@ -60,14 +77,23 @@ export function Navbar({ siteTitle, navLinks }: NavbarProps) {
             width={160}
             height={56}
             priority
-            className="h-14 w-auto rounded-3xl border border-[#E5E7EB] bg-white p-1 shadow-lg object-contain"
+            className={`h-12 w-auto rounded-2xl object-contain transition-all duration-300 sm:h-14 ${
+              heroMode
+                ? "border border-white/20 bg-white/10 p-1 backdrop-blur-md"
+                : "border border-[#E5E7EB] bg-white p-1 shadow-lg"
+            }`}
           />
           {siteTitle ? (
-            <span className="hidden text-base font-semibold tracking-[0.32em] text-[#111827] sm:inline uppercase">
+            <span
+              className={`hidden font-[family-name:var(--font-display)] text-sm font-semibold tracking-[0.28em] sm:inline uppercase ${
+                heroMode ? "text-white" : "text-[#111827]"
+              }`}
+            >
               {siteTitle}
             </span>
           ) : null}
         </Link>
+
         <nav
           className="hidden items-center gap-10 lg:flex"
           aria-label="Main navigation"
@@ -78,15 +104,11 @@ export function Navbar({ siteTitle, navLinks }: NavbarProps) {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`text-xs font-semibold uppercase tracking-[0.28em] transition-all duration-300 relative ${
-                  active
-                    ? "text-[#B8864A]"
-                    : "text-[#6B7280] hover:text-[#111827]"
-                }`}
+                className={`relative text-xs font-semibold uppercase tracking-[0.26em] transition-all duration-300 ${linkClass(active)}`}
               >
                 {item.label}
                 {active && (
-                  <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#B8864A] to-transparent" />
+                  <span className={`absolute -bottom-2 left-0 right-0 h-px bg-gradient-to-r from-transparent ${activeIndicator} to-transparent`} />
                 )}
               </Link>
             );
@@ -96,46 +118,46 @@ export function Navbar({ siteTitle, navLinks }: NavbarProps) {
         <div className="flex items-center gap-4">
           <Link
             href="/book"
-            className="hidden rounded-full bg-[#B8864A] px-8 py-3.5 text-xs font-semibold uppercase tracking-[0.24em] text-white shadow-[0_24px_50px_-20px_rgba(184,134,74,0.6)] transition-all duration-300 hover:scale-[1.03] hover:bg-[#9a6f3a] hover:shadow-[0_30px_60px_-20px_rgba(184,134,74,0.7)] md:inline-flex items-center"
+            className={`hidden items-center rounded-full px-7 py-3 text-xs font-semibold uppercase tracking-[0.22em] transition-all duration-300 hover:scale-[1.04] md:inline-flex ${
+              heroMode
+                ? "bg-[#D4AF37] text-[#111827] shadow-[0_8px_30px_-8px_rgba(212,175,55,0.6)] hover:bg-[#c9a430]"
+                : "bg-[#B8864A] text-white shadow-[0_18px_40px_-18px_rgba(184,134,74,0.55)] hover:bg-[#9a6f3a]"
+            }`}
           >
             Book Now
           </Link>
           <button
             type="button"
-            className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-[#E5E7EB] bg-white text-[#111827] shadow-xl transition-all duration-300 hover:scale-[1.05] hover:border-[#B8864A]/30 hover:shadow-2xl md:hidden"
+            className={`inline-flex h-11 w-11 items-center justify-center rounded-full border transition-all duration-300 hover:scale-[1.05] md:hidden ${
+              heroMode
+                ? "border-white/20 bg-white/10 text-white backdrop-blur-md hover:border-white/40"
+                : "border-[#E5E7EB] bg-white text-[#111827] shadow-lg hover:border-[#B8864A]/30"
+            }`}
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-nav"
             onClick={() => setMobileMenuOpen((current) => !current)}
           >
-            {mobileMenuOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
+            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
       </div>
 
       <div
-        className={`fixed inset-0 z-40 bg-[#111827]/60 backdrop-blur-sm transition-opacity duration-500 ${
-          mobileMenuOpen
-            ? "pointer-events-auto opacity-100"
-            : "pointer-events-none opacity-0"
+        className={`fixed inset-0 z-40 bg-[#111827]/70 backdrop-blur-sm transition-opacity duration-500 ${
+          mobileMenuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
         }`}
         aria-hidden={!mobileMenuOpen}
         onClick={() => setMobileMenuOpen(false)}
       />
       <div
         id="mobile-nav"
-        className={`fixed inset-x-6 top-28 z-50 mx-auto w-full max-w-[28rem] max-h-[calc(100vh-8rem)] overflow-y-auto rounded-[2.5rem] border border-[#E5E7EB] bg-[#FAF7F2] p-8 shadow-[0_40px_100px_-40px_rgba(17,24,39,0.3)] transition-all duration-500 md:hidden ${
-          mobileMenuOpen
-            ? "translate-y-0 opacity-100"
-            : "translate-y-8 opacity-0"
+        className={`fixed inset-x-5 top-24 z-50 mx-auto w-full max-w-sm max-h-[calc(100vh-7rem)] overflow-y-auto rounded-[2rem] glass-panel p-7 transition-all duration-500 md:hidden ${
+          mobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0 pointer-events-none"
         }`}
         aria-hidden={!mobileMenuOpen}
       >
-        <div className="space-y-5">
+        <div className="space-y-3">
           {navItems.map((item) => {
             const active = pathname === item.href;
             return (
@@ -143,10 +165,10 @@ export function Navbar({ siteTitle, navLinks }: NavbarProps) {
                 key={item.href}
                 href={item.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`block rounded-[1.75rem] border px-6 py-5 text-xs font-semibold uppercase tracking-[0.24em] transition-all duration-300 ${
+                className={`block rounded-2xl border px-5 py-4 text-xs font-semibold uppercase tracking-[0.22em] transition-all duration-300 ${
                   active
-                    ? "border-[#B8864A]/30 bg-[#111827] text-white shadow-[0_24px_45px_-20px_rgba(17,24,39,0.4)]"
-                    : "border-[#E5E7EB] bg-white text-[#111827] hover:bg-[#FAF7F2] hover:border-[#B8864A]/20"
+                    ? "border-[#B8864A]/30 bg-[#111827] text-white shadow-lg"
+                    : "border-[#E5E7EB] bg-white text-[#111827] hover:border-[#B8864A]/20 hover:bg-[#FAF7F2]"
                 }`}
               >
                 {item.label}
@@ -154,11 +176,11 @@ export function Navbar({ siteTitle, navLinks }: NavbarProps) {
             );
           })}
         </div>
-        <div className="mt-8">
+        <div className="mt-6">
           <Link
             href="/book"
             onClick={() => setMobileMenuOpen(false)}
-            className="inline-flex w-full items-center justify-center rounded-full bg-[#B8864A] px-8 py-4 text-xs font-semibold uppercase tracking-[0.24em] text-white shadow-[0_24px_50px_-20px_rgba(184,134,74,0.6)] transition-all duration-300 hover:scale-[1.03] hover:bg-[#9a6f3a]"
+            className="btn-primary flex w-full items-center justify-center text-xs py-4"
           >
             Book Now
           </Link>

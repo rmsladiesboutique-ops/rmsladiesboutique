@@ -19,38 +19,47 @@ export default async function TrackingPage({ params }: { params: Promise<{ custo
   const pageSubtitle = homepage?.trackingPageSubtitle ?? "Track your bespoke order from appointment through production and pickup with a clear, hand-finished status timeline.";
 
   return (
-    <main className="mx-auto max-w-4xl px-4 py-14 md:px-8">
-      <div className="glass-panel rounded-[2.5rem] border border-amber-200/20 p-6 md:p-8 lg:p-10">
-        <div className="grid gap-8">
-          <div className="space-y-4">
-            <p className="section-label">Live Journey</p>
-            <h1 className="text-4xl font-bold text-[#1F2937] md:text-5xl">{pageTitle}</h1>
-            <p className="max-w-2xl text-base leading-8 text-[#6B7280]">
-              {pageSubtitle}
-            </p>
-          </div>
-
-          <div className="rounded-[2rem] border border-[#111827]/8 bg-white p-6 shadow-sm">
-            <div className="flex flex-wrap items-center justify-between gap-4">
-              <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#B8864A]">Customer code</p>
-                <p className="mt-2 text-2xl font-bold text-[#1F2937]">{record.customerCode}</p>
-              </div>
-              <p className="rounded-full border border-[#111827]/10 bg-[#FAF7F2] px-4 py-2 text-sm font-semibold uppercase tracking-[0.22em] text-[#1F2937]">{record.status}</p>
+    <main className="min-h-screen bg-[#FAF7F2] pt-28 pb-20">
+      <div className="section-container max-w-4xl">
+        <div className="glass-panel rounded-[2rem] p-8 md:p-10 lg:p-12">
+          <div className="grid gap-8">
+            <div className="space-y-4">
+              <p className="section-label">Live Journey</p>
+              <h1 className="text-section-heading text-[#111827]">{pageTitle}</h1>
+              <div className="gold-line" />
+              <p className="max-w-2xl text-body text-[#6B7280]">{pageSubtitle}</p>
             </div>
-          </div>
 
-          <div className="rounded-[2rem] border border-[#111827]/8 bg-[#FAF7F2] p-6">
-            <TrackingPanel initial={record} />
-          </div>
+            <div className="rounded-2xl border border-[#E5E7EB] bg-white p-6 shadow-sm">
+              <div className="flex flex-wrap items-center justify-between gap-4">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#B8864A]">Customer code</p>
+                  <p className="mt-2 text-2xl font-bold text-[#1F2937]">{record.customerCode}</p>
+                </div>
+                <p className="rounded-full border border-[#B8864A]/20 bg-[#FAF7F2] px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#1F2937]">
+                  {record.status}
+                </p>
+              </div>
+            </div>
 
-          <div className="grid gap-3 sm:grid-cols-2">
-            <Link href="/dashboard" className="rounded-[1.75rem] border border-[#111827]/10 bg-[#111827] px-5 py-4 text-center text-sm font-semibold text-white transition hover:bg-[#1F2937]">
-              Visit Customer Dashboard
-            </Link>
-            <Link href="/status" className="rounded-[1.75rem] border border-[#B8864A]/40 bg-[#FAF7F2] px-5 py-4 text-center text-sm font-semibold text-[#1F2937] transition hover:bg-white">
-              Lookup another status code
-            </Link>
+            <div className="rounded-2xl border border-[#E5E7EB] bg-[#FAF7F2] p-6">
+              <TrackingPanel initial={record} />
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Link
+                href="/dashboard"
+                className="rounded-2xl bg-[#111827] px-5 py-4 text-center text-sm font-semibold uppercase tracking-[0.18em] text-white transition hover:bg-[#1F2937]"
+              >
+                Visit Customer Dashboard
+              </Link>
+              <Link
+                href="/status"
+                className="rounded-2xl border border-[#B8864A]/30 bg-white px-5 py-4 text-center text-sm font-semibold uppercase tracking-[0.18em] text-[#1F2937] transition hover:border-[#B8864A]/50 hover:bg-[#FAF7F2]"
+              >
+                Lookup another status code
+              </Link>
+            </div>
           </div>
         </div>
       </div>

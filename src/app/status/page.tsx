@@ -13,7 +13,7 @@ export default function PublicStatusPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [pageTitle, setPageTitle] = useState("Track Your Order");
-  const [pageDescription, setPageDescription] = useState("Enter your tracking code and instantly reveal your garment’s progress, production milestones, and delivery status.");
+  const [pageDescription, setPageDescription] = useState("Enter your tracking code and instantly reveal your garment's progress, production milestones, and delivery status.");
 
   useEffect(() => {
     (async () => {
@@ -50,37 +50,53 @@ export default function PublicStatusPage() {
   };
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-14 md:px-8">
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }} className="glass-panel rounded-[2.5rem] border border-amber-200/20 p-6 md:p-8 lg:p-10">
-        <div className="space-y-5">
-          <div>
-            <p className="section-label">Order Status</p>
-            <h1 className="mt-2 text-3xl font-bold text-[#1F2937] md:text-4xl">{pageTitle}</h1>
+    <main className="min-h-screen bg-[#FAF7F2] pt-28 pb-20">
+      <div className="section-container max-w-3xl">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="glass-panel rounded-[2rem] p-8 md:p-10 lg:p-12"
+        >
+          <div className="space-y-5">
+            <div>
+              <p className="section-label">Order Status</p>
+              <h1 className="text-section-heading mt-3 text-[#111827]">{pageTitle}</h1>
+              <div className="gold-line mt-5" />
+            </div>
+            <p className="text-body text-[#6B7280]">{pageDescription}</p>
           </div>
-          <p className="text-base leading-8 text-[#6B7280]">{pageDescription}</p>
-        </div>
 
-        <div className="mt-8 grid gap-3 sm:grid-cols-[1fr_auto]">
-          <Input
-            type="text"
-            inputMode="numeric"
-            maxLength={6}
-            autoComplete="one-time-code"
-            placeholder="Enter code"
-            value={code}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCode(e.target.value)}
-          />
-          <Button className="w-full sm:w-auto" onClick={lookup} disabled={loading || !code}>{loading ? "Looking up…" : "Check Status"}</Button>
-        </div>
-        <p className="mt-3 text-sm text-[#6B7280]">Use the 6-digit booking code from your confirmation message to view progress and delivery updates.</p>
-        {error ? <div className="mt-4 rounded-[1.5rem] border border-rose-300/25 bg-rose-50/60 p-4 text-sm text-rose-500">{error}</div> : null}
-
-        {record ? (
-          <div className="mt-8 rounded-[2rem] border border-[#111827]/8 bg-white p-6 shadow-sm">
-            <TrackingPanel initial={record} />
+          <div className="mt-8 grid gap-3 sm:grid-cols-[1fr_auto]">
+            <Input
+              type="text"
+              inputMode="numeric"
+              maxLength={6}
+              autoComplete="one-time-code"
+              placeholder="Enter 6-digit code"
+              value={code}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCode(e.target.value)}
+            />
+            <Button className="w-full sm:w-auto" onClick={lookup} disabled={loading || !code}>
+              {loading ? "Looking up…" : "Check Status"}
+            </Button>
           </div>
-        ) : null}
-      </motion.div>
+          <p className="mt-4 text-small text-[#6B7280]">
+            Use the 6-digit booking code from your confirmation message to view progress and delivery updates.
+          </p>
+          {error ? (
+            <div className="mt-5 rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-600">
+              {error}
+            </div>
+          ) : null}
+
+          {record ? (
+            <div className="mt-8 rounded-2xl border border-[#E5E7EB] bg-white p-6 shadow-sm">
+              <TrackingPanel initial={record} />
+            </div>
+          ) : null}
+        </motion.div>
+      </div>
     </main>
   );
 }

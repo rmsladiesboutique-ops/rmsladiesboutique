@@ -19,55 +19,71 @@ export default async function BookPage() {
     acc[rule.date] = rule.slots;
     return acc;
   }, {});
-  const pageTitle = homepage?.bookPageTitle ?? "Book your women’s couture fitting";
+  const pageTitle = homepage?.bookPageTitle ?? "Book your women's couture fitting";
   const pageDescription = homepage?.bookPageSubtitle ?? "Select an available slot, share your measurements, and describe your custom design preferences. Our atelier crafts every appointment for the modern woman.";
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-14 md:px-8">
-      <section className="glass-panel rounded-[2.5rem] border border-amber-200/20 p-6 md:p-8 lg:p-10">
-        <div className="grid gap-8 lg:grid-cols-[1.08fr_minmax(320px,420px)]">
-          <div className="space-y-6">
-            <p className="section-label">Appointments</p>
-            <h1 className="text-hero text-[#111827]">{pageTitle}</h1>
-            <p className="max-w-2xl text-base leading-8 text-[#6B7280]">
-              {pageDescription}
-            </p>
-            <div className="grid gap-4 rounded-[2rem] border border-[#111827]/8 bg-white p-5 shadow-sm">
-              <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#B8864A]">Booking status</p>
-              <p className="text-sm leading-7 text-[#6B7280]">Open slots reflect the latest studio schedule. Holiday mode pauses booking automatically until the atelier reopens.</p>
-              {availability.holidayMode ? (
-                <p className="text-sm text-[#6B7280]">For holiday requests, contact {settings?.contactEmail ?? "the studio"}.</p>
+    <main className="min-h-screen bg-[#FAF7F2] pt-28 pb-20">
+      <div className="section-container">
+        <section className="glass-panel rounded-[2rem] p-8 md:p-10 lg:p-12">
+          <div className="grid gap-10 lg:grid-cols-[1.05fr_minmax(320px,440px)]">
+            <div className="space-y-7">
+              <div>
+                <p className="section-label">Appointments</p>
+                <h1 className="text-section-heading mt-3 text-[#111827]">{pageTitle}</h1>
+                <div className="gold-line mt-5" />
+              </div>
+              <p className="max-w-xl text-body text-[#6B7280]">{pageDescription}</p>
+
+              <div className="rounded-2xl border border-[#E5E7EB] bg-white p-6 shadow-sm">
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#B8864A]">Booking status</p>
+                <p className="mt-3 text-small text-[#6B7280]">
+                  Open slots reflect the latest studio schedule. Holiday mode pauses booking automatically until the atelier reopens.
+                </p>
+                {availability.holidayMode ? (
+                  <p className="mt-3 text-small text-[#6B7280]">
+                    For holiday requests, contact {settings?.contactEmail ?? "the studio"}.
+                  </p>
+                ) : null}
+              </div>
+
+              {!availability.holidayMode && open.length > 0 ? (
+                <div className="rounded-2xl border border-[#E5E7EB] bg-[#FAF7F2] p-6">
+                  <p className="text-sm font-semibold text-[#1F2937]">Next available dates</p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {open.slice(0, 6).map((slot) => (
+                      <span
+                        key={slot.date}
+                        className="rounded-full border border-[#B8864A]/20 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#1F2937]"
+                      >
+                        {slot.date}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               ) : null}
             </div>
-            {!availability.holidayMode && open.length > 0 ? (
-              <div className="rounded-[2rem] border border-[#111827]/8 bg-[#FAF7F2] p-5 text-sm">
-                <p className="font-semibold text-[#1F2937]">Next available dates</p>
-                <div className="mt-3 flex flex-wrap gap-2 text-xs font-medium uppercase tracking-[0.22em] text-[#6B7280]">
-                  {open.slice(0, 6).map((slot) => (
-                    <span key={slot.date} className="rounded-full border border-[#111827]/10 bg-white px-3 py-2 text-[#1F2937]">{slot.date}</span>
-                  ))}
-                </div>
-              </div>
-            ) : null}
-          </div>
 
-          <Card className="mt-0 border border-[#111827]/8 bg-white shadow-sm">
-            <CardContent className="space-y-6">
-              {availability.holidayMode ? (
-                <div className="rounded-[1.75rem] border border-amber-300/30 bg-amber-50/80 p-6 text-amber-800">
-                  <p className="text-sm font-semibold uppercase tracking-[0.24em]">Holiday mode active</p>
-                  <p className="mt-2 text-sm">Booking is temporarily paused while the atelier rests and prepares the next collection.</p>
-                    </div>
-              ) : (
-                <BookingForm
-                  availableDates={open.map((o) => o.date)}
-                  availableDateSlots={availableDateSlots}
-                />
-              )}
-            </CardContent>
-          </Card>
-        </div>
-      </section>
+            <Card className="border-[#E5E7EB]/80 bg-white">
+              <CardContent className="space-y-6">
+                {availability.holidayMode ? (
+                  <div className="rounded-2xl border border-[#B8864A]/25 bg-[#FAF7F2] p-6">
+                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#B8864A]">Holiday mode active</p>
+                    <p className="mt-3 text-small text-[#6B7280]">
+                      Booking is temporarily paused while the atelier rests and prepares the next collection.
+                    </p>
+                  </div>
+                ) : (
+                  <BookingForm
+                    availableDates={open.map((o) => o.date)}
+                    availableDateSlots={availableDateSlots}
+                  />
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+      </div>
     </main>
   );
 }

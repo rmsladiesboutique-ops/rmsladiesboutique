@@ -19,37 +19,34 @@ export default async function CatalogPage() {
 
   const heroImage = "/images/bridal-wear.jpeg";
 
+  const productCardClass = "product-card group block";
+
   return (
-    <main className="pt-32">
-      {/* Catalog Hero Section */}
-      <section className="px-6 sm:px-10 lg:px-16 pb-24">
-        <div className="mx-auto max-w-7xl">
-          <LuxuryReveal className="relative">
-            <div className="rounded-[2.5rem] overflow-hidden border border-[#B8864A]/10 bg-white shadow-[0_40px_100px_-40px_rgba(17,24,39,0.15)]">
-              <div className="min-h-[320px] sm:min-h-[420px] relative overflow-hidden">
-                <Image src={heroImage} alt="Editorial fashion collection" fill className="object-cover" priority />
-                <div className="absolute inset-0 image-overlay-bottom" />
-                <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between p-8 md:p-12">
-                  <span className="inline-flex items-center gap-2 rounded-full border border-[#B8864A]/30 bg-[#FAF7F2]/95 px-6 py-2.5 text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-[#B8864A] backdrop-blur-md">
-                    <Sparkles className="h-4 w-4" />
-                    Full Collection
-                  </span>
-                </div>
-              </div>
-              <div className="absolute bottom-0 left-0 right-0 p-10 sm:p-14 lg:p-16 text-white">
-                <p className="text-[0.75rem] font-semibold uppercase tracking-[0.32em] text-[#B8864A]">Discover Our Designs</p>
-                <p className="mt-5 text-card-heading max-w-2xl">
-                  Explore our curated collection of luxury pieces, from bridal couture to everyday elegance.
-                </p>
-              </div>
-            </div>
+    <main className="bg-[#FAF7F2]">
+      {/* Catalog Hero */}
+      <section className="relative flex min-h-[70vh] items-end overflow-hidden pt-20">
+        <div className="absolute inset-0">
+          <Image src={heroImage} alt="Editorial fashion collection" fill className="object-cover" priority sizes="100vw" />
+          <div className="image-overlay-hero" />
+        </div>
+        <div className="relative z-10 section-container pb-16 pt-32">
+          <LuxuryReveal>
+            <span className="fashion-chip border-white/20 bg-white/10 text-[#D4AF37] backdrop-blur-md">
+              <Sparkles className="mr-2 inline h-4 w-4" />
+              Full Collection
+            </span>
+            <p className="section-label mt-6 text-[#D4AF37]">Discover Our Designs</p>
+            <h1 className="text-section-heading mt-4 max-w-2xl text-white">
+              Explore our curated collection of luxury pieces, from bridal couture to everyday elegance.
+            </h1>
+            <div className="gold-line mt-6 bg-gradient-to-r from-[#D4AF37] to-[#B8864A]" />
           </LuxuryReveal>
         </div>
       </section>
 
       {/* Latest Designs */}
-      <section className="px-6 sm:px-10 lg:px-16 pb-24">
-        <div className="mx-auto max-w-7xl">
+      <section className="section-padding pt-16">
+        <div className="section-container">
           <LuxuryReveal className="mb-12">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
               <div className="space-y-3">
@@ -64,14 +61,14 @@ export default async function CatalogPage() {
               <LuxuryReveal key={design.id} className="mt-0">
                 <Link
                   href={`/catalog/${design.id}`}
-                  className="group overflow-hidden rounded-[2rem] border border-[#E5E7EB] bg-white shadow-[0_30px_70px_-40px_rgba(17,24,39,0.15)] transition-all duration-500 hover:-translate-y-3 hover:scale-[1.02] hover:shadow-[0_40px_90px_-40px_rgba(17,24,39,0.25)]"
+                  className={productCardClass}
                 >
-                  <div className="relative aspect-[4/5] w-full overflow-hidden">
+                  <div className="product-card-image">
                     <Image
                       src={design.imageUrl}
                       alt={design.title}
                       fill
-                      className="object-cover transition-all duration-700 group-hover:scale-110"
+                      className="object-cover"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                       priority
                     />
@@ -94,8 +91,8 @@ export default async function CatalogPage() {
 
       {/* Bridal Wear */}
       {bridalWear.length > 0 && (
-        <section className="px-6 sm:px-10 lg:px-16 pb-24">
-          <div className="mx-auto max-w-7xl">
+        <section className="section-padding pt-0">
+          <div className="section-container">
             <LuxuryReveal className="mb-12">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                 <div className="space-y-3">
@@ -110,14 +107,14 @@ export default async function CatalogPage() {
                 <LuxuryReveal key={design.id} className="mt-0">
                   <Link
                     href={`/catalog/${design.id}`}
-                    className="group overflow-hidden rounded-[2rem] border border-[#E5E7EB] bg-white shadow-[0_30px_70px_-40px_rgba(17,24,39,0.15)] transition-all duration-500 hover:-translate-y-3 hover:scale-[1.02] hover:shadow-[0_40px_90px_-40px_rgba(17,24,39,0.25)]"
-                  >
-                    <div className="relative aspect-[4/5] w-full overflow-hidden">
-                      <Image
-                        src={design.imageUrl}
-                        alt={design.title}
-                        fill
-                        className="object-cover transition-all duration-700 group-hover:scale-110"
+                    className={productCardClass}
+                >
+                  <div className="product-card-image">
+                    <Image
+                      src={design.imageUrl}
+                      alt={design.title}
+                      fill
+                      className="object-cover"
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                         loading="lazy"
                       />
@@ -141,8 +138,8 @@ export default async function CatalogPage() {
 
       {/* Occasion Wear */}
       {occasionWear.length > 0 && (
-        <section className="px-6 sm:px-10 lg:px-16 pb-24">
-          <div className="mx-auto max-w-7xl">
+        <section className="section-padding pt-0">
+          <div className="section-container">
             <LuxuryReveal className="mb-12">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                 <div className="space-y-3">
@@ -157,14 +154,14 @@ export default async function CatalogPage() {
                 <LuxuryReveal key={design.id} className="mt-0">
                   <Link
                     href={`/catalog/${design.id}`}
-                    className="group overflow-hidden rounded-[2rem] border border-[#E5E7EB] bg-white shadow-[0_30px_70px_-40px_rgba(17,24,39,0.15)] transition-all duration-500 hover:-translate-y-3 hover:scale-[1.02] hover:shadow-[0_40px_90px_-40px_rgba(17,24,39,0.25)]"
-                  >
-                    <div className="relative aspect-[4/5] w-full overflow-hidden">
-                      <Image
-                        src={design.imageUrl}
-                        alt={design.title}
-                        fill
-                        className="object-cover transition-all duration-700 group-hover:scale-110"
+                    className={productCardClass}
+                >
+                  <div className="product-card-image">
+                    <Image
+                      src={design.imageUrl}
+                      alt={design.title}
+                      fill
+                      className="object-cover"
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                         loading="lazy"
                       />
@@ -188,8 +185,8 @@ export default async function CatalogPage() {
 
       {/* Signature Pieces */}
       {signaturePieces.length > 0 && (
-        <section className="px-6 sm:px-10 lg:px-16 pb-24">
-          <div className="mx-auto max-w-7xl">
+        <section className="section-padding pt-0">
+          <div className="section-container">
             <LuxuryReveal className="mb-12">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                 <div className="space-y-3">
@@ -204,14 +201,14 @@ export default async function CatalogPage() {
                 <LuxuryReveal key={design.id} className="mt-0">
                   <Link
                     href={`/catalog/${design.id}`}
-                    className="group overflow-hidden rounded-[2rem] border border-[#E5E7EB] bg-white shadow-[0_30px_70px_-40px_rgba(17,24,39,0.15)] transition-all duration-500 hover:-translate-y-3 hover:scale-[1.02] hover:shadow-[0_40px_90px_-40px_rgba(17,24,39,0.25)]"
-                  >
-                    <div className="relative aspect-[4/5] w-full overflow-hidden">
-                      <Image
-                        src={design.imageUrl}
-                        alt={design.title}
-                        fill
-                        className="object-cover transition-all duration-700 group-hover:scale-110"
+                    className={productCardClass}
+                >
+                  <div className="product-card-image">
+                    <Image
+                      src={design.imageUrl}
+                      alt={design.title}
+                      fill
+                      className="object-cover"
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                         loading="lazy"
                       />
@@ -235,8 +232,8 @@ export default async function CatalogPage() {
 
       {/* Full Collection Grid */}
       {hasDesigns && (
-        <section className="px-6 sm:px-10 lg:px-16 pb-24">
-          <div className="mx-auto max-w-7xl">
+        <section className="section-padding pt-0">
+          <div className="section-container">
             <LuxuryReveal className="mb-12">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                 <div className="space-y-3">
@@ -251,14 +248,14 @@ export default async function CatalogPage() {
                 <LuxuryReveal key={design.id} className="mt-0">
                   <Link
                     href={`/catalog/${design.id}`}
-                    className="group overflow-hidden rounded-[2rem] border border-[#E5E7EB] bg-white shadow-[0_30px_70px_-40px_rgba(17,24,39,0.15)] transition-all duration-500 hover:-translate-y-3 hover:scale-[1.02] hover:shadow-[0_40px_90px_-40px_rgba(17,24,39,0.25)]"
-                  >
-                    <div className="relative aspect-[4/5] w-full overflow-hidden">
-                      <Image
-                        src={design.imageUrl}
-                        alt={design.title}
-                        fill
-                        className="object-cover transition-all duration-700 group-hover:scale-110"
+                    className={productCardClass}
+                >
+                  <div className="product-card-image">
+                    <Image
+                      src={design.imageUrl}
+                      alt={design.title}
+                      fill
+                      className="object-cover"
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                         loading="lazy"
                       />
@@ -282,8 +279,8 @@ export default async function CatalogPage() {
 
       {/* Bottom CTA */}
       {hasDesigns && (
-        <section className="px-6 sm:px-10 lg:px-16 pb-32 pt-12">
-          <div className="mx-auto max-w-7xl">
+        <section className="section-container pb-28 pt-8">
+          <div>
             <LuxuryReveal className="mt-0">
               <div className="rounded-[2.5rem] border border-[#B8864A]/10 bg-[#FAF7F2] p-10 sm:p-16 lg:p-20 shadow-[0_40px_100px_-40px_rgba(17,24,39,0.15)]">
                 <div className="grid gap-12 lg:grid-cols-[1.1fr_1.2fr] items-center">

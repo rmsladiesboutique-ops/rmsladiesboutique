@@ -15,10 +15,10 @@ export function FloatingWhatsApp({ phoneNumber }: FloatingWhatsAppProps) {
 
   return (
     <motion.button
-      whileHover={{ scale: 1.1 }}
+      whileHover={{ scale: 1.1, y: -2 }}
       whileTap={{ scale: 0.95 }}
       onClick={handleClick}
-      className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-[#25D366]/40"
+      className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_8px_30px_-8px_rgba(37,211,102,0.6)] ring-4 ring-[#25D366]/20"
       aria-label="Contact via WhatsApp"
     >
       <MessageCircle className="h-7 w-7" />
