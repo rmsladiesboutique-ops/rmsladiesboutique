@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 
 export const dynamic = "force-dynamic";
 
@@ -54,6 +53,42 @@ export default function AdminAvailabilityPage() {
   const rules = availability?.rules ?? [];
   const holidayMode = availability?.holidayMode ?? false;
 
+  const saveAvailabilityState = async (nextAvailability: AvailabilityPayload) => {
+    const previousAvailability = availability;
+    setAvailability(nextAvailability);
+    setSaving(true);
+    setError(null);
+
+    try {
+      const res = await fetch("/api/admin/availability", {
+        method: "PATCH",
+        credentials: "include",
+        cache: "no-store",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(nextAvailability),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        setAvailability(previousAvailability);
+        setError(data?.error || "Unable to save availability");
+        return;
+      }
+
+      const data = await res.json().catch(() => null);
+      if (data?.availability) {
+        setAvailability(data.availability);
+      } else if (data) {
+        setAvailability(data);
+      }
+    } catch (err) {
+      setAvailability(previousAvailability);
+      setError((err as Error)?.message || "Unable to save availability");
+    } finally {
+      setSaving(false);
+    }
+  };
+
   const handleToggleRule = async (id: string) => {
     if (!availability) return;
 
@@ -103,42 +138,6 @@ export default function AdminAvailabilityPage() {
     await saveAvailabilityState(nextAvailability);
   };
 
-  const saveAvailabilityState = async (nextAvailability: AvailabilityPayload) => {
-    const previousAvailability = availability;
-    setAvailability(nextAvailability);
-    setSaving(true);
-    setError(null);
-
-    try {
-      const res = await fetch("/api/admin/availability", {
-        method: "PATCH",
-        credentials: "include",
-        cache: "no-store",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(nextAvailability),
-      });
-
-      if (!res.ok) {
-        const data = await res.json().catch(() => null);
-        setAvailability(previousAvailability);
-        setError(data?.error || "Unable to save availability");
-        return;
-      }
-
-      const data = await res.json().catch(() => null);
-      if (data?.availability) {
-        setAvailability(data.availability);
-      } else if (data) {
-        setAvailability(data);
-      }
-    } catch (err) {
-      setAvailability(previousAvailability);
-      setError((err as Error)?.message || "Unable to save availability");
-    } finally {
-      setSaving(false);
-    }
-  };
-
   const handleSave = async () => {
     if (!availability) return;
     await saveAvailabilityState(availability);
@@ -184,107 +183,128 @@ export default function AdminAvailabilityPage() {
   };
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-16 md:px-8">
-      <Card>
-        <CardContent className="space-y-6">
-          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div>
-              <h1 className="text-2xl font-semibold">Availability Management</h1>
-              <p className="text-sm text-zinc-400">Customers only see open slots from this configuration.</p>
+    <div className="admin-page">
+      <div className="admin-panel space-y-6">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div className="space-y-2">
+            <p className="section-label">Scheduling</p>
+            <h1 className="text-section-heading text-[#111827]">Availability Management</h1>
+            <p className="text-small text-[#6B7280]">Customers only see open slots from this configuration.</p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <Button variant="outline" onClick={handleToggleHoliday} disabled={loading || !availability}>
+              {holidayMode ? "Disable" : "Enable"} Holiday Mode
+            </Button>
+            <Button onClick={handleSave} disabled={loading || saving || !availability}>
+              {saving ? "Saving..." : "Save changes"}
+            </Button>
+          </div>
+        </div>
+
+        {error ? (
+          <p className="rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">{error}</p>
+        ) : null}
+
+        {loading ? (
+          <p className="text-small text-[#6B7280]">Loading availability...</p>
+        ) : (
+          <div className="space-y-6">
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="admin-stat-card">
+                <p className="text-sm font-semibold text-[#111827]">Holiday Mode</p>
+                <p className="mt-2 text-small text-[#6B7280]">
+                  {holidayMode
+                    ? "Holiday mode is on. Booking is paused across the studio."
+                    : "Holiday mode is off. Customers can book open slot dates."}
+                </p>
+              </div>
+              <div className="admin-stat-card">
+                <p className="text-sm font-semibold text-[#111827]">Rule count</p>
+                <p className="mt-2 text-small text-[#6B7280]">
+                  {rules.length} date{rules.length === 1 ? "" : "s"} configured.
+                </p>
+              </div>
             </div>
-            <div className="grid gap-3 sm:flex sm:items-center sm:justify-end">
-              <Button variant="outline" onClick={handleToggleHoliday} disabled={loading || !availability}>
-                {holidayMode ? "Disable" : "Enable"} Holiday Mode
-              </Button>
-              <Button onClick={handleSave} disabled={loading || saving || !availability}>
-                {saving ? "Saving..." : "Save changes"}
-              </Button>
+
+            <div className="space-y-3">
+              {rules.length === 0 ? (
+                <div className="rounded-2xl border border-dashed border-[#E5E7EB] bg-[#FAF7F2] p-5 text-sm text-[#6B7280]">
+                  No availability rules found. Add dates and slots to open booking days.
+                </div>
+              ) : (
+                rules.map((rule) => (
+                  <div
+                    key={rule.id}
+                    className="flex flex-col gap-3 rounded-2xl border border-[#E5E7EB] bg-[#FAF7F2] p-4 sm:flex-row sm:items-center sm:justify-between"
+                  >
+                    <div>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <p className="font-semibold text-[#111827]">{rule.date}</p>
+                        <span
+                          className={`rounded-full px-2.5 py-1 text-xs font-semibold ${
+                            rule.isBlocked
+                              ? "bg-rose-100 text-rose-700"
+                              : "bg-emerald-100 text-emerald-700"
+                          }`}
+                        >
+                          {rule.isBlocked ? "Blocked" : "Open"}
+                        </span>
+                      </div>
+                      <p className="mt-1 text-small text-[#6B7280]">
+                        {rule.slots.length ? rule.slots.join(", ") : "No slots configured"}
+                      </p>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <Button type="button" size="sm" variant="outline" onClick={() => handleToggleRule(rule.id)}>
+                        {rule.isBlocked ? "Unblock" : "Block"}
+                      </Button>
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="ghost"
+                        className="text-rose-600 hover:bg-rose-50"
+                        onClick={() => handleDeleteRule(rule.id)}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+
+            <div className="rounded-2xl border border-[#E5E7EB] bg-white p-5">
+              <h2 className="text-card-heading text-[#111827]">Add new date</h2>
+              <div className="mt-4 grid gap-4 md:grid-cols-2">
+                <label className="space-y-2 text-sm text-[#6B7280]">
+                  Date
+                  <input
+                    type="date"
+                    value={newDate}
+                    onChange={(event) => setNewDate(event.target.value)}
+                    className="admin-select"
+                  />
+                </label>
+                <label className="space-y-2 text-sm text-[#6B7280]">
+                  Slots (comma separated)
+                  <input
+                    type="text"
+                    placeholder="10:00, 12:00, 14:00"
+                    value={newSlots}
+                    onChange={(event) => setNewSlots(event.target.value)}
+                    className="admin-select"
+                  />
+                </label>
+              </div>
+              <div className="mt-4">
+                <Button variant="outline" onClick={handleAddRule} disabled={!newDate.trim()}>
+                  Add date
+                </Button>
+              </div>
             </div>
           </div>
-
-          {error ? <p className="rounded-lg border border-red-400/20 bg-red-500/10 p-4 text-sm text-red-700">{error}</p> : null}
-          {loading ? (
-            <p className="text-sm text-zinc-400">Loading availability...</p>
-          ) : (
-            <div className="space-y-4">
-              <div className="grid gap-4 md:grid-cols-[1fr_1fr]">
-                <div className="rounded-xl border border-zinc-800 bg-zinc-950/40 p-4">
-                  <p className="text-sm font-medium">Holiday Mode</p>
-                  <p className="mt-2 text-sm text-zinc-400">{holidayMode ? "Holiday mode is on. Booking is paused across the studio." : "Holiday mode is off. Customers can book open slot dates."}</p>
-                </div>
-                <div className="rounded-xl border border-zinc-800 bg-zinc-950/40 p-4">
-                  <p className="text-sm font-medium">Rule count</p>
-                  <p className="mt-2 text-sm text-zinc-400">{rules.length} date{rules.length === 1 ? "" : "s"} configured.</p>
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                {rules.length === 0 ? (
-                  <div className="rounded-xl border border-dashed border-zinc-700 p-5 text-sm text-zinc-400">No availability rules found. Add dates and slots to open booking days.</div>
-                ) : (
-                  rules.map((rule) => (
-                    <div key={rule.id} className="flex flex-col gap-3 rounded-md border border-zinc-800 p-4 sm:flex-row sm:items-center sm:justify-between">
-                      <div>
-                        <div className="flex flex-wrap items-center gap-2">
-                          <p className="font-medium">{rule.date}</p>
-                          <span className={`rounded-full px-2 py-1 text-xs font-semibold ${rule.isBlocked ? "bg-red-500/10 text-red-200" : "bg-emerald-500/10 text-emerald-200"}`}>
-                            {rule.isBlocked ? "Blocked" : "Open"}
-                          </span>
-                        </div>
-                        <p className="mt-1 text-sm text-zinc-400">{rule.slots.length ? rule.slots.join(", ") : "No slots configured"}</p>
-                      </div>
-                      <div className="flex flex-wrap items-center gap-2">
-                        <Button type="button" size="sm" variant="outline" onClick={() => handleToggleRule(rule.id)}>
-                          {rule.isBlocked ? "Unblock" : "Block"}
-                        </Button>
-                        <Button
-                          type="button"
-                          size="sm"
-                          variant="ghost"
-                          className="border border-red-500/40 text-red-200 hover:border-red-400/60 hover:bg-red-500/10"
-                          onClick={() => handleDeleteRule(rule.id)}
-                        >
-                          Delete
-                        </Button>
-                      </div>
-                    </div>
-                  ))
-                )}
-              </div>
-
-              <div className="rounded-xl border border-zinc-800 p-5">
-                <h2 className="text-lg font-semibold">Add new date</h2>
-                <div className="mt-4 grid gap-3 md:grid-cols-2">
-                  <label className="space-y-2 text-sm text-zinc-400">
-                    Date
-                    <input
-                      type="date"
-                      value={newDate}
-                      onChange={(event) => setNewDate(event.target.value)}
-                      className="w-full rounded-xl border border-zinc-800 bg-zinc-950/40 px-4 py-3 text-white outline-none focus:border-amber-300"
-                    />
-                  </label>
-                  <label className="space-y-2 text-sm text-zinc-400">
-                    Slots (comma separated)
-                    <input
-                      type="text"
-                      placeholder="10:00, 12:00, 14:00"
-                      value={newSlots}
-                      onChange={(event) => setNewSlots(event.target.value)}
-                      className="w-full rounded-xl border border-zinc-800 bg-zinc-950/40 px-4 py-3 text-white outline-none focus:border-amber-300"
-                    />
-                  </label>
-                </div>
-                <div className="mt-4">
-                  <Button variant="outline" onClick={handleAddRule} disabled={!newDate.trim()}>
-                    Add date
-                  </Button>
-                </div>
-              </div>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-    </main>
+        )}
+      </div>
+    </div>
   );
 }

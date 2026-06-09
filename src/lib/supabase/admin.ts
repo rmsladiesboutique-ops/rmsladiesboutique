@@ -3,12 +3,12 @@ import type { Database } from "@/types/supabase";
 
 export function createServiceRoleClient() {
   const url = process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL;
-  let serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY;
 
-  // Fallback to the public service role env name only for local testing.
-  // This is not recommended in production because the service role key must remain secret.
-  if (!serviceKey) {
-    serviceKey = process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY;
+  if (!serviceKey && process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY) {
+    console.warn(
+      "[supabase/admin] Using NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY for server writes. Set SUPABASE_SERVICE_ROLE_KEY in Vercel for production.",
+    );
   }
 
   if (!url || !serviceKey) {

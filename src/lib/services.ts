@@ -302,14 +302,17 @@ export async function getAppointmentById(id: string) {
 
 export async function getAppointments() {
   const supabase = createServiceRoleClient();
-  if (!supabase) return mockAppointments;
+  if (!supabase) {
+    console.error("Supabase admin client not available for getAppointments.");
+    return [];
+  }
 
   const { data, error } = await supabase.from("appointments").select("*").order("created_at", { ascending: false });
   if (error) {
     console.error("Supabase getAppointments error:", error);
-    return mockAppointments;
+    return [];
   }
-  if (!data) return mockAppointments;
+  if (!data) return [];
 
   return data.map((a) => ({
     id: a.id,
@@ -430,15 +433,35 @@ export async function deleteAvailabilityRule(id: string) {
 
 export async function getSettings(): Promise<AppSettings | null> {
   const supabase = createServiceRoleClient();
-  if (!supabase) return null;
+  if (!supabase) {
+    return {
+      siteTitle: "RMS Boutique",
+      phoneNumber: "8951432847",
+      contactEmail: "rmsladiesboutique@gmail.com",
+      whatsappTemplate: "",
+      logoUrl: "",
+      statusStages: [],
+      homepageContent: undefined,
+    };
+  }
 
   const { data } = await supabase.from("app_settings").select("*").maybeSingle();
-  if (!data) return null;
+  if (!data) {
+    return {
+      siteTitle: "RMS Boutique",
+      phoneNumber: "8951432847",
+      contactEmail: "rmsladiesboutique@gmail.com",
+      whatsappTemplate: "",
+      logoUrl: "",
+      statusStages: [],
+      homepageContent: undefined,
+    };
+  }
 
   return {
-    siteTitle: data.site_title ?? "",
-    phoneNumber: data.phone_number ?? "",
-    contactEmail: data.contact_email ?? "",
+    siteTitle: data.site_title ?? "RMS Boutique",
+    phoneNumber: data.phone_number ?? "8951432847",
+    contactEmail: data.contact_email ?? "rmsladiesboutique@gmail.com",
     whatsappTemplate: data.whatsapp_template ?? "",
     logoUrl: data.logo_url ?? "",
     statusStages: (data.status_stages as string[]) ?? [],

@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { MessageCircleMore, PhoneCall } from "lucide-react";
 import { STATUS_STAGES, type AppointmentRecord, type StatusHistoryEntry } from "@/types/domain";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
 export const dynamic = "force-dynamic";
@@ -17,8 +16,7 @@ type StatusDraft = {
   customValue: string;
 };
 
-const actionLinkClass =
-  "inline-flex items-center justify-center gap-2 rounded-md border border-amber-500/50 px-3 py-2 text-xs font-medium text-amber-100 transition-all hover:bg-amber-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/70";
+const actionLinkClass = "admin-action-link";
 
 function getWhatsAppUrl(phoneNumber: string, customerName: string) {
   const digits = phoneNumber.replace(/\D/g, "");
@@ -158,32 +156,31 @@ export default function AdminAppointmentsPage() {
   };
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-16 md:px-8">
-      <Card>
-        <CardContent className="space-y-6">
+    <div className="admin-page">
+      <div className="admin-panel space-y-6">
           <div className="grid gap-4 xl:grid-cols-[1fr_auto] xl:items-center">
             <div className="space-y-3">
-              <p className="text-sm uppercase tracking-[0.24em] text-amber-400">Appointments</p>
+              <p className="section-label">Appointments</p>
               <div className="flex flex-wrap items-center gap-3">
-                <h1 className="text-3xl font-semibold">Customer bookings</h1>
-                <span className="rounded-full bg-zinc-900 px-3 py-1 text-sm text-zinc-300">{filtered.length} matching</span>
-                <span className="rounded-full bg-zinc-900 px-3 py-1 text-sm text-zinc-300">{rows.length} total</span>
+                <h1 className="text-section-heading text-[#111827]">Customer bookings</h1>
+                <span className="rounded-full border border-[#E5E7EB] bg-[#FAF7F2] px-3 py-1 text-sm text-[#6B7280]">{filtered.length} matching</span>
+                <span className="rounded-full border border-[#B8864A]/20 bg-[#B8864A]/10 px-3 py-1 text-sm text-[#B8864A]">{rows.length} total</span>
               </div>
-              <p className="text-sm text-zinc-400">Search, update status, and manage bookings with one tap.</p>
+              <p className="text-small text-[#6B7280]">Search, update status, and manage bookings with one tap.</p>
             </div>
             <Input placeholder="Search customer or phone" className="w-full max-w-xs" value={query} onChange={(e) => setQuery(e.target.value)} />
           </div>
 
-          <div className="hidden sm:block overflow-x-auto rounded-3xl border border-zinc-800 bg-zinc-950/60 p-3">
-            <table className="w-full min-w-[720px] text-left text-sm">
-              <thead className="text-zinc-400">
+          <div className="admin-table-wrap hidden sm:block">
+            <table className="admin-table">
+              <thead>
                 <tr>
                   <th className="p-2">Customer</th><th className="p-2">Phone</th><th className="p-2">Type</th><th className="p-2">Date</th><th className="p-2">Status</th><th className="p-2">Admin Note</th><th className="p-2">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {filtered.map((r) => (
-                  <tr key={r.id} className="border-t border-zinc-800">
+                  <tr key={r.id}>
                     <td className="p-2">{r.customerName}</td>
                     <td className="p-2">{r.phoneNumber}</td>
                     <td className="p-2">{r.clothingType}</td>
@@ -191,7 +188,7 @@ export default function AdminAppointmentsPage() {
                     <td className="p-2">
                       <div className="space-y-2">
                         <select
-                          className="w-full rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 outline-none transition focus:border-amber-500"
+                          className="admin-select"
                           value={statusDrafts[r.id]?.value ?? r.status}
                           onChange={(e) =>
                             setStatusDrafts((prev) => ({
@@ -261,31 +258,31 @@ export default function AdminAppointmentsPage() {
               </tbody>
             </table>
             {filtered.length === 0 ? (
-              <div className="mt-4 rounded-3xl border border-dashed border-zinc-700 bg-black/10 p-6 text-center text-sm text-zinc-400">No appointments match your search. Adjust the query or refresh the page.</div>
+              <div className="mt-4 rounded-2xl border border-dashed border-[#E5E7EB] bg-[#FAF7F2] p-6 text-center text-sm text-[#6B7280]">No appointments match your search. Adjust the query or refresh the page.</div>
             ) : null}
           </div>
 
           {/* Mobile card list */}
           <div className="block sm:hidden space-y-3">
             {filtered.length === 0 ? (
-              <div className="rounded-3xl border border-dashed border-zinc-700 bg-black/10 p-6 text-center text-sm text-zinc-400">
+              <div className="rounded-2xl border border-dashed border-[#E5E7EB] bg-[#FAF7F2] p-6 text-center text-sm text-[#6B7280]">
                 No appointments available. Try another search or add bookings through the public form.
               </div>
             ) : null}
             {filtered.map((r) => (
-              <div key={r.id} className="rounded-3xl border border-zinc-800 bg-zinc-950/90 p-4 shadow-sm shadow-black/20">
+              <div key={r.id} className="admin-mobile-card">
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <div className="font-medium">{r.customerName}</div>
-                    <div className="text-sm text-zinc-400">{r.phoneNumber} • {r.preferredDate}</div>
-                    <div className="mt-2 text-sm text-zinc-200">{r.clothingType}</div>
+                    <div className="font-semibold text-[#111827]">{r.customerName}</div>
+                    <div className="text-sm text-[#6B7280]">{r.phoneNumber} • {r.preferredDate}</div>
+                    <div className="mt-2 text-sm text-[#1F2937]">{r.clothingType}</div>
                   </div>
                 </div>
 
                 <div className="mt-3 space-y-3">
                   <div>
                     <select
-                      className="w-full rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 outline-none transition focus:border-amber-500"
+                      className="admin-select"
                       value={statusDrafts[r.id]?.value ?? r.status}
                       onChange={(e) =>
                         setStatusDrafts((prev) => ({
@@ -343,10 +340,10 @@ export default function AdminAppointmentsPage() {
           </div>
           {historyOpen ? (
             <div className="fixed inset-0 z-50 flex items-center justify-center">
-              <div className="absolute inset-0 bg-black/60" onClick={() => setHistoryOpen(false)} />
-              <div className="relative w-[min(800px,95%)] max-h-[80vh] overflow-auto rounded-md bg-zinc-950 p-6 shadow-lg">
+              <div className="absolute inset-0 bg-[#111827]/60 backdrop-blur-sm" onClick={() => setHistoryOpen(false)} />
+              <div className="relative w-[min(800px,95%)] max-h-[80vh] overflow-auto rounded-2xl bg-white p-6 shadow-2xl">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-medium">Status History</h3>
+                  <h3 className="text-card-heading text-[#111827]">Status History</h3>
                   <Button size="sm" variant="ghost" onClick={() => setHistoryOpen(false)}>Close</Button>
                 </div>
 
@@ -354,15 +351,15 @@ export default function AdminAppointmentsPage() {
                   {historyLoading ? (
                     <div>Loading…</div>
                   ) : historyEntries.length === 0 ? (
-                    <div className="text-zinc-400">No history available.</div>
+                    <div className="text-[#6B7280]">No history available.</div>
                   ) : (
                     historyEntries.map((h) => (
-                      <div key={h.id} className="rounded-md border border-zinc-800 p-3">
-                        <div className="flex items-center justify-between text-sm text-zinc-300">
-                          <div className="font-medium">{h.status}</div>
-                          <div className="text-zinc-500">{new Date(h.createdAt).toLocaleString()}</div>
+                      <div key={h.id} className="rounded-xl border border-[#E5E7EB] bg-[#FAF7F2] p-4">
+                        <div className="flex items-center justify-between text-sm">
+                          <div className="font-semibold text-[#111827]">{h.status}</div>
+                          <div className="text-[#6B7280]">{new Date(h.createdAt).toLocaleString()}</div>
                         </div>
-                        {h.adminNotes ? <div className="mt-2 text-sm text-zinc-400">Note: {h.adminNotes}</div> : null}
+                        {h.adminNotes ? <div className="mt-2 text-sm text-[#6B7280]">Note: {h.adminNotes}</div> : null}
                       </div>
                     ))
                   )}
@@ -370,8 +367,7 @@ export default function AdminAppointmentsPage() {
               </div>
             </div>
           ) : null}
-        </CardContent>
-      </Card>
-    </main>
+      </div>
+    </div>
   );
 }

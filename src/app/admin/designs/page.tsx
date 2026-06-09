@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import type { DesignItem } from "@/types/domain";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
@@ -228,13 +227,13 @@ export default function AdminDesignsPage() {
   };
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-16 md:px-8">
-      <Card>
-        <CardContent className="space-y-8">
+    <div className="admin-page">
+      <div className="admin-panel space-y-8">
           <div className="grid gap-4 xl:grid-cols-[1.2fr_0.8fr] xl:items-start">
             <div className="space-y-3">
               <p className="text-sm uppercase tracking-[0.24em] text-amber-400">Catalog control</p>
-              <h1 className="text-3xl font-semibold">Design Management</h1>
+              <p className="section-label">Catalog</p>
+              <h1 className="text-section-heading text-[#111827]">Design Management</h1>
               <p className="max-w-2xl text-sm text-zinc-400">
                 Add new studio pieces, update pricing, mark featured designs, and keep the customer catalog polished.
               </p>
@@ -421,8 +420,7 @@ export default function AdminDesignsPage() {
               </div>
             ))}
           </div>
-        </CardContent>
-      </Card>
-    </main>
+      </div>
+    </div>
   );
 }

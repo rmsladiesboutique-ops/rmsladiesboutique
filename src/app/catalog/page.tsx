@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { getDesigns } from "@/lib/services";
 import { formatCurrency } from "@/lib/utils";
 
+export const dynamic = "force-dynamic";
+
 export default async function CatalogPage() {
   const designs = await getDesigns();
   const latestDesigns = designs.slice(0, 4);

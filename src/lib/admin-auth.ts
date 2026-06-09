@@ -1,50 +1,58 @@
-import { createHash } from "crypto";
+import { createHash, timingSafeEqual } from "crypto";
+import { DUMMY_PASSWORD_HASH, verifyPassword } from "@/lib/password";
 
-export const ADMIN_USERNAME = "admin";
-const ADMIN_PASSWORD_SHA256 = "7676aaafb027c825bd9abab78b234070e702752f625b752e55e55b48e607e358";
 export const ADMIN_SESSION_COOKIE = "rms_admin_session";
-const SESSION_TTL_SECONDS = 60 * 60 * 12;
+const SESSION_TTL_SECONDS = 60 * 60 * 8;
+
+/** @deprecated Legacy SHA-256 hash — migrate to ADMIN_PASSWORD_HASH (scrypt). */
+const LEGACY_PASSWORD_SHA256 = "7676aaafb027c825bd9abab78b234070e702752f625b752e55e55b48e607e358";
 
 type AdminSessionPayload = {
   id: string;
   exp: number;
+  iat: number;
+  v: number;
 };
 
-function getSessionSecret() {
-  return process.env.SUPABASE_SERVICE_ROLE_KEY ?? "rms-admin-session-secret-change-me";
+const SESSION_VERSION = 2;
+
+function getAdminUsername() {
+  return (process.env.ADMIN_USERNAME ?? "admin").trim().toLowerCase();
+}
+
+function getPasswordHash(): string | null {
+  const hash = process.env.ADMIN_PASSWORD_HASH?.trim();
+  return hash && hash.length > 0 ? hash : null;
+}
+
+function getSessionSecret(): string {
+  const secret = process.env.ADMIN_SESSION_SECRET?.trim();
+
+  if (secret && secret.length >= 32) {
+    return secret;
+  }
+
+  if (process.env.NODE_ENV === "production") {
+    throw new Error(
+      "ADMIN_SESSION_SECRET must be set in production (minimum 32 characters). Generate with: openssl rand -base64 48",
+    );
+  }
+
+  console.warn(
+    "[admin-auth] ADMIN_SESSION_SECRET is not set. Using insecure development fallback. Set ADMIN_SESSION_SECRET before deploying.",
+  );
+  return "rms-dev-session-secret-do-not-use-in-production-32chars";
 }
 
 function toBase64Url(bytes: Uint8Array) {
-  if (typeof Buffer !== "undefined") {
-    const base64 = Buffer.from(bytes).toString("base64");
-    return base64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/u, "");
-  }
-
-  let binary = "";
-  bytes.forEach((byte) => {
-    binary += String.fromCharCode(byte);
-  });
-
-  return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/u, "");
+  const base64 = Buffer.from(bytes).toString("base64");
+  return base64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/u, "");
 }
 
 function fromBase64Url(value: string) {
   const base64 = value.replace(/-/g, "+").replace(/_/g, "/");
   const padded = base64.padEnd(Math.ceil(base64.length / 4) * 4, "=");
-
-  if (typeof Buffer !== "undefined") {
-    const buf = Buffer.from(padded, "base64");
-    return new Uint8Array(buf);
-  }
-
-  const binary = atob(padded);
-  const bytes = new Uint8Array(binary.length);
-
-  for (let index = 0; index < binary.length; index += 1) {
-    bytes[index] = binary.charCodeAt(index);
-  }
-
-  return bytes;
+  return new Uint8Array(Buffer.from(padded, "base64"));
 }
 
 async function importSessionKey() {
@@ -57,7 +65,7 @@ async function importSessionKey() {
   );
 }
 
-async function sha256Hex(value: string) {
+async function legacySha256Hex(value: string) {
   if (typeof crypto?.subtle !== "undefined") {
     const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value));
     return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("");
@@ -66,18 +74,57 @@ async function sha256Hex(value: string) {
   return createHash("sha256").update(value, "utf8").digest("hex");
 }
 
+function safeCompareHex(a: string, b: string) {
+  try {
+    const bufA = Buffer.from(a, "hex");
+    const bufB = Buffer.from(b, "hex");
+    if (bufA.length !== bufB.length) {
+      return false;
+    }
+    return timingSafeEqual(bufA, bufB);
+  } catch {
+    return false;
+  }
+}
+
 export async function verifyAdminCredentials(id: string, password: string) {
-  if (id.trim().toLowerCase() !== ADMIN_USERNAME) {
+  const normalizedId = id.trim().toLowerCase();
+  const normalizedPassword = password;
+  const expectedUsername = getAdminUsername();
+  const passwordHash = getPasswordHash();
+  const usernameMatches = normalizedId === expectedUsername;
+
+  if (passwordHash) {
+    const hashToVerify = usernameMatches ? passwordHash : DUMMY_PASSWORD_HASH;
+    return verifyPassword(normalizedPassword, hashToVerify) && usernameMatches;
+  }
+
+  if (process.env.NODE_ENV === "production") {
+    console.error(
+      "[admin-auth] ADMIN_PASSWORD_HASH is not configured. Admin login is disabled in production.",
+    );
+    verifyPassword(normalizedPassword, DUMMY_PASSWORD_HASH);
     return false;
   }
 
-  return (await sha256Hex(password.trim())) === ADMIN_PASSWORD_SHA256;
+  console.warn(
+    "[admin-auth] Using deprecated SHA-256 password verification. Set ADMIN_PASSWORD_HASH (scrypt) immediately.",
+  );
+
+  const digest = await legacySha256Hex(normalizedPassword.trim());
+  const hashToCompare = usernameMatches ? LEGACY_PASSWORD_SHA256 : "0".repeat(LEGACY_PASSWORD_SHA256.length);
+  const passwordMatches = safeCompareHex(digest, hashToCompare);
+
+  return usernameMatches && passwordMatches;
 }
 
 export async function createAdminSessionToken(id: string) {
+  const now = Date.now();
   const payload: AdminSessionPayload = {
-    id,
-    exp: Date.now() + SESSION_TTL_SECONDS * 1000,
+    id: id.trim().toLowerCase(),
+    iat: now,
+    exp: now + SESSION_TTL_SECONDS * 1000,
+    v: SESSION_VERSION,
   };
 
   const payloadBytes = new TextEncoder().encode(JSON.stringify(payload));
@@ -112,7 +159,11 @@ export async function verifyAdminSessionToken(token?: string | null) {
     }
 
     const parsed = JSON.parse(new TextDecoder().decode(fromBase64Url(payloadToken))) as AdminSessionPayload;
-    return parsed.id === ADMIN_USERNAME && parsed.exp > Date.now();
+    return (
+      parsed.id === getAdminUsername() &&
+      parsed.exp > Date.now() &&
+      parsed.v === SESSION_VERSION
+    );
   } catch {
     return false;
   }
@@ -137,3 +188,5 @@ export function clearAdminCookieOptions() {
     maxAge: 0,
   };
 }
+
+export { getAdminUsername };

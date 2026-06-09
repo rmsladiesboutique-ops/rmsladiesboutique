@@ -1,18 +1,22 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { ADMIN_SESSION_COOKIE, verifyAdminSessionToken } from "@/lib/admin-auth";
+import { requireAdminSession } from "@/lib/require-admin";
 import { getMeasurementFields, upsertMeasurementField, deleteMeasurementField } from "@/lib/services";
 import type { MeasurementField } from "@/types/domain";
 
-export async function GET() {
+export async function GET(request: Request) {
+  const auth = await requireAdminSession(request);
+  if (!auth.authorized) {
+    return auth.response;
+  }
   return NextResponse.json(await getMeasurementFields());
 }
 
 const schema = z.object({ id: z.string().optional(), key: z.string().optional(), label: z.string(), type: z.string(), required: z.boolean().optional(), options: z.array(z.string()).optional(), order: z.number().optional() });
 
 export async function POST(request: Request) {
-  const sessionToken = request.headers.get("cookie")?.match(new RegExp(`${ADMIN_SESSION_COOKIE}=([^;]+)`))?.[1];
-  if (!(await verifyAdminSessionToken(sessionToken))) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const auth = await requireAdminSession(request);
+  if (!auth.authorized) return auth.response;
   const body = await request.json();
   const parsed = schema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "Invalid" }, { status: 400 });
@@ -30,8 +34,8 @@ export async function POST(request: Request) {
 }
 
 export async function DELETE(request: Request) {
-  const sessionToken = request.headers.get("cookie")?.match(new RegExp(`${ADMIN_SESSION_COOKIE}=([^;]+)`))?.[1];
-  if (!(await verifyAdminSessionToken(sessionToken))) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const auth = await requireAdminSession(request);
+  if (!auth.authorized) return auth.response;
   const { searchParams } = new URL(request.url);
   const id = searchParams.get("id");
   if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });

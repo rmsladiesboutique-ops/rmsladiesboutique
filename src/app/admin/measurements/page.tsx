@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import type { MeasurementField } from "@/types/domain";
 
@@ -37,7 +36,11 @@ export default function AdminMeasurementsPage() {
 
   const add = async () => {
     const payload = { label, type, required };
-    const res = await fetch("/api/admin/measurement-fields", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+    const res = await fetch("/api/admin/measurement-fields", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
     if (!res.ok) {
       if (res.status === 401) router.push("/admin/login");
       return;
@@ -53,7 +56,7 @@ export default function AdminMeasurementsPage() {
 
   const remove = async (id: string) => {
     try {
-      const res = await fetch(`/api/admin/measurement-fields?id=${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/admin/measurement-fields?id=${encodeURIComponent(id)}`, { method: "DELETE" });
       if (!res.ok) {
         if (res.status === 401) router.push("/admin/login");
         return;
@@ -65,39 +68,49 @@ export default function AdminMeasurementsPage() {
   };
 
   return (
-    <main className="mx-auto max-w-4xl px-4 py-12">
-      <Card>
-        <CardContent className="space-y-6">
-          <div>
-            <h1 className="text-2xl font-semibold">Measurement Fields</h1>
-            <p className="mt-2 text-sm text-zinc-400">Manage the measurement inputs customers complete during booking.</p>
-          </div>
+    <div className="admin-page">
+      <div className="admin-panel space-y-6">
+        <div>
+          <p className="section-label">Configuration</p>
+          <h1 className="text-section-heading text-[#111827]">Measurement Fields</h1>
+          <p className="mt-2 text-small text-[#6B7280]">
+            Manage the measurement inputs customers complete during booking.
+          </p>
+        </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Input placeholder="Label" value={label} onChange={(e) => setLabel(e.target.value)} />
-            <Input placeholder="Type (text|number|select|textarea)" value={type} onChange={(e) => setType(e.target.value)} />
-            <label className="flex items-center gap-3 rounded-2xl border border-zinc-800 bg-zinc-950/90 px-4 py-3 text-sm text-zinc-100">
-              <input type="checkbox" checked={required} onChange={(e) => setRequired(e.target.checked)} className="h-4 w-4 rounded border-zinc-600 bg-zinc-900 text-amber-500" />
-              Required field
-            </label>
-            <Button onClick={add}>Add Field</Button>
-          </div>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Input placeholder="Label" value={label} onChange={(e) => setLabel(e.target.value)} />
+          <Input placeholder="Type (text|number|select|textarea)" value={type} onChange={(e) => setType(e.target.value)} />
+          <label className="flex items-center gap-3 rounded-xl border border-[#E5E7EB] bg-[#FAF7F2] px-4 py-3 text-sm text-[#1F2937]">
+            <input
+              type="checkbox"
+              checked={required}
+              onChange={(e) => setRequired(e.target.checked)}
+              className="h-4 w-4 rounded border-[#E5E7EB] text-[#B8864A]"
+            />
+            Required field
+          </label>
+          <Button onClick={add}>Add Field</Button>
+        </div>
 
-          <div className="space-y-3">
-            {rows.map((r) => (
-              <div key={r.id} className="rounded-3xl border border-zinc-800 p-4 shadow-sm shadow-black/10">
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                  <div>
-                    <div className="font-medium">{r.label}</div>
-                    <div className="text-sm text-zinc-400">{r.type} {r.required ? "• required" : ""}</div>
+        <div className="space-y-3">
+          {rows.map((r) => (
+            <div key={r.id} className="admin-mobile-card">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <div className="font-semibold text-[#111827]">{r.label}</div>
+                  <div className="text-small text-[#6B7280]">
+                    {r.type} {r.required ? "• required" : ""}
                   </div>
-                  <Button size="sm" variant="ghost" onClick={() => remove(r.id)}>Delete</Button>
                 </div>
+                <Button size="sm" variant="ghost" className="text-rose-600 hover:bg-rose-50" onClick={() => remove(r.id)}>
+                  Delete
+                </Button>
               </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-    </main>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }

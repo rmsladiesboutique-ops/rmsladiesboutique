@@ -49,7 +49,7 @@ export default async function RootLayout({
             This website was professionally developed by{" "}
             <span className="text-[#B8864A]">EGB Developers</span>.
           </div>
-          <FloatingWhatsApp phoneNumber={settings?.phoneNumber || "971509715097"} />
+          <FloatingWhatsApp phoneNumber={settings?.phoneNumber ?? "8951432847"} />
           <BackToTop />
           <Toaster richColors position="top-right" />
         </ThemeProvider>

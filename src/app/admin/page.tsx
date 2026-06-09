@@ -5,71 +5,94 @@ import type { Metadata } from "next";
 import { format } from "date-fns";
 import { ArrowRight, CalendarCheck2, ClipboardList, PackageOpen, TrendingUp } from "lucide-react";
 import { getAppointments } from "@/lib/services";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 import { STATUS_STAGES } from "@/types/domain";
 
 export const metadata: Metadata = {
   title: "Admin Dashboard | RMS LADIES BOUTIQUE",
   description: "Manage appointments, statuses, designs, and availability.",
+  robots: { index: false, follow: false },
 };
 
 export default async function AdminPage() {
   const appointments = await getAppointments();
   const total = appointments.length;
-  const pending = appointments.filter((a) => a.statusIndex < STATUS_STAGES.length).length;
-  const completed = appointments.filter((a) => a.statusIndex >= STATUS_STAGES.length).length;
+
+  const isCompletedOrder = (appointment: (typeof appointments)[number]) => {
+    const completionPercent = appointment.completionPercent ?? 0;
+    const statusIndex = appointment.statusIndex ?? 0;
+
+    return completionPercent >= 100 || statusIndex >= STATUS_STAGES.length || /completed|delivered|ready for pickup/i.test(appointment.status ?? "");
+  };
+
+  const pending = appointments.filter((appointment) => !isCompletedOrder(appointment)).length;
+  const completed = appointments.filter((appointment) => isCompletedOrder(appointment)).length;
   const today = format(new Date(), "yyyy-MM-dd");
   const todayBookings = appointments.filter((a) => a.preferredDate === today).length;
 
+  const stats = [
+    { label: "Total Appointments", value: total, icon: ClipboardList, color: "text-[#B8864A]" },
+    { label: "Pending Orders", value: pending, icon: TrendingUp, color: "text-amber-600" },
+    { label: "Completed Orders", value: completed, icon: PackageOpen, color: "text-emerald-600" },
+    { label: "Bookings Today", value: todayBookings, icon: CalendarCheck2, color: "text-[#111827]" },
+  ];
+
+  const quickLinks = [
+    { href: "/admin/appointments", label: "Appointments", desc: "Manage bookings & status" },
+    { href: "/admin/designs", label: "Designs", desc: "Catalog & uploads" },
+    { href: "/admin/availability", label: "Availability", desc: "Slots & holiday mode" },
+    { href: "/admin/measurements", label: "Measurements", desc: "Field configuration" },
+  ];
+
   return (
-    <main className="mx-auto max-w-7xl px-4 py-12 md:px-8">
-      <section className="glass-panel overflow-hidden rounded-[2.5rem] border border-amber-200/20 p-6 md:p-8 lg:p-10">
-        <div className="grid gap-8 xl:grid-cols-[1.4fr_1fr] xl:items-start">
-          <div className="space-y-4">
-            <Badge className="px-4 py-2">Control Center</Badge>
-            <h1 className="text-4xl font-semibold md:text-5xl">Admin Dashboard</h1>
-            <p className="max-w-2xl text-base leading-8 text-foreground/72">
-              Monitor bookings, update status stages, manage availability, and keep production aligned from one polished workspace.
+    <div className="admin-page">
+      <div className="admin-panel">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+          <div className="space-y-3">
+            <p className="section-label">Control Center</p>
+            <h1 className="text-section-heading text-[#111827]">Admin Dashboard</h1>
+            <div className="gold-line" />
+            <p className="max-w-xl text-body text-[#6B7280]">
+              Monitor bookings, update status stages, manage availability, and keep production aligned from one workspace.
             </p>
           </div>
-          <div className="grid gap-3 sm:grid-cols-3">
-            {[
-              ["/admin/appointments", "Appointments"],
-              ["/admin/designs", "Designs"],
-              ["/admin/availability", "Availability"],
-            ].map(([href, label]) => (
-              <Link
-                key={label}
-                href={href}
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/80 px-4 py-2 text-sm font-semibold text-foreground shadow-sm shadow-amber-200/20 transition hover:-translate-y-0.5 hover:bg-amber-50"
-              >
-                {label} <ArrowRight className="h-4 w-4 text-amber-700" />
-              </Link>
-            ))}
+          <div className="rounded-2xl border border-[#E5E7EB] bg-[#FAF7F2] px-5 py-4 text-sm text-[#6B7280]">
+            <span className="font-semibold text-[#111827]">{format(new Date(), "EEEE, MMMM d")}</span>
+            <span className="mx-2 text-[#E5E7EB]">|</span>
+            {total} total appointments
           </div>
         </div>
 
         <section className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {[
-            { label: "Total Appointments", value: total, icon: ClipboardList },
-            { label: "Pending Orders", value: pending, icon: TrendingUp },
-            { label: "Completed Orders", value: completed, icon: PackageOpen },
-            { label: "Bookings Today", value: todayBookings, icon: CalendarCheck2 },
-          ].map((item) => (
-            <Card key={item.label} className="rounded-[1.75rem] border border-white/10 bg-black/5 shadow-[0_26px_70px_-52px_rgba(37,25,15,0.55)]">
-              <CardContent>
-                <div className="flex items-center justify-between gap-3">
-                  <p className="text-sm uppercase tracking-[0.24em] text-foreground/55">{item.label}</p>
-                  <item.icon className="h-5 w-5 text-amber-700" />
-                </div>
-                <p className="mt-5 text-3xl font-semibold text-amber-600">{item.value}</p>
-              </CardContent>
-            </Card>
+          {stats.map((item) => (
+            <div key={item.label} className="admin-stat-card">
+              <div className="flex items-center justify-between">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#6B7280]">{item.label}</p>
+                <item.icon className={`h-5 w-5 ${item.color}`} />
+              </div>
+              <p className={`mt-4 text-4xl font-bold ${item.color}`}>{item.value}</p>
+            </div>
           ))}
         </section>
 
-      </section>
-    </main>
+        <section className="mt-10">
+          <h2 className="text-card-heading text-[#111827]">Quick Actions</h2>
+          <div className="mt-5 grid gap-4 sm:grid-cols-2">
+            {quickLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="group flex items-center justify-between rounded-2xl border border-[#E5E7EB] bg-[#FAF7F2] p-5 transition-all hover:border-[#B8864A]/30 hover:shadow-[0_12px_40px_-16px_rgba(17,24,39,0.12)]"
+              >
+                <div>
+                  <p className="font-semibold text-[#111827]">{link.label}</p>
+                  <p className="mt-1 text-small text-[#6B7280]">{link.desc}</p>
+                </div>
+                <ArrowRight className="h-5 w-5 text-[#B8864A] transition-transform group-hover:translate-x-1" />
+              </Link>
+            ))}
+          </div>
+        </section>
+      </div>
+    </div>
   );
 }

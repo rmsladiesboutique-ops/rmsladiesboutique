@@ -2,7 +2,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Calendar, Scissors, Sparkles, Star, Heart, CheckCircle } from "lucide-react";
 import {
-  LuxuryCinematicHero,
   LuxuryReveal,
   LuxuryParallax,
   FloatingGlow,
@@ -12,6 +11,8 @@ import { CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { getSettings, getDesigns, getFeaturedDesigns } from "@/lib/services";
 import { formatCurrency } from "@/lib/utils";
+
+export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const [settings, designs, featuredDesigns] = await Promise.all([
