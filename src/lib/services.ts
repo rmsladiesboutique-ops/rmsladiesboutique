@@ -116,12 +116,12 @@ export async function createAppointment(payload: AppointmentPayload): Promise<Ap
     throw new Error("Selected time slot is unavailable. Please choose another available time.");
   }
 
-  const code = generateCustomerCode();
   const estimatedCompletionDate = format(addDays(new Date(payload.preferredDate), 14), "yyyy-MM-dd");
   const record: AppointmentRecord = {
     id: crypto.randomUUID(),
     ...payload,
-    customerCode: code,
+    email: payload.email?.trim() || undefined,
+    customerCode: generateCustomerCode(),
     status: STATUS_STAGES[0],
     statusIndex: 1,
     completionPercent: getProgressPercent(1, STATUS_STAGES.length),
@@ -136,14 +136,22 @@ export async function createAppointment(payload: AppointmentPayload): Promise<Ap
     throw new Error("Supabase admin client not configured");
   }
 
+  const phoneDigits = record.phoneNumber.replace(/\D/g, "");
+  const defaultEmail = phoneDigits
+    ? `booking+${phoneDigits}@rmsboutique.local`
+    : `booking+${record.id.slice(0, 8)}@rmsboutique.local`;
+
   const appointmentPayload: Record<string, unknown> = {
     id: record.id,
     customer_name: record.customerName,
     phone_number: record.phoneNumber,
+    email: record.email ?? defaultEmail,
     gender: record.gender,
     preferred_date: record.preferredDate,
     preferred_time: record.preferredTime,
     clothing_type: record.clothingType,
+    address: record.address,
+    measurement_notes: record.measurementNotes ?? "",
     custom_design: record.customDesign,
     customer_code: record.customerCode,
     status: record.status,
@@ -153,31 +161,44 @@ export async function createAppointment(payload: AppointmentPayload): Promise<Ap
     admin_notes: record.adminNotes,
   };
 
-  if (typeof record.address === "string") {
-    appointmentPayload.address = record.address;
-  }
-
-  if (typeof record.email === "string") {
-    appointmentPayload.email = record.email;
-  }
-
-  if (typeof record.measurementNotes === "string") {
-    appointmentPayload.measurement_notes = record.measurementNotes;
-  }
-
   let { data, error } = await supabase.from("appointments").insert(appointmentPayload).select().single();
 
-  const addressMissingError = error && (error.code === "42703" || error.code === "PGRST204") && error.message?.includes("address");
-  if (addressMissingError) {
-    delete appointmentPayload.address;
-    const retry = await supabase.from("appointments").insert(appointmentPayload).select().single();
-    data = retry.data;
-    error = retry.error;
+  // Retry without columns that may be missing on older database schemas
+  for (let attempt = 0; attempt < 5 && error; attempt += 1) {
+    const code = error.code;
+    const message = error.message ?? "";
+
+    if (code === "23505" && message.includes("customer_code")) {
+      record.customerCode = generateCustomerCode();
+      appointmentPayload.customer_code = record.customerCode;
+      const retry = await supabase.from("appointments").insert(appointmentPayload).select().single();
+      data = retry.data;
+      error = retry.error;
+      continue;
+    }
+
+    if (code === "42703" || code === "PGRST204") {
+      const missingColumn = message.match(/'(\w+)' column/)?.[1] ?? message.match(/Could not find the '(\w+)' column/)?.[1];
+      if (missingColumn && missingColumn in appointmentPayload) {
+        delete appointmentPayload[missingColumn];
+        const retry = await supabase.from("appointments").insert(appointmentPayload).select().single();
+        data = retry.data;
+        error = retry.error;
+        continue;
+      }
+    }
+
+    break;
   }
 
   if (error || !data) {
     console.error("Supabase insert appointment error:", error);
-    throw new Error("Unable to create appointment at this time.");
+    const detail = error?.message ?? "Unknown database error";
+    throw new Error(
+      /row-level security|permission denied|42501/i.test(detail)
+        ? "Booking could not be saved. Server database permissions are misconfigured — verify SUPABASE_SERVICE_ROLE_KEY is set correctly."
+        : "Unable to create appointment at this time. Please try again or contact the studio.",
+    );
   }
 
   if (payload.customDesign) {

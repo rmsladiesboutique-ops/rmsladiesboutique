@@ -16,6 +16,7 @@ const schema = z.object({
     .string()
     .regex(/^[+\d]?(?:[\d\-\s()]{7,20})$/, "Invalid phone number"),
   address: z.string().min(5),
+  email: z.union([z.string().email("Enter a valid email"), z.literal("")]).optional(),
   gender: z.string().default("Female"),
   preferredDate: z.string().min(1),
   preferredTime: z.string().min(1),
@@ -72,6 +73,7 @@ export function BookingForm({ availableDates, availableDateSlots }: Props) {
       customerName: values.customerName,
       phoneNumber: values.phoneNumber,
       address: values.address,
+      email: values.email?.trim() || undefined,
       gender: values.gender,
       preferredDate: values.preferredDate,
       preferredTime: values.preferredTime,
@@ -140,6 +142,12 @@ export function BookingForm({ availableDates, availableDateSlots }: Props) {
       <div className="space-y-1.5">
         <Input placeholder="Address" {...register("address")} />
         {errors.address && <p className="mt-1 text-xs text-red-400">Address is required</p>}
+      </div>
+      <div className="space-y-1.5">
+        <Input placeholder="Email (optional)" type="email" {...register("email")} />
+        {errors.email && (
+          <p className="mt-1 text-xs text-red-400">{errors.email.message ?? "Enter a valid email address"}</p>
+        )}
       </div>
       <input type="hidden" value="Female" {...register("gender")} />
       <div className="space-y-1.5">

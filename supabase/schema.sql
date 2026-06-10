@@ -134,11 +134,21 @@ on public.appointments for all
 using (public.is_admin_user())
 with check (public.is_admin_user());
 
+drop policy if exists "Public can create appointments" on public.appointments;
+create policy "Public can create appointments"
+on public.appointments for insert
+with check (true);
+
 drop policy if exists "Admins can manage custom requests" on public.custom_requests;
 create policy "Admins can manage custom requests"
 on public.custom_requests for all
 using (public.is_admin_user())
 with check (public.is_admin_user());
+
+drop policy if exists "Public can create custom requests" on public.custom_requests;
+create policy "Public can create custom requests"
+on public.custom_requests for insert
+with check (true);
 
 drop policy if exists "Admins can manage appointment status history" on public.appointment_status_history;
 create policy "Admins can manage appointment status history"
