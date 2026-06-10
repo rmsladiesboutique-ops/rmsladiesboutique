@@ -25,20 +25,11 @@ export default async function Home() {
   const catalogPath = "/catalog";
   const bookingPath = "/book";
   const latestDesigns = designs.slice(0, 10);
-  const bharatanatyamHighlights = designs
-    .filter((design) => /bharatanatyam|bharathanatyam|costume/i.test(`${design.title} ${design.category}`))
-    .slice(0, 2)
-    .map((design) => ({
-      title: design.title,
-      description: design.description,
-      image: design.imageUrl,
-    }));
-
-  const fallbackBharatanatyamHighlights = [
+  const bharatanatyamHighlights = [
     {
       title: "Bharatanatyam Costume Styling",
       description: "Elegant silhouettes and rich detailing for stage performances and festive celebrations.",
-      image: "/images/bridal-wear.jpeg",
+      image: "/images/bharathanatyam.jpeg",
     },
     {
       title: "Classic Occasion Wear",
@@ -46,10 +37,6 @@ export default async function Home() {
       image: "/images/occasional-wear.jpeg",
     },
   ];
-
-  const displayBharatanatyamHighlights = bharatanatyamHighlights.length > 0
-    ? bharatanatyamHighlights
-    : fallbackBharatanatyamHighlights;
 
   const testimonials = [
     { name: "Amara", quote: "The fit was flawless and the service made me feel truly cared for." },
@@ -124,7 +111,7 @@ export default async function Home() {
               </p>
             </div>
             <div className="grid gap-6 md:grid-cols-2">
-              {displayBharatanatyamHighlights.map((item) => (
+              {bharatanatyamHighlights.map((item) => (
                 <article
                   key={item.title}
                   className="group overflow-hidden rounded-[2rem] border border-[#E5E7EB] bg-[#FAF7F2] shadow-[0_24px_60px_-24px_rgba(17,24,39,0.18)] transition-all duration-300 hover:-translate-y-1 hover:border-[#B8864A]/30 hover:shadow-[0_30px_70px_-26px_rgba(17,24,39,0.22)]"
