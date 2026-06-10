@@ -9,7 +9,19 @@ interface FloatingWhatsAppProps {
 
 export function FloatingWhatsApp({ phoneNumber }: FloatingWhatsAppProps) {
   const handleClick = () => {
-    const digits = phoneNumber.replace(/\D/g, '');
+    // Clean up the phone number: remove non-digit characters
+    let digits = phoneNumber.replace(/\D/g, '');
+    
+    // If it's an Indian number (starts with 8 or 9 and 10 digits), add +91
+    if (digits.length === 10 && (digits.startsWith('8') || digits.startsWith('9'))) {
+      digits = '91' + digits;
+    }
+    
+    // If it doesn't start with a country code, try to add one
+    if (!digits.startsWith('91') && digits.length === 10) {
+      digits = '91' + digits;
+    }
+    
     const url = `https://wa.me/${digits}`;
     window.open(url, '_blank', 'noopener,noreferrer');
   };
