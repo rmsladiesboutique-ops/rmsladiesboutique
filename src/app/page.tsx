@@ -26,6 +26,19 @@ export default async function Home() {
   const bookingPath = "/book";
   const latestDesigns = designs.slice(0, 10);
 
+  const bharatanatyamHighlights = [
+    {
+      title: "Bharatanatyam Costume Styling",
+      description: "Elegant silhouettes and rich detailing for stage performances and festive celebrations.",
+      image: "/images/bridal-wear.jpeg",
+    },
+    {
+      title: "Classic Occasion Wear",
+      description: "Graceful pieces that blend tradition, comfort, and a polished couture finish.",
+      image: "/images/occasional-wear.jpeg",
+    },
+  ];
+
   const testimonials = [
     { name: "Amara", quote: "The fit was flawless and the service made me feel truly cared for." },
     { name: "Nina", quote: "A luxury tailoring experience that felt effortless and modern." },
@@ -84,6 +97,39 @@ export default async function Home() {
               </div>
             </article>
           ))}
+        </div>
+      </section>
+
+      <section className="section-padding relative bg-white">
+        <div className="section-container">
+          <LuxuryReveal>
+            <div className="mb-8 text-center space-y-4">
+              <p className="section-label">Special in</p>
+              <h2 className="text-section-heading text-[#111827]">Bharatanatyam Costumes</h2>
+              <div className="gold-line mx-auto" />
+              <p className="mx-auto max-w-2xl text-body text-[#6B7280]">
+                Explore our signature silhouettes designed for tradition, performance, and refined elegance.
+              </p>
+            </div>
+            <div className="grid gap-6 md:grid-cols-2">
+              {bharatanatyamHighlights.map((item) => (
+                <article
+                  key={item.title}
+                  className="group overflow-hidden rounded-[2rem] border border-[#E5E7EB] bg-[#FAF7F2] shadow-[0_24px_60px_-24px_rgba(17,24,39,0.18)] transition-all duration-300 hover:-translate-y-1 hover:border-[#B8864A]/30 hover:shadow-[0_30px_70px_-26px_rgba(17,24,39,0.22)]"
+                >
+                  <div className="relative aspect-[4/5] overflow-hidden">
+                    <Image src={item.image} alt={item.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#111827]/75 via-[#111827]/20 to-transparent" />
+                  </div>
+                  <div className="space-y-3 p-6">
+                    <p className="text-[0.65rem] font-semibold uppercase tracking-[0.32em] text-[#B8864A]">Featured collection</p>
+                    <h3 className="text-card-heading text-[#111827]">{item.title}</h3>
+                    <p className="text-small text-[#6B7280]">{item.description}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </LuxuryReveal>
         </div>
       </section>
 

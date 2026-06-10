@@ -14,6 +14,8 @@ export default function AdminDesignsPage() {
   const [rows, setRows] = useState<DesignItem[]>([]);
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("Occasion Wear");
+  const [customCategory, setCustomCategory] = useState("");
+  const [categoryMode, setCategoryMode] = useState<"preset" | "custom">("preset");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
@@ -82,9 +84,10 @@ export default function AdminDesignsPage() {
   const add = async () => {
     setErrorMessage(null);
     const priceValue = Number(price);
+    const resolvedCategory = categoryMode === "custom" ? customCategory.trim() : category;
 
-    if (!title.trim() || !description.trim() || !imageUrl.trim() || Number.isNaN(priceValue) || priceValue <= 0) {
-      setErrorMessage("Please provide a title, description, valid price, and an image before adding the design.");
+    if (!title.trim() || !description.trim() || !imageUrl.trim() || Number.isNaN(priceValue) || priceValue <= 0 || !resolvedCategory) {
+      setErrorMessage("Please provide a title, description, valid price, category, and an image before adding the design.");
       return;
     }
 
@@ -93,7 +96,7 @@ export default function AdminDesignsPage() {
     try {
       const payload = {
         title: title.trim(),
-        category,
+        category: resolvedCategory,
         description: description.trim(),
         price: priceValue,
         imageUrl: imageUrl.trim(),
@@ -120,6 +123,8 @@ export default function AdminDesignsPage() {
       await loadDesigns();
       setTitle("");
       setCategory("Occasion Wear");
+      setCustomCategory("");
+      setCategoryMode("preset");
       setDescription("");
       setPrice("");
       setImageUrl("");
@@ -278,14 +283,29 @@ export default function AdminDesignsPage() {
                   <span>Category</span>
                   <select
                     className="rounded-xl border border-zinc-700 bg-zinc-950 px-3 py-3 text-sm text-zinc-100 outline-none"
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
+                    value={categoryMode === "custom" ? "custom" : category}
+                    onChange={(e) => {
+                      if (e.target.value === "custom") {
+                        setCategoryMode("custom");
+                        return;
+                      }
+                      setCategoryMode("preset");
+                      setCategory(e.target.value);
+                    }}
                   >
-                    <option>Occasion Wear</option>
-                    <option>Bridal Wear</option>
-                    <option>Simple Regular Wear</option>
+                    <option value="Occasion Wear">Occasion Wear</option>
+                    <option value="Bridal Wear">Bridal Wear</option>
+                    <option value="Simple Regular Wear">Simple Regular Wear</option>
+                    <option value="custom">Custom category…</option>
                   </select>
                 </label>
+                {categoryMode === "custom" ? (
+                  <Input
+                    placeholder="Enter custom category"
+                    value={customCategory}
+                    onChange={(e) => setCustomCategory(e.target.value)}
+                  />
+                ) : null}
                 <Input
                   type="number"
                   min="0"

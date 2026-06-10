@@ -9,7 +9,7 @@ export async function Footer() {
   const footerText = settings?.homepageContent?.footerText ?? "Luxury tailoring and couture designs.";
   const phoneNumber = settings?.phoneNumber ?? "8951432847";
   const emailAddress = settings?.contactEmail ?? "rmsladiesboutique@gmail.com";
-  const address = "RMS Ladies Boutique";
+  const address = "1st floor, R M S ladies boutique, No 76, New Thippasandra Main Rd, HAL 3rd Stage, Colony New 515, New Thippasandra, Bengaluru, Karnataka 560075";
   const addressLink = "https://maps.app.goo.gl/ouR5nVnGQCM6aPxK6?g_st=aw";
   const instagramLink = "https://www.instagram.com/rmsladiesboutique?igsh=M3gybDBzdmkyN2Y5";
 
