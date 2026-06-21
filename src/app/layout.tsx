@@ -28,6 +28,11 @@ const sans = Poppins({
 export const metadata: Metadata = {
   title: "RMS LADIES BOUTIQUE | Women's Couture Tailoring",
   description: "Luxury women-only tailoring with curated appointments, design catalog access, and order tracking.",
+  icons: {
+    icon: "/icon.jpeg",
+    shortcut: "/icon.jpeg",
+    apple: "/icon.jpeg",
+  },
 };
 
 export default async function RootLayout({
